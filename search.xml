@@ -4,6 +4,25 @@
   
     
     <entry>
+      <title>xmake入门</title>
+      <link href="/2024/04/26/xmake-start/"/>
+      <url>/2024/04/26/xmake-start/</url>
+      
+        <content type="html"><![CDATA[<h3 id="xmake-常用命令"><a href="#xmake-常用命令" class="headerlink" title="xmake 常用命令"></a><code>xmake</code> 常用命令</h3><h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">xmake&#x2F;&#x2F; 编译程序xmake run&#x2F;&#x2F; 运行程序    xmake install -y&#x2F;&#x2F; 将当前编译好的程序安装到系统环境，默认位置&#x2F;user&#x2F;local下xmake uninstall -y&#x2F;&#x2F; 卸载安装程序；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><h4 id="基本命令介绍"><a href="#基本命令介绍" class="headerlink" title="基本命令介绍"></a>基本命令介绍</h4><p><code>xmake --help</code></p> <img src="/2024/04/26/xmake-start/xmake_help.png" class="" title="xmake help"> <p>xmake命令行格式为：</p><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">xmake [task] [options] [target]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><p><code>[]</code> 表示可选输入，task为子命令任务名，options为参数选项，target指的是当前命令针对那些目标程序；</p><p>常用子命令：</p><ul><li><code>build</code>：程序构建；</li><li><code>clean</code>：删除编译过程中的所有二进制文件和临时文件；</li><li><code>config</code>：配置编译需要的参数，如平台、架构等，缩写用 <code>f</code> 表示；</li><li><code>global</code>：配置xmake的全局编译参数；</li><li><code>install</code>：安装编译后的目标程序；</li><li><code>package</code>：打包编译生成的库与头文件；</li><li><code>require</code>：手动拉取第三方依赖库；</li><li><code>run</code>：运行目标程序；</li><li><code>uninstall</code>：卸载目标程序；</li><li><code>update</code>：更新xmake；</li></ul><p>build子命令：</p><ul><li><code>-v/--verbose</code>：查看详细完整的编译命令。</li><li><code>-r/--rebuild</code>：强制重新编译所有代码。</li><li><code>-j/--jobs</code>：指定多任务编译的并行任务数。</li><li><code>-w/--warning</code>：编译过程中显示编译警告信息。</li></ul><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">xmake -rv&#x2F;&#x2F; 查看详细编译选项xmake f -m debug&#x2F;&#x2F; 切换到debug模式、也可以切换release、releasedbg模式xmake f -o &#x2F;out&#x2F;&#x2F; 切换编译输出目录xmake f -v&#x2F;&#x2F; 查看当前的配置信息&#x2F;&#x2F; --cflags 仅仅添加 C 编译选项，--cxxflags 为仅仅添加 C++ 编译选项，--cxflags 同时添加 C&#x2F;C++ 编译选项。xmake f --cxflags&#x3D;&quot;-DTEST&quot;&#x2F;&#x2F; 仅仅添加C编译选项&#x2F;&#x2F; 添加链接库和搜索路径xmake f --ldflags&#x3D;&quot;-L&#x2F;tmp -lpthread&quot;&#x2F;&#x2F; 表示新增 &#x2F;tmp 的库搜索目录，并添加额外的 pthread 链接库xmake f --links&#x3D;&quot;pthread&quot; --linkdirs&#x3D;&quot;&#x2F;tmp&quot; &#x2F;&#x2F; 与上面一行效果一样xmake f --toolchain&#x3D;clang &#x2F;&#x2F; 切换到 clang 编译器，前提是安装了clang xmake f -c&#x2F;&#x2F; 重置所有配置     xmake update -f&#x2F;&#x2F; xmake更新到最新版本<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><p><code>xmake show</code> 显示的信息含义</p> <img src="/2024/04/26/xmake-start/xmake_show.png" class="" title="xmake show"> <h4 id="xmake-lua基础配置"><a href="#xmake-lua基础配置" class="headerlink" title="xmake.lua基础配置"></a>xmake.lua基础配置</h4><ul><li><code>set_kind</code> ：设置目标类型；phony 空目标程序、binary 二进制程序、static 静态库程序、shard 动态库程序；</li><li><code>add_cxflags</code> ：添加 C&#x2F;C++ 编译选项；</li><li><code>add_defines</code> ：添加宏定义；</li><li><code>add_includedirs</code>：添加头文件搜索目录；</li><li><code>add_linkdirs</code>：添加库搜索目录；</li><li><code>add_links</code>：添加链接库；</li><li><code>add_syslinks</code>：添加系统链接库；</li><li><code>set_languages</code> ：设置语言标准；</li><li><code>add_files</code> ：添加源文件；中间用 <code>|</code> 分割表示过滤的文件；</li><li><code>add_requires()</code> ：指定当前项目需要哪些包，编译时候会触发一次依赖包的安装；</li><li><code>add_packages()</code> ：配置对特定 target 目标集成指定的依赖包，需要与 <code>add_requires()</code> 配合使用，二者缺一不可。</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> xmake </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>LeetCode-二叉树</title>
       <link href="/2024/03/25/leetcode-study-binarytree/"/>
       <url>/2024/03/25/leetcode-study-binarytree/</url>
