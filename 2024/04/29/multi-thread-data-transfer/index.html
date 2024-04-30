@@ -482,7 +482,7 @@
 <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>当线程数量变多，处理逻辑变复杂之后，整个程序的耦合度较高，因为程序的处理逻辑为：Base —(data)—&gt; Model，Model —(res)—&gt; Base，Base—&gt;process(res)，这样一来一回一处理，在调试程序时想分模块检查时就会比较困难，而且一个操作不当就会发生容器竞争现象；</p>
-<p>为了将程序逻辑改为：Base —(data)—&gt; Model —(res)—&gt; Process 这样的线性处理方式，可以采用生产者与消费者模式；生产者与消费者详细教程请参考：<a href="/2024/04/29/prodcons/" title="ProdCons">生产者与消费者</a></p>
+<p>为了将程序逻辑改为：Base —(data)—&gt; Model —(res)—&gt; Process 这样的线性处理方式，可以采用生产者与消费者模式；生产者与消费者详细教程请参考：<a href="/2024/04/29/prodcons/" title="生产者消费者">生产者与消费者</a></p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">Base</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">QThread</span></span> <span class="token punctuation">&#123;</span>
 <span class="token keyword">public</span><span class="token operator">:</span>
     <span class="token keyword">void</span> <span class="token function">Init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
@@ -758,9 +758,9 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="ProdCons">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="生产者消费者">
                         
-                        <span class="card-title">ProdCons</span>
+                        <span class="card-title">生产者消费者</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
