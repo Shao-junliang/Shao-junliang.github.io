@@ -1,0 +1,1560 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="摄像头取流, 暴躁小何的笔记">
+    <meta name="description" content="摄像头图像获取的几种方式">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>摄像头取流 | 暴躁小何的笔记</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">暴躁小何的笔记</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">暴躁小何的笔记</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/Shao-junliang" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/Shao-junliang" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">摄像头取流</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/c/">
+                                <span class="chip bg-color">c++</span>
+                            </a>
+                        
+                            <a href="/tags/%E6%91%84%E5%83%8F%E5%A4%B4%E5%8F%96%E6%B5%81/">
+                                <span class="chip bg-color">摄像头取流</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-05-13
+                </div>
+                
+
+                
+
+                <!-- lsj 3.25 在此处添加了文章作者信息 -->
+                
+                    <div class="info-break-policy">
+                        <i class="fa fa-user fa-fw"></i>作者:&nbsp;&nbsp;
+                        LSJune
+                    </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.2k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本节主要阐述摄像头取流的几种方式，分别为SDK取流、流媒体取流；</p>
+<h2 id="SDK取流"><a href="#SDK取流" class="headerlink" title="SDK取流"></a>SDK取流</h2><p>“SDK取流”是指通过软件开发工具包（SDK，Software Development Kit）从设备或服务中获取实时或录制的视频流数据的过程。此技术广泛应用于视频监控、实时视频传输、视频分析等领域。利用SDK提供的接口，开发者可以实现视频的接收、解码、显示以及存储等功能，使得视频数据的处理更加高效和灵活。通过SDK取流，能够方便地与各种视频源进行对接，满足不同应用场景下的需求。</p>
+<h3 id="海康"><a href="#海康" class="headerlink" title="海康"></a>海康</h3><p>海康摄像头获取图像主要流程可以直接参考官方文档， <a target="_blank" rel="noopener" href="https://open.hikvision.com/osp#%E8%AE%BE%E5%A4%87%E9%9B%86%E6%88%90SDK">海康开放平台 </a>。海康SDK取流主要流程图：</p>
+ <img src="/2024/05/13/camera-capture-stream/HIK%E5%8F%96%E6%B5%81%E8%BF%87%E7%A8%8B.png" class="" title="Hik取流过程">
+
+<p>启动预览后通过实时数据回调拿到流并解码成图像；</p>
+<p>预览实时流解码有两种方式：</p>
+<ol>
+<li>预览接口<code>NET_DVR_RealPlay_V40</code>中预览参数的播放窗口句柄（hPlayWnd）赋值为有效句柄，则由SDK自动实现解码显示功能。在初始化SDK和注册设备两步骤后，直接调用启动预览和停止预览接口即可。正常开启预览之后可以调用<code>NET_DVR_RigisterDrawFun</code>注册画图回调函数（仅Windows版本支持），回调获取窗口DC，然后用户可以自己在窗口表层绘图或者写字。如果预览的码流是音视频复合流，也可以调用声音预览控制相关接口实现打开或者关闭声音、客户端音量控制等功能，相关接口有：<code>NET_DVR_OpenSound</code>、<code>NET_DVR_CloseSound</code>、<code>NET_DVR_OpenSoundShare</code>、<code>NET_DVR_CloseSoundShare</code>、<code>NET_DVR_Volume</code>等。</li>
+<li>预览接口<code>NET_DVR_RealPlay_V40</code>中预览参数的播放窗口句柄（hPlayWnd）可以设置为空值，直接设置回调函数，或者调用预览接口之后，通过<code>NET_DVR_SetRealDataCallBack</code>、<code>NET_DVR_SetStandardDataCallBack</code>设置回调函数，回调获取实时流数据（前两个接口设置的回调获取的是PS封装的码流，后者获取的是标准RTP封装的码流）之后用户后续自己处理，比如二进制流方式写入文件保存成录像或者调用播放库解码显示等操作。</li>
+</ol>
+<p> 代码实现：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"HCNetSDK.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"PlayM4.h"</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+LONG lPort <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// 全局的播放库port号</span>
+<span class="token keyword">typedef</span> <span class="token function">HWND</span><span class="token punctuation">(</span>WINAPI <span class="token operator">*</span>PROCGETCONSOLEWINDOW<span class="token punctuation">)</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+PROCGETCONSOLEWINDOW GetConsoleWindowAPI<span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> CALLBACK <span class="token function">DecodeDataCallBack</span><span class="token punctuation">(</span><span class="token keyword">long</span> nPort<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>pBuf<span class="token punctuation">,</span> <span class="token keyword">long</span> nSize<span class="token punctuation">,</span> FRAME_INFO <span class="token operator">*</span>pFrameInfo<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>nUser<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>nReserved2<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// TODO 将流转为BGR图像显示；</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> CALLBACK <span class="token function">g_RealDataCallBack_V30</span><span class="token punctuation">(</span>LONG lRealHandle<span class="token punctuation">,</span> DWORD dwDataType<span class="token punctuation">,</span> BYTE <span class="token operator">*</span>pBuffer<span class="token punctuation">,</span> DWORD dwBufSize<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>dwUser<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// HWND hWnd = GetConsoleWindowAPI();</span>
+
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>dwDataType<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">case</span> NET_DVR_SYSHEAD<span class="token operator">:</span> <span class="token comment">// 系统头</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>lPort <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span> <span class="token comment">// 该通道取流之前已经获取到句柄，后续接口不需要再调用</span>
+        <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PlayM4_GetPort</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>lPort<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 获取播放库未使用的通道号</span>
+        <span class="token punctuation">&#123;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">// m_iPort = lPort; //第一次回调的是系统头，将获取的播放库port号赋值给全局port，下次回调数据时即使用此port号播放</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>dwBufSize <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PlayM4_SetStreamOpenMode</span><span class="token punctuation">(</span>lPort<span class="token punctuation">,</span> STREAME_REALTIME<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 设置实时流播放模式</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PlayM4_OpenStream</span><span class="token punctuation">(</span>lPort<span class="token punctuation">,</span> pBuffer<span class="token punctuation">,</span> dwBufSize<span class="token punctuation">,</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 打开流接口</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PlayM4_SetDecodeEngineEx</span><span class="token punctuation">(</span>lPort<span class="token punctuation">,</span> SOFT_DECODE_ENGINE<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 设置解码模式，SOFT_DECODE_ENGINE 软解、HARD_DECODE_ENGINE 硬解</span>
+            <span class="token punctuation">&#123;</span>
+                cout <span class="token operator">&lt;&lt;</span> <span class="token string">" cur decode mode is:"</span> <span class="token operator">&lt;&lt;</span> <span class="token function">PlayM4_GetDecodeEngine</span><span class="token punctuation">(</span>lPort<span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span> <span class="token comment">// 打印解码类型</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PlayM4_SetDecCallBackMend</span><span class="token punctuation">(</span>lPort<span class="token punctuation">,</span> DecodeDataCallBack<span class="token punctuation">,</span> dwUser<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 解码回调函数</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PlayM4_Play</span><span class="token punctuation">(</span>lPort<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">// 播放开始</span>
+            <span class="token punctuation">&#123;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> NET_DVR_STREAMDATA<span class="token operator">:</span> <span class="token comment">// 码流数据</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>dwBufSize <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> lPort <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PlayM4_InputData</span><span class="token punctuation">(</span>lPort<span class="token punctuation">,</span> pBuffer<span class="token punctuation">,</span> dwBufSize<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">default</span><span class="token operator">:</span> <span class="token comment">// 其他数据</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>dwBufSize <span class="token operator">></span> <span class="token number">0</span> <span class="token operator">&amp;&amp;</span> lPort <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PlayM4_InputData</span><span class="token punctuation">(</span>lPort<span class="token punctuation">,</span> pBuffer<span class="token punctuation">,</span> dwBufSize<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> CALLBACK <span class="token function">g_ExceptionCallBack</span><span class="token punctuation">(</span>DWORD dwType<span class="token punctuation">,</span> LONG lUserID<span class="token punctuation">,</span> LONG lHandle<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>pUser<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> tempbuf<span class="token punctuation">[</span><span class="token number">256</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">switch</span> <span class="token punctuation">(</span>dwType<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">case</span> EXCEPTION_RECONNECT<span class="token operator">:</span> <span class="token comment">// 预览时重连</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"----------reconnect--------%d\n"</span><span class="token punctuation">,</span> <span class="token function">time</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token keyword">default</span><span class="token operator">:</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 设备初始化</span>
+    <span class="token function">NET_DVR_Init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 设置连接时间与重连时间</span>
+    <span class="token function">NET_DVR_SetConnectTime</span><span class="token punctuation">(</span><span class="token number">2000</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">NET_DVR_SetReconnect</span><span class="token punctuation">(</span><span class="token number">10000</span><span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 设置异常消息回调函数</span>
+    <span class="token function">NET_DVR_SetExceptionCallBack_V30</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> g_ExceptionCallBack<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 获取控制台窗口句柄</span>
+    <span class="token comment">// HMODULE hKernel32 = GetModuleHandle("kernel32");</span>
+    <span class="token comment">// GetConsoleWindowAPI = (PROCGETCONSOLEWINDOW)GetProcAddress(hKernel32, "GetConsoleWindow");</span>
+    <span class="token comment">// 注册设备</span>
+    LONG lUserID<span class="token punctuation">;</span>
+
+    <span class="token comment">// 登录参数，包括设备地址、登录用户、密码等</span>
+    NET_DVR_USER_LOGIN_INFO struLoginInfo <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    struLoginInfo<span class="token punctuation">.</span>bUseAsynLogin <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>                       <span class="token comment">// 同步登录方式</span>
+    <span class="token function">strcpy</span><span class="token punctuation">(</span>struLoginInfo<span class="token punctuation">.</span>sDeviceAddress<span class="token punctuation">,</span> <span class="token string">"xxx.xxx.xxx.xxx"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 设备IP地址</span>
+    struLoginInfo<span class="token punctuation">.</span>wPort <span class="token operator">=</span> <span class="token number">8000</span><span class="token punctuation">;</span>                            <span class="token comment">// 设备服务端口</span>
+    <span class="token function">strcpy</span><span class="token punctuation">(</span>struLoginInfo<span class="token punctuation">.</span>sUserName<span class="token punctuation">,</span> <span class="token string">"username"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>              <span class="token comment">// 设备登录用户名</span>
+    <span class="token function">strcpy</span><span class="token punctuation">(</span>struLoginInfo<span class="token punctuation">.</span>sPassword<span class="token punctuation">,</span> <span class="token string">"password"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>           <span class="token comment">// 设备登录密码</span>
+
+    <span class="token comment">// 设备信息, 输出参数</span>
+    NET_DVR_DEVICEINFO_V40 struDeviceInfoV40 <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 用户注册设备</span>
+    lUserID <span class="token operator">=</span> <span class="token function">NET_DVR_Login_V40</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>struLoginInfo<span class="token punctuation">,</span> <span class="token operator">&amp;</span>struDeviceInfoV40<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>lUserID <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Login failed, error code: %d\n"</span><span class="token punctuation">,</span> <span class="token function">NET_DVR_GetLastError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">NET_DVR_Cleanup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 启动预览并设置回调数据流；</span>
+    <span class="token comment">/*
+    预览接口NET_DVR_RealPlay_V40中预览参数的播放窗口句柄（hPlayWnd）赋值为有效句柄，则由SDK自动实现解码显示功能。
+    若（hPlayWnd）设置为空值，直接设置回调函数，
+    或者调用预览接口之后，通过NET_DVR_SetRealDataCallBack、NET_DVR_SetStandardDataCallBack设置回调函数，回调获取实时流数据
+    */</span>
+    LONG lRealPlayHandle<span class="token punctuation">;</span>
+    NET_DVR_PREVIEWINFO struPlayInfo <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    struPlayInfo<span class="token punctuation">.</span>hPlayWnd <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>  <span class="token comment">// 需要SDK解码时句柄设为有效值，仅取流不解码时可设为空</span>
+    struPlayInfo<span class="token punctuation">.</span>lChannel <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>     <span class="token comment">// 预览通道号</span>
+    struPlayInfo<span class="token punctuation">.</span>dwStreamType <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token comment">// 0-主码流，1-子码流，2-码流3，3-码流4，以此类推</span>
+    struPlayInfo<span class="token punctuation">.</span>dwLinkMode <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>   <span class="token comment">// 0- TCP方式，1- UDP方式，2- 多播方式，3- RTP方式，4-RTP/RTSP，5-RSTP/HTTP</span>
+    struPlayInfo<span class="token punctuation">.</span>bBlocked <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>     <span class="token comment">// 0- 非阻塞取流，1- 阻塞取流</span>
+
+    <span class="token comment">// 启动预览</span>
+    lRealPlayHandle <span class="token operator">=</span> <span class="token function">NET_DVR_RealPlay_V40</span><span class="token punctuation">(</span>lUserID<span class="token punctuation">,</span> <span class="token operator">&amp;</span>struPlayInfo<span class="token punctuation">,</span> g_RealDataCallBack_V30<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>lRealPlayHandle <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"NET_DVR_RealPlay_V40 error, %d\n"</span><span class="token punctuation">,</span> <span class="token function">NET_DVR_GetLastError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">NET_DVR_Logout</span><span class="token punctuation">(</span>lUserID<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">NET_DVR_Cleanup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//---------------------------------------</span>
+    <span class="token comment">// 关闭预览</span>
+    <span class="token function">NET_DVR_StopRealPlay</span><span class="token punctuation">(</span>lRealPlayHandle<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 释放播放库资源</span>
+    <span class="token function">PlayM4_Stop</span><span class="token punctuation">(</span>lPort<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">PlayM4_CloseStream</span><span class="token punctuation">(</span>lPort<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">PlayM4_FreePort</span><span class="token punctuation">(</span>lPort<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 注销用户</span>
+    <span class="token function">NET_DVR_Logout</span><span class="token punctuation">(</span>lUserID<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">NET_DVR_Cleanup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="大华"><a href="#大华" class="headerlink" title="大华"></a>大华</h3><p>大华摄像头获取图像主要流程可以直接参考官方文档，<a target="_blank" rel="noopener" href="https://support.dahuatech.com/tools/sdkExploit">设备网络SDK</a> 。大华SDK取流主要流程图：</p>
+ <img src="/2024/05/13/camera-capture-stream/DH%E5%8F%96%E6%B5%81%E8%BF%87%E7%A8%8B.png" class="" title="DH取流过程">
+
+<p>启动预览后通过实时数据回调拿到流并解码成图像；</p>
+<p>预览实时流解码有两种方式：</p>
+<ol>
+<li>在预览接口<code>CLIENT_RealPlayEx</code>中的播放窗口句柄为有效句柄，则由SDK实现解码功能。</li>
+<li>用户可以通过设置预览接口<code>CLIENT_RealPlayEx</code>中的播放窗口句柄为NULL，并通过调用设置实时预览数据回调接口(<code>CLIENT_SetRealDataCallBack</code>或<code>CLIENT_SetRealDataCallBackEx</code>)，获取码流数据进行后续解码播放处理。</li>
+</ol>
+<p>代码实现：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"dhnetsdk.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"dhplay.h"</span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword">long</span> g_lRealPort <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token comment">// 全局播放库port号</span>
+
+<span class="token keyword">void</span> CALLBACK <span class="token function">RealDataCallBackEx2</span><span class="token punctuation">(</span>LLONG lRealHandle<span class="token punctuation">,</span> DWORD dwDataType<span class="token punctuation">,</span> BYTE <span class="token operator">*</span>pBuffer<span class="token punctuation">,</span> DWORD dwBufSize<span class="token punctuation">,</span> LLONG param<span class="token punctuation">,</span> LDWORD dwUser<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    BOOL bInput <span class="token operator">=</span> FALSE<span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token number">0</span> <span class="token operator">!=</span> lRealHandle<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">switch</span> <span class="token punctuation">(</span>dwDataType<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">case</span> <span class="token number">0</span><span class="token operator">:</span>
+            <span class="token comment">// 原始音视频混合数据</span>
+            bInput <span class="token operator">=</span> <span class="token function">PLAY_InputData</span><span class="token punctuation">(</span>g_lRealPort<span class="token punctuation">,</span> pBuffer<span class="token punctuation">,</span> dwBufSize<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>bInput<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"input data error: %d\n"</span><span class="token punctuation">,</span> <span class="token function">PLAY_GetLastError</span><span class="token punctuation">(</span>g_lRealPort<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token number">1</span><span class="token operator">:</span>
+            <span class="token comment">// 标准视频数据</span>
+
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token number">2</span><span class="token operator">:</span>
+            <span class="token comment">// yuv 数据</span>
+
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token number">3</span><span class="token operator">:</span>
+            <span class="token comment">// pcm 音频数据</span>
+
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">case</span> <span class="token number">4</span><span class="token operator">:</span>
+            <span class="token comment">// 原始音频数据</span>
+
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token keyword">default</span><span class="token operator">:</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> CALLBACK <span class="token function">DecDataCallBack</span><span class="token punctuation">(</span><span class="token keyword">long</span> nPort<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>pBuf<span class="token punctuation">,</span> <span class="token keyword">long</span> nSize<span class="token punctuation">,</span> FRAME_INFO <span class="token operator">*</span>pFrameInfo<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>pUser<span class="token punctuation">,</span> <span class="token keyword">long</span> nReserved2<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// TODO 将流转为BGR图像显示；</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> szCommand<span class="token punctuation">[</span><span class="token number">64</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> nChannelID <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 初始化</span>
+    <span class="token function">CLIENT_Init</span><span class="token punctuation">(</span><span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    NET_IN_LOGIN_WITH_HIGHLEVEL_SECURITY stInparam<span class="token punctuation">;</span>
+    <span class="token function">memset</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>stInparam<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>stInparam<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    stInparam<span class="token punctuation">.</span>dwSize <span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>stInparam<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">strncpy</span><span class="token punctuation">(</span>stInparam<span class="token punctuation">.</span>szIP<span class="token punctuation">,</span> <span class="token string">"xxx.xxx.xxx.xxx"</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>stInparam<span class="token punctuation">.</span>szIP<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">strncpy</span><span class="token punctuation">(</span>stInparam<span class="token punctuation">.</span>szUserName<span class="token punctuation">,</span> <span class="token string">"username"</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>stInparam<span class="token punctuation">.</span>szUserName<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">strncpy</span><span class="token punctuation">(</span>stInparam<span class="token punctuation">.</span>szPassword<span class="token punctuation">,</span> <span class="token string">"password"</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>stInparam<span class="token punctuation">.</span>szPassword<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    stInparam<span class="token punctuation">.</span>nPort <span class="token operator">=</span> <span class="token number">37777</span><span class="token punctuation">;</span>
+    stInparam<span class="token punctuation">.</span>emSpecCap <span class="token operator">=</span> EM_LOGIN_SPEC_CAP_TCP<span class="token punctuation">;</span>
+    NET_OUT_LOGIN_WITH_HIGHLEVEL_SECURITY stOutparam<span class="token punctuation">;</span>
+    <span class="token function">memset</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>stOutparam<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>stOutparam<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    stOutparam<span class="token punctuation">.</span>dwSize <span class="token operator">=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>stOutparam<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 注册用户到设备</span>
+    LLONG lLoginHandle <span class="token operator">=</span> <span class="token function">CLIENT_LoginWithHighLevelSecurity</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>stInparam<span class="token punctuation">,</span> <span class="token operator">&amp;</span>stOutparam<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>lLoginHandle <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"registration failed. \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 获取播放库端口号</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PLAY_GetFreePort</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>g_lRealPort<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Failed to get free port. \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 设置流播放模式；STREAME_REALTIME实时模式(默认);STREAME_FILE文件流模式;实时模式</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PLAY_SetStreamOpenMode</span><span class="token punctuation">(</span>g_lRealPort<span class="token punctuation">,</span> STREAME_REALTIME<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Failed to set streaming mode. \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 打开流播放</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PLAY_OpenStream</span><span class="token punctuation">(</span>g_lRealPort<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">900</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Failed to open stream. \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 设置解码回调流类型，流类型：1 视频流;2 音频流;3 复合流;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PLAY_SetDecCBStream</span><span class="token punctuation">(</span>g_lRealPort<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Failed to set decoding callback stream type. \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 设置解码回调，相比于PLAY_SetDecCallBack函数，用户可以自定义回调参数；</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PLAY_SetDecCallBackEx</span><span class="token punctuation">(</span>g_lRealPort<span class="token punctuation">,</span> DecDataCallBack<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Failed to set decoding callback. \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 开始播放</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">PLAY_Play</span><span class="token punctuation">(</span>g_lRealPort<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Failed to play. \n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 启动实时预览或多画面预览。</span>
+    LLONG lPlayHandle <span class="token operator">=</span> <span class="token function">CLIENT_RealPlayEx</span><span class="token punctuation">(</span>lLoginHandle<span class="token punctuation">,</span> nChannelID<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> DH_RType_Realplay_0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token number">0</span> <span class="token operator">!=</span> lPlayHandle<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 设置回调函数处理数据</span>
+        <span class="token function">CLIENT_SetRealDataCallBackEx2</span><span class="token punctuation">(</span>lPlayHandle<span class="token punctuation">,</span> RealDataCallBackEx2<span class="token punctuation">,</span> <span class="token punctuation">(</span>LDWORD<span class="token punctuation">)</span><span class="token number">0</span><span class="token punctuation">,</span> REALDATA_FLAG_RAW_DATA <span class="token operator">|</span> REALDATA_FLAG_DATA_WITH_FRAME_INFO<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Fail to play!\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">PLAY_Stop</span><span class="token punctuation">(</span>g_lRealPort<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">PLAY_CloseStream</span><span class="token punctuation">(</span>g_lRealPort<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">Sleep</span><span class="token punctuation">(</span><span class="token number">10000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 关闭解码库播放</span>
+    <span class="token function">PLAY_Stop</span><span class="token punctuation">(</span>g_lRealPort<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 释放播放库</span>
+    <span class="token function">PLAY_CloseStream</span><span class="token punctuation">(</span>g_lRealPort<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 关闭预览</span>
+    <span class="token function">CLIENT_StopRealPlayEx</span><span class="token punctuation">(</span>lPlayHandle<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 注销用户</span>
+    <span class="token function">CLIENT_Logout</span><span class="token punctuation">(</span>lLoginHandle<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 释放SDK资源</span>
+    <span class="token function">CLIENT_Cleanup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="宇视"><a href="#宇视" class="headerlink" title="宇视"></a>宇视</h3><p>宇视摄像头获取图像主要流程可以直接参考官方文档，  <a target="_blank" rel="noopener" href="https://unisee.uniview.com/home/resource">宇视开放平台</a> 。宇视SDK取流主要流程图：</p>
+ <img src="/2024/05/13/camera-capture-stream/YS%E5%8F%96%E6%B5%81%E8%BF%87%E7%A8%8B.png" class="" title="YS取流过程">
+
+<p>启动预览后通过实时数据回调拿到流并解码成图像；</p>
+<p>代码实现：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"NetDEVSDK.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;thread></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;chrono></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token keyword">void</span> STDCALL <span class="token function">YSRealDataCallBack</span><span class="token punctuation">(</span>LPVOID lpPlayHandle<span class="token punctuation">,</span> <span class="token keyword">const</span> BYTE <span class="token operator">*</span>pucBuffer<span class="token punctuation">,</span> INT32 dwBufSize<span class="token punctuation">,</span> INT32 dwMediaDataType<span class="token punctuation">,</span> LPVOID lpUserParam<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> STDCALL <span class="token function">YSDecDataCallBack</span><span class="token punctuation">(</span>LPVOID lpPlayHandle<span class="token punctuation">,</span> <span class="token keyword">const</span> NETDEV_PICTURE_DATA_S <span class="token operator">*</span>pstPictureData<span class="token punctuation">,</span> LPVOID lpUserParam<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// TODO 将YUV转为BGR图像显示；</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 初始化</span>
+    <span class="token function">NETDEV_Init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 设置连接时间</span>
+    NETDEV_REV_TIMEOUT_S stRevTimeout <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    stRevTimeout<span class="token punctuation">.</span>dwRevTimeOut <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+    stRevTimeout<span class="token punctuation">.</span>dwFileReportTimeOut <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span>
+    <span class="token function">NETDEV_SetRevTimeOut</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>stRevTimeout<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 登录参数，包括设备地址、登录用户、密码等</span>
+    NETDEV_DEVICE_LOGIN_INFO_S stDevLoginInfo <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token function">strncpy</span><span class="token punctuation">(</span>stDevLoginInfo<span class="token punctuation">.</span>szIPAddr<span class="token punctuation">,</span> <span class="token string">"xxx.xxx.xxx.xxx"</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>stDevLoginInfo<span class="token punctuation">.</span>szIPAddr<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 设备IP地址</span>
+    <span class="token function">strncpy</span><span class="token punctuation">(</span>stDevLoginInfo<span class="token punctuation">.</span>szUserName<span class="token punctuation">,</span> <span class="token string">"username"</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>stDevLoginInfo<span class="token punctuation">.</span>szUserName<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 设备登录用户名</span>
+    <span class="token function">strncpy</span><span class="token punctuation">(</span>stDevLoginInfo<span class="token punctuation">.</span>szPassword<span class="token punctuation">,</span> <span class="token string">"password"</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>stDevLoginInfo<span class="token punctuation">.</span>szPassword<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 设备登录密码</span>
+    stDevLoginInfo<span class="token punctuation">.</span>dwPort <span class="token operator">=</span> <span class="token number">80</span><span class="token punctuation">;</span>                                                           <span class="token comment">// 设备服务端口</span>
+    stDevLoginInfo<span class="token punctuation">.</span>dwLoginProto <span class="token operator">=</span> NETDEV_LOGIN_PROTO_ONVIF<span class="token punctuation">;</span>                               <span class="token comment">// 登录协议</span>
+
+    <span class="token comment">// 输出参数，仅私有协议登录有效</span>
+    NETDEV_SELOG_INFO_S stSELogInfo <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token comment">// 设备登陆</span>
+    LPVOID lUserID <span class="token operator">=</span> <span class="token function">NETDEV_Login_V30</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>stDevLoginInfo<span class="token punctuation">,</span> <span class="token operator">&amp;</span>stSELogInfo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token constant">NULL</span> <span class="token operator">==</span> lUserID<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Login failed, error code: %d\n"</span><span class="token punctuation">,</span> <span class="token function">NETDEV_GetLastError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 释放SDK资源</span>
+        <span class="token function">NETDEV_Cleanup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 通道查询</span>
+    NETDEV_VIDEO_CHL_DETAIL_INFO_EX_S stVideoChlDetailInfoEx<span class="token punctuation">[</span><span class="token number">128</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span> <span class="token comment">// 分配128个通道</span>
+    INT32 dwCount <span class="token operator">=</span> <span class="token number">128</span><span class="token punctuation">;</span>                                                 <span class="token comment">// 128个通道</span>
+    BOOL bRet <span class="token operator">=</span> <span class="token function">NETDEV_QueryVideoChlDetailListEx</span><span class="token punctuation">(</span>lUserID<span class="token punctuation">,</span> <span class="token operator">&amp;</span>dwCount<span class="token punctuation">,</span> stVideoChlDetailInfoEx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>FALSE <span class="token operator">==</span> bRet <span class="token operator">&amp;&amp;</span> NETDEV_E_NEEDMOREDATA <span class="token operator">==</span> <span class="token function">NETDEV_GetLastError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 默认分配数组大小小于实际通道数，重新分配内存获取</span>
+        NETDEV_VIDEO_CHL_DETAIL_INFO_EX_S <span class="token operator">*</span>pstVideoChlDetailInfoEx <span class="token operator">=</span> <span class="token keyword">new</span> NETDEV_VIDEO_CHL_DETAIL_INFO_EX_S<span class="token punctuation">[</span>dwCount<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token function">memset</span><span class="token punctuation">(</span>pstVideoChlDetailInfoEx<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>NETDEV_VIDEO_CHL_DETAIL_INFO_EX_S<span class="token punctuation">)</span> <span class="token operator">*</span> dwCount<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        bRet <span class="token operator">=</span> <span class="token function">NETDEV_QueryVideoChlDetailListEx</span><span class="token punctuation">(</span>lUserID<span class="token punctuation">,</span> <span class="token operator">&amp;</span>dwCount<span class="token punctuation">,</span> pstVideoChlDetailInfoEx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 释放分配内存</span>
+        <span class="token keyword">delete</span><span class="token punctuation">[</span><span class="token punctuation">]</span> pstVideoChlDetailInfoEx<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 实况预览</span>
+    <span class="token comment">// HWND hWnd = GetConsoleWindow(); // 获取窗口句柄 和海康大华一样 不用走窗口句柄</span>
+    NETDEV_PREVIEWINFO_S stNetInfo <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    stNetInfo<span class="token punctuation">.</span>dwChannelID <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    stNetInfo<span class="token punctuation">.</span>hPlayWnd <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span> <span class="token comment">// 窗口句柄设为空</span>
+    stNetInfo<span class="token punctuation">.</span>dwStreamType <span class="token operator">=</span> NETDEV_LIVE_STREAM_INDEX_MAIN<span class="token punctuation">;</span>
+    stNetInfo<span class="token punctuation">.</span>dwLinkMode <span class="token operator">=</span> NETDEV_TRANSPROTOCAL_RTPTCP<span class="token punctuation">;</span>
+    stNetInfo<span class="token punctuation">.</span>dwFluency <span class="token operator">=</span> NETDEV_PICTURE_FLUENCY<span class="token punctuation">;</span>
+
+    <span class="token comment">// 启动预览并设置回调数据流</span>
+    LPVOID lpPlayHandle <span class="token operator">=</span> <span class="token function">NETDEV_RealPlay</span><span class="token punctuation">(</span>lUserID<span class="token punctuation">,</span> <span class="token operator">&amp;</span>stNetInfo<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token constant">NULL</span> <span class="token operator">==</span> lpPlayHandle<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"RealPlay failed, error code: %d\n"</span><span class="token punctuation">,</span> <span class="token function">NETDEV_GetLastError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"RealPlay success, handle: %p\n"</span><span class="token punctuation">,</span> lpPlayHandle<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 注册原始码流</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token function">NETDEV_SetPlayDataCallBack</span><span class="token punctuation">(</span>lpPlayHandle<span class="token punctuation">,</span> YSRealDataCallBack<span class="token punctuation">,</span> TRUE<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"SetPlayDataCallBack failed, error code: %d\n"</span><span class="token punctuation">,</span> <span class="token function">NETDEV_GetLastError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 注册解码后视频媒体流数据</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">NETDEV_SetPlayDecodeVideoCB</span><span class="token punctuation">(</span>lpPlayHandle<span class="token punctuation">,</span> YSDecDataCallBack<span class="token punctuation">,</span> FALSE<span class="token punctuation">,</span> <span class="token constant">NULL</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"SetPlayDecodeVideoCB failed, error code: %d\n"</span><span class="token punctuation">,</span> <span class="token function">NETDEV_GetLastError</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    std<span class="token double-colon punctuation">::</span>this_thread<span class="token double-colon punctuation">::</span><span class="token function">sleep_for</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span><span class="token function">seconds</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 停止实况预览</span>
+    <span class="token function">NETDEV_StopRealPlay</span><span class="token punctuation">(</span>lpPlayHandle<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 注销用户</span>
+    <span class="token function">NETDEV_Logout</span><span class="token punctuation">(</span>lUserID<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 释放SDK资源</span>
+    <span class="token function">NETDEV_Cleanup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="流媒体取流"><a href="#流媒体取流" class="headerlink" title="流媒体取流"></a>流媒体取流</h2><p>流媒体取流是一种实时获取和传输多媒体内容的技术，广泛应用于视频监控、直播、点播等领域。它通过网络将音视频数据从源设备传输到目标设备，实现即时播放和处理。流媒体取流技术不仅能够有效降低延迟，保证播放的流畅性，还支持多种协议和编码格式，适应不同的网络环境和应用需求。通过优化的取流策略，流媒体取流可以在带宽受限的条件下依然提供高质量的音视频体验。</p>
+<h3 id="lal取流"><a href="#lal取流" class="headerlink" title="lal取流"></a>lal取流</h3><p> <a target="_blank" rel="noopener" href="https://github.com/q191201771/lal">lalserver</a>是纯Golang开发的流媒体（直播音视频网络传输）服务器。目前已支持RTMP, RTSP(RTP&#x2F;RTCP), HLS, HTTP[S]&#x2F;WebSocket-FLV&#x2F;TS, GB28181协议。并支持通过插件形式进行二次开发扩展。 </p>
+<p>启动lalserver.exe，通过下面的程序将rtsp地址转rtmp拉流。 </p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cpr/cpr.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;json/json.h></span></span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+
+<span class="token keyword">bool</span> <span class="token function">StartStream</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>string <span class="token operator">&amp;</span>url<span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span>string <span class="token operator">&amp;</span>stream_name<span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span>string <span class="token operator">&amp;</span>play_url<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    std<span class="token double-colon punctuation">::</span>string post_url <span class="token operator">=</span> <span class="token string">"http://127.0.0.1:8083/api/ctrl/start_relay_pull"</span><span class="token punctuation">;</span>
+    Json<span class="token double-colon punctuation">::</span>Value data<span class="token punctuation">;</span>
+    data<span class="token punctuation">[</span><span class="token string">"stream_name"</span><span class="token punctuation">]</span> <span class="token operator">=</span> stream_name<span class="token punctuation">;</span>
+    data<span class="token punctuation">[</span><span class="token string">"url"</span><span class="token punctuation">]</span> <span class="token operator">=</span> url<span class="token punctuation">;</span>
+    data<span class="token punctuation">[</span><span class="token string">"pull_retry_num"</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>string json_data <span class="token operator">=</span> data<span class="token punctuation">.</span><span class="token function">toStyledString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 设置HTTP头和JSON数据</span>
+    cpr<span class="token double-colon punctuation">::</span>Header headers<span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span><span class="token string">"Content-Type"</span><span class="token punctuation">,</span> <span class="token string">"application/json"</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    cpr<span class="token double-colon punctuation">::</span>Body body <span class="token operator">=</span> cpr<span class="token double-colon punctuation">::</span>Body<span class="token punctuation">&#123;</span>json_data<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 发送POST请求</span>
+    cpr<span class="token double-colon punctuation">::</span>Response response <span class="token operator">=</span> cpr<span class="token double-colon punctuation">::</span><span class="token function">Post</span><span class="token punctuation">(</span>cpr<span class="token double-colon punctuation">::</span>Url<span class="token punctuation">&#123;</span>post_url<span class="token punctuation">&#125;</span><span class="token punctuation">,</span> body<span class="token punctuation">,</span> headers<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 检查HTTP请求是否成功</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>response<span class="token punctuation">.</span>status_code <span class="token operator">==</span> <span class="token number">200</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 打印HTTP响应内容</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"send HTTP ok:\n"</span>
+                  <span class="token operator">&lt;&lt;</span> response<span class="token punctuation">.</span>text <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+        play_url <span class="token operator">=</span>
+            <span class="token string">"rtmp://127.0.0.1:1935/live/"</span> <span class="token operator">+</span> stream_name<span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"send HTTP err: "</span> <span class="token operator">&lt;&lt;</span> response<span class="token punctuation">.</span>status_code <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    std<span class="token double-colon punctuation">::</span>string url <span class="token operator">=</span> <span class="token string">"rtsp://username:password@ip/media/video2"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>string stream_name <span class="token operator">=</span> <span class="token string">"234"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>string _play_url<span class="token punctuation">;</span>
+    <span class="token function">StartStream</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> stream_name<span class="token punctuation">,</span> _play_url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p> 也可以用ffmpeg 将 rtmp 流发布到 lalserver </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ffmpeg <span class="token parameter variable">-re</span> <span class="token parameter variable">-i</span> demo.flv <span class="token parameter variable">-c:a</span> copy <span class="token parameter variable">-c:v</span> copy <span class="token parameter variable">-f</span> flv rtmp://127.0.0.1:1935/live/test110<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="EasyDarwin"><a href="#EasyDarwin" class="headerlink" title="EasyDarwin"></a>EasyDarwin</h3><p> <a target="_blank" rel="noopener" href="https://www.easydarwin.org/p/easydarwin.html">EasyDarwin</a>音视频流媒体服务器，支持视频点播、RTMP推流直播（RTSP、FLV、WebRTC）、串流拉流直播、服务端录像与回放、视频抽帧快照； </p>
+<p>具体用法参照官网文档教程；</p>
+<h3 id="GStreamer"><a href="#GStreamer" class="headerlink" title="GStreamer"></a>GStreamer</h3><p> <a target="_blank" rel="noopener" href="https://gstreamer.freedesktop.org/">GStreamer</a> 是一个用于构造媒体处理组件图形的库。它支持的应用范围从简单的 Ogg&#x2F;Vorbis 播放、音频&#x2F;视频流到复杂的音频（混音）和视频（非线性编辑）处理。</p>
+<p>具体用法可以看官方文档，或者看这位大佬写的教程 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/xleng/tag/gstreamer/">gstreamer - 教程 - John.Leng - 博客园 (cnblogs.com)</a> </p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">LSJune</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://shao-junliang.github.io/2024/05/13/camera-capture-stream/">http://shao-junliang.github.io/2024/05/13/camera-capture-stream/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">LSJune</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/c/">
+                                    <span class="chip bg-color">c++</span>
+                                </a>
+                            
+                                <a href="/tags/%E6%91%84%E5%83%8F%E5%A4%B4%E5%8F%96%E6%B5%81/">
+                                    <span class="chip bg-color">摄像头取流</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '402e1ec91f1ff6375db9',
+        clientSecret: '3122e50655b57000ca790be9e0229afdbabd50a8',
+        repo: 'Shao-junliang.github.io',
+        owner: 'Shao-junliang',
+        admin: "Shao-junliang",
+        id: '2024-05-13T14-17-23',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2024/05/13/camera-capture-stream/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="摄像头取流">
+                        
+                        <span class="card-title">摄像头取流</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
+                        
+                            摄像头图像获取的几种方式
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            LSJune
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%91%84%E5%83%8F%E5%A4%B4%E5%8F%96%E6%B5%81/">
+                        <span class="chip bg-color">摄像头取流</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/04/29/multi-thread-data-transfer/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="多线程数据传输">
+                        
+                        <span class="card-title">多线程数据传输</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
+                        
+                            多线程之间的数据传输方法
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-04-29
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            LSJune
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
+                    </a>
+                    
+                    <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+                        <span class="chip bg-color">多线程</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3, h4, h5, h6, h7, h8, h9'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            <!-- Copyright&nbsp; -->
+            &copy;
+            
+                <span id="year">2024</span>
+            
+            <a href="/about" target="_blank">LSJune</a>
+            <!-- lsj 3.25 修改了网站底部的备案信息 -->
+            <!-- |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a> -->
+            
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">16.4k</span>
+            
+            <br>
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2024";
+                        var startMonth = "3";
+                        var startDate = "21";
+                        var startHour = "18";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+            
+                
+            
+            
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+    
+    <!-- 这一行是添加的动态标签栏 -->
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "(´Д｀)大変だ！", clearTimeout(st)) : (document.title = "（●´3｀●）やれやれだぜ", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) }) </script>
+
+
+</body>
+
+</html>
