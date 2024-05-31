@@ -4,14 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, 暴躁小何的笔记">
-    <meta name="description" content="Welcome to Hexo! 
-Quick StartCreate a new post$ hexo new &#34;My New Post&#34;
-
-More info: Writing
-Run server$ hexo server
-
-More">
+    <meta name="keywords" content="TensorRT课程笔记（1）, 暴躁小何的笔记">
+    <meta name="description" content="TensorRT课程笔记-系列一：cuda-driver-api">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -23,7 +17,7 @@ More">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World | 暴躁小何的笔记</title>
+    <title>TensorRT课程笔记（1） | 暴躁小何的笔记</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -338,12 +332,12 @@ More">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World</h1>
+                    <h1 class="description center-align post-title">TensorRT课程笔记（1）</h1>
                 </div>
             </div>
         </div>
@@ -367,12 +361,12 @@ More">
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/test/">
-                                <span class="chip bg-color">test</span>
+                            <a href="/tags/CUDA/">
+                                <span class="chip bg-color">CUDA</span>
                             </a>
                         
-                            <a href="/tags/Markdown/">
-                                <span class="chip bg-color">Markdown</span>
+                            <a href="/tags/TensorRT/">
+                                <span class="chip bg-color">TensorRT</span>
                             </a>
                         
                     </div>
@@ -387,7 +381,7 @@ More">
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-03-20
+                    2024-05-29
                 </div>
                 
 
@@ -404,14 +398,14 @@ More">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    40
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    4 分
                 </div>
                 
 
@@ -434,19 +428,112 @@ More">
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! </p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+                <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>本篇文章程序链接：<a target="_blank" rel="noopener" href="https://github.com/Shao-junliang/TensorRT-Course-Notes/tree/master/cuda-driver-api">https://github.com/Shao-junliang/TensorRT-Course-Notes/tree/master/cuda-driver-api</a></p>
+<h3 id="1-显卡，显卡驱动，nvcc-cuda-driver-cudatoolkit-cudnn到底是什么？"><a href="#1-显卡，显卡驱动，nvcc-cuda-driver-cudatoolkit-cudnn到底是什么？" class="headerlink" title="1. 显卡，显卡驱动，nvcc, cuda driver,cudatoolkit,cudnn到底是什么？"></a>1. 显卡，显卡驱动，nvcc, cuda driver,cudatoolkit,cudnn到底是什么？</h3><ol>
+<li><p>关于显卡驱动与cuda驱动的版本匹配</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html">Table 1. CUDA 11.6 Update 1 Component Versions</a></li>
+<li>结论：尽量将显卡驱动升级到新的，因为显卡驱动向下兼容cuda驱动。</li>
+</ul>
+</li>
+<li><p>简单了解显卡相关概念。</p>
+<ul>
+<li>显卡：GPU</li>
+<li>显卡驱动：驱动软件，类比声卡驱动，摄像头驱动；</li>
+<li>GPU架构：gpu架构指的是硬件的设计方式，例如是否有L1 or L2缓存；</li>
+<li>CUDA: 其中一种理解是它是一种编程语言（像c++,python等，只不过它是专门用来操控GPU的）；</li>
+<li>cudnn: 这个其实就是一个专门为深度学习计算设计的软件库，里面提供了很多专门的计算函数；</li>
+<li>CUDAToolkit：这是我们真正需要首先安装的工具包，所谓的装cuda首先指的是它；它里面包含了许多库，例如：cudart, cublas等；</li>
+<li>其他涉及到的知识有nvcc与nvidia-smi, 多个 cuda 版本之间进行切换, cuda的安装等；详细请参考: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/91334380">https://zhuanlan.zhihu.com/p/91334380</a></li>
+</ul>
+</li>
+<li><p>cuda-driver-api 与 cuda-runtime-api</p>
+<ul>
+<li>CUDA Driver与CUDA Runtime相比更偏底层，就意味着Driver API有着更灵活的控制，也伴随着更复杂的编程。</li>
+<li>因此CUDA driver需要做显式的初始化<code>cuInit(0)</code>，否则其他API都会返回<code>CUDA_ERROR_NOT_INITIALIZED</code></li>
+<li>经过初始化后驱动和显卡的信息可以轻松获取：</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>驱动版本管理 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/archive/11.2.0/cuda-driver-api/group__CUDA__VERSION.html#group__CUDA__VERSION">https://docs.nvidia.com/cuda/archive/11.2.0/cuda-driver-api/group__CUDA__VERSION.html#group__CUDA__VERSION</a><ul>
+<li>设备信息管理 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/archive/11.2.0/cuda-driver-api/group__CUDA__DEVICE.html">https://docs.nvidia.com/cuda/archive/11.2.0/cuda-driver-api/group__CUDA__DEVICE.html</a></li>
+<li>CUDA的在线文档地址<ol>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">https://developer.nvidia.com/cuda-toolkit-archive</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/archive/11.2.0/">https://docs.nvidia.com/cuda/archive/11.2.0/</a></li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-使用宏定义来检查是否有做cuda初始化"><a href="#2-使用宏定义来检查是否有做cuda初始化" class="headerlink" title="2. 使用宏定义来检查是否有做cuda初始化"></a>2. 使用宏定义来检查是否有做cuda初始化</h3><ol>
+<li>CUDA driver需要做显式的初始化<code>cuInit(0)</code>，否则其他API都会返回<code>CUDA_ERROR_NOT_INITIALIZED</code>;</li>
+<li>采用宏定义可以在每次调用API前都检查初始化;</li>
+<li>采用封装带参宏定义使代码更清晰、好调试，养成一种良好的编码习惯也是很重要！</li>
+</ol>
+<h3 id="3-context的概念和使用方法"><a href="#3-context的概念和使用方法" class="headerlink" title="3. context的概念和使用方法"></a>3. context的概念和使用方法</h3><ol>
+<li><p>设备与特定进程相关连的所有状态。比如，写的一段kernel code对GPU的使用会造成不同状态（内存映射、分配、加载的code），Context则保存着所有的管理数据来控制和使用设备。</p>
+<ul>
+<li>gpu 的 context 相当于 cpu 的 program，一块gpu上可以有多个contexts，但是它们之间是相互隔离的。建议一块设备就一个context。参考：<a target="_blank" rel="noopener" href="https://dragan.rocks/articles/18/Interactive-GPU-Programming-3-CUDA-Context">https://dragan.rocks/articles/18/Interactive-GPU-Programming-3-CUDA-Context</a></li>
+</ul>
+</li>
+<li><p>上下文管理可以干的事儿：</p>
+<ul>
+<li>持有分配的内存列表；</li>
+<li>持有加载进该设备的kernel code</li>
+<li>cpu与gpu之间的unified memory</li>
+</ul>
+</li>
+<li><p>如何管理上下文：</p>
+<ol>
+<li>在cuda driver同样需要显式管理上下文<ul>
+<li>开始时<code>cuCtxCreate()</code>创建上下文，结束时<code>cuCtxDestroy</code>销毁上下文。像文件管理一样须手动开关。用<code>cuDevicePrimaryCtxRetain()</code>创建上下文更好！</li>
+<li><code>cuCtxGetCurrent()</code>获取当前上下文；</li>
+<li>可以使用堆栈管理多个上下文<code>cuCtxPushCurrent()</code>压入，<code>cuCtxPopCurrent()</code>推出；</li>
+<li>对ctxA使用<code>cuCtxPushCurrent()</code>和<code>cuCtxCreate()</code>都相当于将ctxA放到栈顶（让它成为current context）</li>
+</ul>
+</li>
+<li>cuda runtime可以自动创建，是基于<code>cuDevicePrimaryCtxRetain()</code>创建的。</li>
+</ol>
+</li>
+</ol>
+<h3 id="4-内存分配"><a href="#4-内存分配" class="headerlink" title="4. 内存分配"></a>4. 内存分配</h3><ol>
+<li><p>统一内存(Unified addressing) ；</p>
+</li>
+<li><p>分配线性内存<code>cuMemAlloc()</code>：</p>
+<ul>
+<li><p>线性内存：线性内存被组织在单个连续的地址空间中，可以直接以及线性地访问这些内存位置。</p>
+</li>
+<li><p>内存分配空间以字节为大小，并返回所分配的内存地址</p>
+</li>
+</ul>
+</li>
+<li><p>分配主机锁页内存<code>cuMemAllocHost()</code>:</p>
+<ul>
+<li>参考：<a target="_blank" rel="noopener" href="https://leimao.github.io/blog/Page-Locked-Host-Memory-Data-Transfer/">https://leimao.github.io/blog/Page-Locked-Host-Memory-Data-Transfer/</a></li>
+<li>参考：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=p9yZNLeOj4s">https://www.youtube.com/watch?v=p9yZNLeOj4s</a></li>
+</ul>
+<ol>
+<li>锁页内存：</li>
+</ol>
+<ul>
+<li>定义：页面不允许被调入调出的叫锁页内存，反之叫可分页内存；<ul>
+<li>优点：快；</li>
+<li>a. 设备可以直接访问内存，与可分页内存相比，它的读写带宽要高得多；</li>
+<li>b. 驱动程序会跟踪使用<code>cuMemAllocHost()</code>分配的虚拟内存范围，并自动加速对<code>cuMemcpy()</code>等函数的调用；</li>
+<li>使用注意：分配过多锁业内存会减少系统可用于分页的内存量，可能会降低系统性能。因此，在主机和设备之间为数据交换分配临时区域时，最好少用此功能。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>这里是从主机分配内存，因此不是输入device prt的地址，而是一个主机的二级地址。</li>
+</ol>
+</li>
+<li><p>内存的初始化<code>cuMemsetD32(CUdeviceptr dstDevice, unsigned int  ui, size_t N)</code>, 将N个32位值的内存范围设置为指定的值ui。</p>
+</li>
+<li><p>内存的释放<code>cuMemFreeHost()</code>: 有借有还 再借不难~</p>
+</li>
+</ol>
 
                 
             </div>
@@ -473,7 +560,7 @@ More">
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://shao-junliang.github.io/2024/03/20/hello-world/">http://shao-junliang.github.io/2024/03/20/hello-world/</a>
+                    <a href="http://shao-junliang.github.io/2024/05/29/cuda-driver-basic/">http://shao-junliang.github.io/2024/05/29/cuda-driver-basic/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -511,12 +598,12 @@ More">
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/test/">
-                                    <span class="chip bg-color">test</span>
+                                <a href="/tags/CUDA/">
+                                    <span class="chip bg-color">CUDA</span>
                                 </a>
                             
-                                <a href="/tags/Markdown/">
-                                    <span class="chip bg-color">Markdown</span>
+                                <a href="/tags/TensorRT/">
+                                    <span class="chip bg-color">TensorRT</span>
                                 </a>
                             
                         </div>
@@ -561,7 +648,7 @@ More">
         repo: 'Shao-junliang.github.io',
         owner: 'Shao-junliang',
         admin: "Shao-junliang",
-        id: '2024-03-20T21-07-00',
+        id: '2024-05-29T15-54-12',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -589,77 +676,29 @@ More">
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/03/21/blog-test/">
+                <a href="/2024/05/29/cuda-driver-basic/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="blog_test">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="TensorRT课程笔记（1）">
                         
-                        <span class="card-title">blog_test</span>
+                        <span class="card-title">TensorRT课程笔记（1）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            暴躁小何的博客测试
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-03-21
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            LSJune
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/test/">
-                        <span class="chip bg-color">test</span>
-                    </a>
-                    
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
-            </div>
-            <div class="card">
-                <a href="/2024/03/20/hello-world/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
-                        
-                        <span class="card-title">Hello World</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
-                        
-                            
+                            TensorRT课程笔记-系列一：cuda-driver-api
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-29
                             </span>
                         <span class="publish-author">
                             
@@ -673,12 +712,61 @@ More">
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/test/">
-                        <span class="chip bg-color">test</span>
+                    <a href="/tags/CUDA/">
+                        <span class="chip bg-color">CUDA</span>
                     </a>
                     
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
+                    <a href="/tags/TensorRT/">
+                        <span class="chip bg-color">TensorRT</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/05/13/camera-capture-stream/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="摄像头取流">
+                        
+                        <span class="card-title">摄像头取流</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
+                        
+                            摄像头图像获取的几种方式
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            LSJune
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%91%84%E5%83%8F%E5%A4%B4%E5%8F%96%E6%B5%81/">
+                        <span class="chip bg-color">摄像头取流</span>
                     </a>
                     
                 </div>
@@ -802,6 +890,13 @@ More">
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
 
 
 
