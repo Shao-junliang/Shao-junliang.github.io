@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="TensorRT课程笔记（1）, 暴躁小何的笔记">
-    <meta name="description" content="TensorRT课程笔记-系列一：cuda-driver-api">
+    <meta name="keywords" content="tensorRT课程笔记（2）, 暴躁小何的笔记">
+    <meta name="description" content="tensorRT课程笔记-系列二：cuda-runtime-api">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>TensorRT课程笔记（1） | 暴躁小何的笔记</title>
+    <title>tensorRT课程笔记（2） | 暴躁小何的笔记</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -336,12 +336,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">TensorRT课程笔记（1）</h1>
+                    <h1 class="description center-align post-title">tensorRT课程笔记（2）</h1>
                 </div>
             </div>
         </div>
@@ -369,8 +369,8 @@
                                 <span class="chip bg-color">CUDA</span>
                             </a>
                         
-                            <a href="/tags/TensorRT/">
-                                <span class="chip bg-color">TensorRT</span>
+                            <a href="/tags/tensorRT/">
+                                <span class="chip bg-color">tensorRT</span>
                             </a>
                         
                     </div>
@@ -385,7 +385,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-05-29
+                    2024-05-31
                 </div>
                 
 
@@ -402,14 +402,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    3.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    13 分
                 </div>
                 
 
@@ -432,113 +432,289 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>本篇文章程序链接：<a target="_blank" rel="noopener" href="https://github.com/Shao-junliang/TensorRT-Course-Notes/tree/master/cuda-driver-api">https://github.com/Shao-junliang/TensorRT-Course-Notes/tree/master/cuda-driver-api</a></p>
-<h3 id="1-显卡，显卡驱动，nvcc-cuda-driver-cudatoolkit-cudnn到底是什么？"><a href="#1-显卡，显卡驱动，nvcc-cuda-driver-cudatoolkit-cudnn到底是什么？" class="headerlink" title="1. 显卡，显卡驱动，nvcc, cuda driver,cudatoolkit,cudnn到底是什么？"></a>1. 显卡，显卡驱动，nvcc, cuda driver,cudatoolkit,cudnn到底是什么？</h3><ol>
-<li><p>关于显卡驱动与cuda驱动的版本匹配。</p>
+                <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>本篇文章程序链接：<a target="_blank" rel="noopener" href="https://github.com/Shao-junliang/TensorRT-Course-Notes/tree/master/cuda-runtime-api">https://github.com/Shao-junliang/TensorRT-Course-Notes/tree/master/cuda-runtime-api</a></p>
+<h3 id="1-上下文"><a href="#1-上下文" class="headerlink" title="1. 上下文"></a>1. 上下文</h3><ol>
+<li><p>CUDA Runtime是封装了CUDA Driver的高级别更友好的API。</p>
+</li>
+<li><p>cudaruntime需要引入cudart这个so文件。</p>
+</li>
+<li><p>上下文管理：</p>
 <ul>
-<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-toolkit-release-notes/index.html">Table 1. CUDA 11.6 Update 1 Component Versions</a></li>
-<li>结论：尽量将显卡驱动升级到新的，因为显卡驱动向下兼容cuda驱动。</li>
+<li><p>使用<code>cuDevicePrimaryCtxRetain</code>为每个设备设置context，不再手工管理context，并且不提供直接管理context的API。</p>
+</li>
+<li><p>任何依赖CUcontext的API被调用时，会触发CUcontext的创建和对设备的绑定。</p>
+<ul>
+<li>此后任何API调用时，会以设备id为基准，调取绑定好的CUcontext。</li>
+<li>这种模式被称为懒加载模式，避免了手动维护CUcontext的麻烦。</li>
 </ul>
 </li>
-<li><p>简单了解显卡相关概念：</p>
-<ul>
-<li>显卡：GPU</li>
-<li>显卡驱动：驱动软件，类比声卡驱动，摄像头驱动；</li>
-<li>GPU架构：gpu架构指的是硬件的设计方式，例如是否有L1 or L2缓存；</li>
-<li>CUDA: 其中一种理解是它是一种编程语言（像c++,python等，只不过它是专门用来操控GPU的）；</li>
-<li>cudnn: 这个其实就是一个专门为深度学习计算设计的软件库，里面提供了很多专门的计算函数；</li>
-<li>CUDAToolkit：这是我们真正需要首先安装的工具包，所谓的装cuda首先指的是它；它里面包含了许多库，例如：cudart, cublas等；</li>
-<li>其他涉及到的知识有nvcc与nvidia-smi, 多个 cuda 版本之间进行切换, cuda的安装等；详细请参考: <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/91334380">https://zhuanlan.zhihu.com/p/91334380</a></li>
 </ul>
 </li>
-<li><p>cuda-driver-api 与 cuda-runtime-api</p>
+<li><p>cuda的状态返回值，都是<code>cudaError_t</code>类型，通过check宏捕获状态并处理是一种通用方式。</p>
 <ul>
-<li>CUDA Driver与CUDA Runtime相比更偏底层，就意味着Driver API有着更灵活的控制，也伴随着更复杂的编程。</li>
-<li>因此CUDA driver需要做显式的初始化<code>cuInit(0)</code>，否则其他API都会返回<code>CUDA_ERROR_NOT_INITIALIZED</code></li>
-<li>经过初始化后驱动和显卡的信息可以轻松获取：</li>
+<li>官方案例采用宏，并非本例程序里的函数加宏。</li>
+<li>函数加宏具有更加好的便利性 。</li>
 </ul>
 </li>
 </ol>
-<ul>
-<li>驱动版本管理 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/archive/11.2.0/cuda-driver-api/group__CUDA__VERSION.html#group__CUDA__VERSION">https://docs.nvidia.com/cuda/archive/11.2.0/cuda-driver-api/group__CUDA__VERSION.html#group__CUDA__VERSION</a><ul>
-<li>设备信息管理 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/archive/11.2.0/cuda-driver-api/group__CUDA__DEVICE.html">https://docs.nvidia.com/cuda/archive/11.2.0/cuda-driver-api/group__CUDA__DEVICE.html</a></li>
-<li>CUDA的在线文档地址<ol>
-<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/cuda-toolkit-archive">https://developer.nvidia.com/cuda-toolkit-archive</a></li>
-<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/archive/11.2.0/">https://docs.nvidia.com/cuda/archive/11.2.0/</a></li>
+<h3 id="2-内存"><a href="#2-内存" class="headerlink" title="2. 内存"></a>2. 内存</h3><ol>
+<li>关于内存模型，请参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1jX4y1w7Um">https://www.bilibili.com/video/BV1jX4y1w7Um</a><ul>
+<li>内存大体可分为<ul>
+<li>主机内存：Host Memory，也就是CPU内存，内存；</li>
+<li>设备内存：Device Memory，也就是GPU内存，显存；<ul>
+<li>设备内存又分为（括号里的数字表示到计算芯片的距离）：<ul>
+<li>寄存器内存(1)：Register Memory</li>
+<li>纹理内存(2)：Texture Memory</li>
+<li>共享内存(2)：Shared Memory</li>
+<li>常量内存(2)：Constant Memory</li>
+<li>全局内存(3)：Global Memory</li>
+<li>本地内存(3)：Local Memory</li>
+</ul>
+</li>
+<li><strong>距离计算芯片越近，计算速度就越快</strong>，空间越小，价格越贵。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>通过<code>cudaMalloc</code>分配GPU内存，分配到setDevice指定的当前设备上。</li>
+<li>通过<code>cudaMallocHost</code>分配page locked memory，即pinned memory，页锁定内存。<ul>
+<li>页锁定内存是主机内存，CPU可以直接访问。</li>
+<li>页锁定内存也可以被GPU直接访问，使用DMA（Direct Memory Access）技术。<ul>
+<li>注意这么做的性能会比较差，因为主机内存距离GPU太远，隔着PCIE等，不适合大量数据传输。</li>
+</ul>
+</li>
+<li>页锁定内存是物理内存，过度使用会导致系统性能低下（导致虚拟内存等一系列技术变慢）。</li>
+</ul>
+</li>
+<li>内存拷贝：<code>cudaMemcpy</code><ul>
+<li>如果host不是页锁定内存，则：<ul>
+<li><p>Device To Host的过程，等价于：</p>
+<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">pinned = cudaMallocHost // 创建锁页内存
+copy Device to pinned	// 拷贝Device数据到pinned
+copy pinned to Host		// 拷贝pinned数据到Host
+free pinned				// 释放内存<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>Host To Device的过程，等价于：</p>
+<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">pinned = cudaMallocHost	// 创建锁页内存
+copy Host to pinned		// 拷贝Host数据到pinned
+copy pinned to Device	// 拷贝pinned数据到Device
+free pinned				// 释放内存<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+<li>如果host是页锁定内存，则：<ul>
+<li>Device To Host的过程，等价于：copy Device to Host</li>
+<li>Host To Device的过程，等价于：copy Host to Device</li>
+</ul>
+</li>
+</ul>
+</li>
 </ol>
-</li>
+<h3 id="3-流"><a href="#3-流" class="headerlink" title="3. 流"></a>3. 流</h3><ol>
+<li>stream是一个流句柄，可以当做是一个队列。<ul>
+<li>cuda执行器从 stream 中一条条的读取指令并执行；如<code>cudaMemcpyAsync</code>函数等同于向stream这个队列中加入一个cudaMemcpy指令并排队；</li>
+<li>使用到stream的函数，在向stream中加入指令后立即返回，并不会等待指令执行结束；</li>
+<li>通过<code>cudaStreamSynchronize</code>函数，等待stream中所有指令执行完毕，也就是队列为空，即同步操作。</li>
 </ul>
 </li>
+<li>当使用stream时，注意：<strong>由于异步函数会立即返回，因此传递进入的参数要考虑其生命周期，应确认函数调用结束后再做释放</strong>。</li>
+<li>还可以向stream中加入Event，用以监控是否到达了某个检查点，具体流程：<ul>
+<li><code>cudaEventCreate</code>，创建事件;</li>
+<li><code>cudaEventRecord</code>，记录事件；在stream中加入某个事件，当队列执行到该事件后，修改其状态;</li>
+<li><code>cudaEventQuery</code>，查询事件当前状态；</li>
+<li><code>cudaEventElapsedTime</code>，计算两个事件之间经历的时间间隔，若要统计某些核函数执行时间，请使用这个函数，能够得到最准确的统计；</li>
+<li><code>cudaEventSynchronize</code>，同步某个事件，等待事件到达；</li>
+<li><code>cudaStreamWaitEvent</code>，等待流中的某个事件；</li>
 </ul>
-<h3 id="2-使用宏定义来检查是否有做cuda初始化"><a href="#2-使用宏定义来检查是否有做cuda初始化" class="headerlink" title="2. 使用宏定义来检查是否有做cuda初始化"></a>2. 使用宏定义来检查是否有做cuda初始化</h3><ol>
-<li>CUDA driver需要做显式的初始化<code>cuInit(0)</code>，否则其他API都会返回<code>CUDA_ERROR_NOT_INITIALIZED</code>;</li>
-<li>采用宏定义可以在每次调用API前都检查初始化;</li>
-<li>采用封装带参宏定义使代码更清晰、好调试，养成一种良好的编码习惯也是很重要！</li>
+</li>
+<li>默认流，对于cudaMemcpy等同步函数，其等价于执行了：<ul>
+<li><code>cudaMemcpyAsync</code>(… 默认流) 加入队列；</li>
+<li><code>cudaStreamSynchronize</code>(默认流) 等待执行完成；</li>
+<li>默认流与当前设备上下文类似，是与当前设备进行的关联。因此，如果大量使用默认流，会导致性能低下。</li>
+</ul>
+</li>
 </ol>
-<h3 id="3-context的概念和使用方法"><a href="#3-context的概念和使用方法" class="headerlink" title="3. context的概念和使用方法"></a>3. context的概念和使用方法</h3><ol>
-<li><p>设备与特定进程相关连的所有状态。比如，写的一段kernel code对GPU的使用会造成不同状态（内存映射、分配、加载的code），Context则保存着所有的管理数据来控制和使用设备。</p>
-<ul>
-<li>gpu 的 context 相当于 cpu 的 program，一块gpu上可以有多个contexts，但是它们之间是相互隔离的。建议一块设备就一个context。参考：<a target="_blank" rel="noopener" href="https://dragan.rocks/articles/18/Interactive-GPU-Programming-3-CUDA-Context">https://dragan.rocks/articles/18/Interactive-GPU-Programming-3-CUDA-Context</a></li>
-</ul>
-</li>
-<li><p>上下文管理可以干的事儿：</p>
-<ul>
-<li>持有分配的内存列表；</li>
-<li>持有加载进该设备的kernel code</li>
-<li>cpu与gpu之间的unified memory</li>
-</ul>
-</li>
-<li><p>如何管理上下文：</p>
+<h3 id="4-核函数"><a href="#4-核函数" class="headerlink" title="4. 核函数"></a>4. 核函数</h3><p>cu文件可以当做正常cpp写即可，它是cpp的超集，兼容支持cpp的所有特性。</p>
 <ol>
-<li>在cuda driver同样需要显式管理上下文<ul>
-<li>开始时<code>cuCtxCreate()</code>创建上下文，结束时<code>cuCtxDestroy</code>销毁上下文。像文件管理一样须手动开关。用<code>cuDevicePrimaryCtxRetain()</code>创建上下文更好！</li>
-<li><code>cuCtxGetCurrent()</code>获取当前上下文；</li>
-<li>可以使用堆栈管理多个上下文<code>cuCtxPushCurrent()</code>压入，<code>cuCtxPopCurrent()</code>推出；</li>
-<li>对ctxA使用<code>cuCtxPushCurrent()</code>和<code>cuCtxCreate()</code>都相当于将ctxA放到栈顶（让它成为current context）</li>
-</ul>
-</li>
-<li>cuda runtime可以自动创建，是基于<code>cuDevicePrimaryCtxRetain()</code>创建的。</li>
-</ol>
-</li>
-</ol>
-<h3 id="4-内存分配"><a href="#4-内存分配" class="headerlink" title="4. 内存分配"></a>4. 内存分配</h3><ol>
-<li><p>统一内存(Unified addressing) ；</p>
-</li>
-<li><p>分配线性内存<code>cuMemAlloc()</code>：</p>
+<li><p>cu文件中引入的一些新的符号和语法：</p>
 <ul>
-<li><p>线性内存：线性内存被组织在单个连续的地址空间中，可以直接以及线性地访问这些内存位置。</p>
-</li>
-<li><p>内存分配空间以字节为大小，并返回所分配的内存地址</p>
-</li>
-</ul>
-</li>
-<li><p>分配主机锁页内存<code>cuMemAllocHost()</code>:</p>
+<li><p><code>__global__</code>标记，核函数标记，调用方必须是host，返回值必须是void；</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">__global__ <span class="token keyword">void</span> <span class="token function">kernel</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">float</span><span class="token operator">*</span> pdata<span class="token punctuation">,</span> <span class="token keyword">int</span> ndata<span class="token punctuation">)</span>
+
+<span class="token comment">// 调用方式，"&lt;&lt;&lt; >>>"参数类型是：&lt;&lt;&lt;dim3 gridDim, dim3 blockDim, size_t bytesSharedMemorySize, cudaStream_t stream>>></span>
+kernel<span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span>gridDim<span class="token punctuation">,</span> blockDim<span class="token punctuation">,</span> bytesSharedMemorySize<span class="token punctuation">,</span> stream<span class="token operator">>></span><span class="token operator">></span><span class="token punctuation">(</span>pdata<span class="token punctuation">,</span> ndata<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
 <ul>
-<li>参考：<a target="_blank" rel="noopener" href="https://leimao.github.io/blog/Page-Locked-Host-Memory-Data-Transfer/">https://leimao.github.io/blog/Page-Locked-Host-Memory-Data-Transfer/</a></li>
-<li>参考：<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=p9yZNLeOj4s">https://www.youtube.com/watch?v=p9yZNLeOj4s</a></li>
+<li>其中gridDim, blockDim, bytesSharedMemory, stream是线程layout参数；</li>
+<li>gridDim 与 blockDim 都是 <code>dim3</code> 类型，<code>dim3</code>有构造函数<code>dim3(int x, int y=1, int z=1)</code>，因此当直接赋值为int时，实则定义了<code>dim.x = value, dim.y = 1, dim.z = 1</code></li>
+<li>如果指定了stream，则把核函数加入到stream中异步执行；pdata和ndata则是核函数的函数调用参数；</li>
+<li>核函数调用参数必须传值，不能传引用，参数可以是类类型等；</li>
+<li>核函数执行时无论stream是否为nullptr，都将是异步执行；</li>
+<li>因此在核函数中进行printf操作时，必须进行等待，例如<code>cudaDeviceSynchronize</code>、或者<code>cudaStreamSynchronize</code>，否则将无法看到打印的信息。</li>
 </ul>
-<ol>
-<li>锁页内存：</li>
-</ol>
+</li>
+<li><p><code>__device__</code>标记，设备调用的函数，调用方必须是device。</p>
+</li>
+<li><p><code>__host__</code>标记，主机调用函数，调用方必须是主机；也可以<code>__device__</code> <code>__host__</code>两个标记同时有，表明该函数可以设备也可以主机。</p>
+</li>
+<li><p><code>__constant__</code>标记，定义常量内存。</p>
+</li>
+<li><p><code>__shared__</code>标记，定义共享内存。</p>
+</li>
+<li><p>通过cudaPeekAtLastError&#x2F;cudaGetLastError函数，捕获核函数是否出现错误或者异常。</p>
+</li>
+<li><p>内存索引的计算公式</p>
+</li>
+</ul>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> position <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword">for</span> i in <span class="token function">range</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">:</span>
+    position <span class="token operator">*=</span> dims<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+    position <span class="token operator">+=</span> indexs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>buildin变量，内置变量。</p>
 <ul>
-<li>定义：页面不允许被调入调出的叫锁页内存，反之叫可分页内存；<ul>
-<li>优点：快；</li>
-<li>a. 设备可以直接访问内存，与可分页内存相比，它的读写带宽要高得多；</li>
-<li>b. 驱动程序会跟踪使用<code>cuMemAllocHost()</code>分配的虚拟内存范围，并自动加速对<code>cuMemcpy()</code>等函数的调用；</li>
-<li>使用注意：分配过多锁业内存会减少系统可用于分页的内存量，可能会降低系统性能。因此，在主机和设备之间为数据交换分配临时区域时，最好少用此功能。</li>
+<li>所有核函数都可以访问，其取值由执行器维护和改变；</li>
+<li>gridDim[x, y, z]：网格维度，线程布局的大小，在核函数启动时指定；</li>
+<li>blockDim[x, y, z]：块维度，线程布局的大小，在核函数启动时指定；</li>
+<li>blockIdx[x, y, z]：块索引，对应最大值为gridDim，由执行器根据当前执行的线程进行赋值，核函数内访问时已经被配置好；</li>
+<li>threadIdx[x, y, z]：线程索引，对应最大值是blockDim，由执行器根据当前执行的线程进行赋值，核函数内访问时已经被配置好；</li>
+<li>Dim是固定的，启动后不会改变，并且是Idx的最大值；</li>
+<li>每个Dim都具有x、y、z三个维度，分别以z、y、x为高低顺序。</li>
+</ul>
+</li>
+<li><p>thread, grid, block 和 threadIdx</p>
+<ul>
+<li><p>如果假设一个Grid相当于一个立方体，如图所示:</p>
+<img src="/2024/05/31/cuda-runtime-basic/organization-of-threads.jpg" class="" title="Grids"> 
+<p>图为一个gridDim[2, 2, 2]的girds，每一个小立方体为一个block，图中的block为blockDim[6, 6, 3]，其中绿色位置的小方块则代表一个block中的thread；</p>
+</li>
+<li><p>threadIdx表示的含义为thread的1D idx，所以先确定知道在第几个block里，再确定在这个block里的第几个thread。</p>
+</li>
+<li><p>一个核函数只能有一个grid，一个grid可以有很多个block，每个block可以有很多的线程。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="5-layout"><a href="#5-layout" class="headerlink" title="5. layout"></a>5. layout</h3><ol>
+<li>layout是设置核函数执行的线程数，包括最大线程数、每个块的最大线程数、 以及warp的大小。 <ul>
+<li>maxGridSize对应gridDim的取值最大值；</li>
+<li>maxThreadsDim对应blockDim的取值最大值；</li>
+<li>warpSize对应线程束中的线程数量；</li>
+<li>maxThreadsPerBlock对应blockDim元素乘积最大值；</li>
+</ul>
+</li>
+<li>layout的4个主要变量的关系：<ul>
+<li>gridDim是layout维度，其对应的索引是blockIdx，blockIdx最大值为 [0, gridDim-1]。</li>
+<li>blockDim是layout维度，其对应的索引是threadIdx，threadIdx最大值为 [0, blockDim-1]，blockDim维度乘积必须小于等于maxThreadsPerBlock。</li>
+<li>gridDim、blockDim为维度，启动核函数后是固定的；</li>
+<li>blockIdx、threadIdx为索引，启动核函数后，枚举每一个维度值，不同线程取值不同。</li>
+</ul>
+</li>
+<li>核函数启动时，&lt;&lt;&lt;&gt;&gt;&gt;的参数分别为：&lt;&lt;&lt;gridDim, blockDim, shraed_memory_size, cudaStream_t&gt;&gt;&gt;，shared_memory_size为共享内存（shared memory）大小。</li>
+<li>对于一维数组时，通常只定义layout的x维度，若处理的是二维，则可以考虑定义x、y维度，如单通道图像。</li>
+</ol>
+<h3 id="6-共享内存"><a href="#6-共享内存" class="headerlink" title="6. 共享内存"></a>6. 共享内存</h3><ol>
+<li><p><code>sharedMemPerBlock</code> 为block中最大可用的共享内存，可以利用共享内存使得 block 内的threads相互通信。</p>
+<img src="/2024/05/31/cuda-runtime-basic/example.jpg" class="" title="sharedMemPerBlock 的应用案例"> 
+</li>
+<li><p>共享内存是片上内存，更靠近计算单元，因此比globalMem速度更快，通常可以充当缓存使用。</p>
+<ul>
+<li>数据先读入到sharedMem，做各类计算时，使用sharedMem而非globalMem</li>
+</ul>
+</li>
+<li><p><code>demo_kernel&lt;&lt;&lt;1, 1, 12, nullptr&gt;&gt;&gt;()</code>；其中第三个参数12，是指定动态共享内存dynamic_shared_memory的大小，单位是bytes，也就是说可以安全存放3个float。</p>
+<ul>
+<li>dynamic_shared_memory变量必须使用 <code>extern __shared__</code>开头；</li>
+<li>并且定义为不确定大小的数组 <code>[]</code>；</li>
+<li>变量在函数外部与内部定义效果都一样；</li>
+<li>其指针由cuda调度器执行时赋值；</li>
+</ul>
+</li>
+<li><p>static_shared_memory作为静态分配的共享内存。</p>
+<ul>
+<li>不加extern，以<code>__shared__</code>开头；</li>
+<li>定义时需要明确数组的大小；</li>
+<li>静态分配的地址比动态分配的地址低；</li>
+</ul>
+</li>
+<li><p>动态共享变量，无论定义多少个，地址都一样。</p>
+</li>
+<li><p>静态共享变量，定义几个地址随之叠加。</p>
+</li>
+<li><p>如果配置的各类共享内存总和大于<code>sharedMemPerBlock</code>，则核函数执行出错，<code>Invalid argument</code></p>
+<ul>
+<li>不同类型的静态共享变量定义，其内存划分并不一定是连续的；</li>
+<li>中间会有内存对齐策略，使得第一个和第二个变量之间可能存在空隙；</li>
+<li>因此如果变量之间存在空隙，可能小于全部大小的共享内存时就会报错。</li>
+</ul>
+</li>
+</ol>
+<h3 id="7-atomic"><a href="#7-atomic" class="headerlink" title="7. atomic"></a>7. atomic</h3><ol>
+<li>atomicAdd是原子加法，同类型原子操作有很多，如原子减法等；</li>
+<li>输出的数组需要预先分配空间，如[cuda-runtime-api-9-atomic.cpp][]的：output_capacity；</li>
+<li>最后统计结果的时候记得取min，int output_size &#x3D; min(output_host[0], output_capacity)；<ul>
+<li>因为核函数中，add的次数可能会超过capacity大小，导致后续访问越界的发生；</li>
+</ul>
+</li>
+<li>输出的数组可能会乱序，即不同执行时刻结果不同。这是因为cuda是并行的，调度顺序不确定；<ul>
+<li>因此capacity一定要比预期的最大值大一些，才可能保证结果不会丢失；</li>
+<li>可以通过储存index，然后在cpu上执行一次排序，实现有序输出；</li>
+</ul>
+</li>
+<li>此类型的代码实现是模型后处理的关键，是处理动态数组的关键。</li>
+</ol>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">float</span> <span class="token operator">*</span>parray <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+<span class="token function">checkRuntime</span><span class="token punctuation">(</span><span class="token function">cudaMalloc</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>output_device<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1000</span> <span class="token operator">*</span> <span class="token number">7</span> <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// parray 是这样的数据格式：[count, box1, box2, ……]，count 为 int，box1 为 yolo 检测结果的结构体；</span>
+<span class="token comment">// atomicAdd(parray, 1) 的操作相当于是 count += 1, 但是返回的是没有 +1 之前的 old_count;</span>
+<span class="token keyword">int</span> idx <span class="token operator">=</span> <span class="token function">atomicAdd</span><span class="token punctuation">(</span>parray<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="8-仿射变换"><a href="#8-仿射变换" class="headerlink" title="8. 仿射变换"></a>8. 仿射变换</h3><ol>
+<li><p>仿射变换+双线性插值，在CV场景下，解决图像预处理是非常合适的。如Yolo的letterbox，实则是边缘填充；CenterNet的居中对齐；</p>
+</li>
+<li><p>在仿射核函数里，循环的次数为dst.width * dst.height，以dst为参照集；因此，无论src多大，dst固定的话，计算量也是固定的。</p>
+</li>
+<li><p>仿射变换的公式推导。</p>
+<ul>
+<li><p>旋转变换：<br>$$<br>\begin{bmatrix} x’ \\ y’ \end{bmatrix} &#x3D; \begin{bmatrix} cos(\theta) &amp; sin(\theta) \\ -sin(\theta) &amp; cos(\theta) \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix}<br>$$</p>
+</li>
+<li><p>缩放变换：<br>$$<br>\begin{bmatrix} x’ \\ y’ \end{bmatrix} &#x3D; \begin{bmatrix} scale_x &amp; 0 \\ 0 &amp; scale_y \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix}<br>$$</p>
+</li>
+<li><p>平移变换：<br>$$<br>\begin{bmatrix} x’ \\ y’ \end{bmatrix} &#x3D; \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} + \begin{bmatrix} \Delta x \\ \Delta y \end{bmatrix}<br>$$</p>
+</li>
+<li><p>旋转 + 缩放：<br>$$<br>\begin{bmatrix} x’ \\ y’ \end{bmatrix} &#x3D; \begin{bmatrix} cos(\theta)*scale_x  &amp; sin(\theta)*scale_y \\ -sin(\theta)*scale_x &amp; cos(\theta)*scale_y \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix}<br>$$</p>
+</li>
+<li><p>旋转 + 缩放 + 平移：<br>$$<br>\begin{bmatrix} x’ \\ y’ \\ z’ \end{bmatrix} &#x3D; \begin{bmatrix} cos(\theta)*scale_x  &amp; sin(\theta)*scale_y &amp; \Delta x \\ -sin(\theta)*scale_x &amp; cos(\theta)*scale_y &amp; \Delta y \\ 0 &amp; 0 &amp; 1 \end{bmatrix} \begin{bmatrix} x \\ y \\ 1 \end{bmatrix}<br>$$</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="9-thrust特性"><a href="#9-thrust特性" class="headerlink" title="9. thrust特性"></a>9. thrust特性</h3><ol>
+<li>thrust是cuda开发的，基于cuda的stl库。</li>
+<li>对于thrust中的lambda表达式，需要增加__device__标记表明函数可以被核函数调用；由于使用到了device vector，因此编译环境需要修改为nvcc编译，且cpp文件要改为cu文件；此时需要在xmake中添加nvcc工具链，具体可参考<a target="_blank" rel="noopener" href="https://xmake.io/#/zh-cn/guide/configuration?id=%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E9%93%BE">自定义工具链</a></li>
+<li>内存的复制和分配，被cuda封装。</li>
+</ol>
+<h3 id="10-error"><a href="#10-error" class="headerlink" title="10. error"></a>10. error</h3><ol>
+<li>由于cuda核函数是异步执行，如果cuda核函数出错，立即执行<code>cudaPeekAtLastError</code>时只会拿到对输入参数校验是否正确的状态，而不会拿到核函数是否执行正确的状态，所以此时拿到的状态码为：<code>no error</code>。</li>
+<li>因此一般等待核函数执行完毕后，才可以知道当前核函数是否出错，一般通过设备同步或者流同步进行等待。</li>
+<li>错误分为可恢复和不可恢复两种：<ul>
+<li>可恢复：<ul>
+<li>参数配置错误等，例如block越界（一般最大值是1024），shared memory大小超出范围（一般是48KB）；</li>
+<li>通过cudaGetLastError可以获取错误代码，同时把当前状态恢复为success；</li>
+<li>该错误在调用核函数后可以立即通过cudaGetLastError&#x2F;cudaPeekAtLastError拿到；</li>
+<li>该错误在下一个函数调用的时候会覆盖；</li>
+</ul>
+</li>
+<li>不可恢复：<ul>
+<li>核函数执行错误，例如访问越界等等异常；</li>
+<li>该错误则会传递到之后的所有cuda操作上；</li>
+<li>错误状态通常需要等到核函数执行完毕才能够拿到，也就是有可能在后续的任何流程中突然异常（因为是异步的）。</li>
 </ul>
 </li>
 </ul>
-<ol start="2">
-<li>这里是从主机分配内存，因此不是输入device prt的地址，而是一个主机的二级地址。</li>
-</ol>
-</li>
-<li><p>内存的初始化<code>cuMemsetD32(CUdeviceptr dstDevice, unsigned int  ui, size_t N)</code>, 将N个32位值的内存范围设置为指定的值ui。</p>
-</li>
-<li><p>内存的释放<code>cuMemFreeHost()</code>: 有借有还 再借不难~</p>
 </li>
 </ol>
-<p><strong>声明</strong>: 本文部分内容来源于网络，如有侵权请联系删除。 </p>
 
                 
             </div>
@@ -565,7 +741,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://shao-junliang.github.io/2024/05/29/cuda-driver-basic/">http://shao-junliang.github.io/2024/05/29/cuda-driver-basic/</a>
+                    <a href="http://shao-junliang.github.io/2024/05/31/cuda-runtime-basic/">http://shao-junliang.github.io/2024/05/31/cuda-runtime-basic/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -607,8 +783,8 @@
                                     <span class="chip bg-color">CUDA</span>
                                 </a>
                             
-                                <a href="/tags/TensorRT/">
-                                    <span class="chip bg-color">TensorRT</span>
+                                <a href="/tags/tensorRT/">
+                                    <span class="chip bg-color">tensorRT</span>
                                 </a>
                             
                         </div>
@@ -653,7 +829,7 @@
         repo: 'Shao-junliang.github.io',
         owner: 'Shao-junliang',
         admin: "Shao-junliang",
-        id: '2024-05-29T15-54-12',
+        id: '2024-05-31T13-41-13',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -681,9 +857,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2024/05/31/cuda-runtime-basic/">
                     <div class="card-image">
@@ -701,9 +878,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-05-31
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-31
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -712,6 +889,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -734,24 +912,24 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/05/13/camera-capture-stream/">
+                <a href="/2024/05/29/cuda-driver-basic/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="摄像头取流">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="TensorRT课程笔记（1）">
                         
-                        <span class="card-title">摄像头取流</span>
+                        <span class="card-title">TensorRT课程笔记（1）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            摄像头图像获取的几种方式
+                            TensorRT课程笔记-系列一：cuda-driver-api
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-13
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-29
                             </span>
                         <span class="publish-author">
                             
@@ -764,12 +942,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/c/">
-                        <span class="chip bg-color">c++</span>
+                    <a href="/tags/CUDA/">
+                        <span class="chip bg-color">CUDA</span>
                     </a>
                     
-                    <a href="/tags/%E6%91%84%E5%83%8F%E5%A4%B4%E5%8F%96%E6%B5%81/">
-                        <span class="chip bg-color">摄像头取流</span>
+                    <a href="/tags/TensorRT/">
+                        <span class="chip bg-color">TensorRT</span>
                     </a>
                     
                 </div>
