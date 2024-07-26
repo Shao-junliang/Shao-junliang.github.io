@@ -4,27 +4,6 @@
   
     
     <entry>
-      <title>TensorRT课程笔记（4）</title>
-      <link href="/2024/07/25/cuda-tensorrt-senior/"/>
-      <url>/2024/07/25/cuda-tensorrt-senior/</url>
-      
-        <content type="html"><![CDATA[<h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>本篇文章程序链接：</p>]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> CUDA </tag>
-            
-            <tag> TensorRT </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>TensorRT课程笔记（3）</title>
       <link href="/2024/06/17/cuda-tensorrt-basic/"/>
       <url>/2024/06/17/cuda-tensorrt-basic/</url>
