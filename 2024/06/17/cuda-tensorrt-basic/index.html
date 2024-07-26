@@ -439,18 +439,23 @@
 
 <p> TensorRT 最终推理时需要一个 TensorRT Engine，这个 Engine 是由 TensorRT  Builder 构建，而 Builder 构建 Engine 时需要传入两个参数分别是：network, config；其中 network 是由 TensorRT Parser 解析的 ONNX 模型构建的。</p>
 <ol>
-<li>定义 builder, config 和network。<ul>
+<li><p>定义 builder, config 和network。</p>
+<ul>
 <li><code>createInferBuilder()</code> 创建 IBuilder 类的实例。</li>
 <li><code>createBuilderConfig()</code> 创建构建器配置对象。</li>
 <li><code>createNetworkV2</code> 创建网络定义对象。</li>
 </ul>
 </li>
-<li>设置模型结构、输入与输出信息。具体方法参考类：<code>INetworkDefinition</code>、<code>IBuilderConfig</code>；</li>
-<li>生成 Engine 模型文件。<ul>
+<li><p>直接构建：设置模型结构、输入与输出信息。具体方法参考类：<code>INetworkDefinition</code>、<code>IBuilderConfig</code>；</p>
+<p>ONNX导入：创建ONNX解析器 <code>createParser()</code>，通过 <code>parseFromFile()</code> 导入ONNX模型；</p>
+</li>
+<li><p>生成 Engine 模型文件。</p>
+<ul>
 <li><code>buildEngineWithConfig()</code> 为给定的 <code>network</code> 和 <code>config</code> 构建引擎。<code>buildEngineWithConfig()</code> 在 TensorRT 8.0 中已弃用，新的构建方法：<code>buildSerializedNetwork()</code>；</li>
 </ul>
 </li>
-<li>模型序列化：<code>serialize()</code> 将网络序列化为流<code>stream</code>，保存时直接保存<code>stream-&gt;data()</code>。</li>
+<li><p>模型序列化：<code>serialize()</code> 将网络序列化为流<code>stream</code>，保存时直接保存<code>stream-&gt;data()</code>。</p>
+</li>
 </ol>
 <p> 注意：builder、config等指针在结束时记得释放，否则会有内存泄漏，使用 <code>ptr-&gt;destroy()</code> 释放；<code>ptr-&gt;destroy()</code> 在 TRT 8.0 中已弃用，改用 <code>delete</code>。</p>
 </li>
@@ -1035,30 +1040,29 @@ c<span class="token punctuation">.</span>initializer<span class="token punctuati
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2024/06/17/cuda-tensorrt-basic/">
+                <a href="/2024/07/25/cuda-tensorrt-senior/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="TensorRT课程笔记（3）">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="TensorRT课程笔记（4）">
                         
-                        <span class="card-title">TensorRT课程笔记（3）</span>
+                        <span class="card-title">TensorRT课程笔记（4）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            TensorRT课程笔记-系列三：cuda-tensorrt-basic
+                            TensorRT课程笔记-系列四：cuda-tensorrt-senior
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-17
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-07-25
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1067,7 +1071,6 @@ c<span class="token punctuation">.</span>initializer<span class="token punctuati
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
