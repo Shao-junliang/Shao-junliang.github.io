@@ -451,7 +451,8 @@
 <ul>
 <li>创建ONNX解析器 <code>createParser()</code>，通过 <code>parseFromFile()</code> 导入ONNX模型；</li>
 <li>设置最大工作空间：<code>setMaxWorkspaceSize()</code>；</li>
-<li>设置优化配置文件：<code>createOptimizationProfile()</code> 创建，配置最小、最大、最优的输入范围，当模型有多个输入时，必须有多个 Profile；</li>
+<li>设置优化配置文件：<code>createOptimizationProfile()</code> 创建，配置最小、最大、最优的输入范围；</li>
+<li>添加到配置对象中 <code>addOptimizationProfile()</code>，当模型有多个输入时，必须有多个 profile；</li>
 </ul>
 </li>
 <li><p>生成 Engine 模型文件。</p>
