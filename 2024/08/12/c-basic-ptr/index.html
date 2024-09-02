@@ -401,14 +401,14 @@ int *ptr = &amp;#123;null">
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4k
+                    5.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    17 分
+                    24 分
                 </div>
                 
 
@@ -527,7 +527,7 @@ cout <span class="token operator">&lt;&lt;</span> <span class="token operator">*
 cout <span class="token operator">&lt;&lt;</span> p_data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>  <span class="token comment">// 0x7ffc0a7e47a4</span>
 cout <span class="token operator">&lt;&lt;</span> <span class="token operator">*</span>p_data <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span> <span class="token comment">// 10</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><ul>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><h4 id="概念与用法"><a href="#概念与用法" class="headerlink" title="概念与用法"></a>概念与用法</h4><ul>
 <li><p>引用变量是一个别名，相当于是某个已存在变量的另一个名字。</p>
 </li>
 <li><p>引用与指针的区别:</p>
@@ -574,6 +574,104 @@ std<span class="token double-colon punctuation">::</span>cout <span class="token
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
+<h4 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h4><ul>
+<li><p>概念</p>
+<p>右值引用（<code>Rvalue Reference</code>）是 C++11 引入的一种新的引用类型，使用 <code>&amp;&amp;</code> 语法表示。它可以绑定到临时对象（右值），例如字面常量、表达式的返回结果或者即将被销毁的对象。右值引用允许我们通过移动而不是拷贝的方式获取数据，减少不必要的资源消耗，提升程序性能。 </p>
+</li>
+<li><p>用法</p>
+<p>右值引用主要有两个用法：</p>
+<ul>
+<li><strong>移动语义（Move Semantics）</strong>：通过移动构造函数和移动赋值运算符，能够高效地转移资源（如内存、文件句柄等），避免昂贵的深拷贝操作。</li>
+<li><strong>完美转发（Perfect Forwarding）</strong>：通过模板函数，可以实现将参数原封不动地传递给另一个函数，既能保持参数的类型，也能保持参数的值类别（左值或右值）。</li>
+</ul>
+</li>
+<li><p>移动语义</p>
+<p>移动语义的引入是为了优化拷贝操作。在传统 C++ 中，赋值操作通常涉及对象的深拷贝，这在处理大数据结构或资源管理时代价高昂。右值引用通过<strong>移动构造函数</strong>和<strong>移动赋值运算符</strong>来避免这些开销。 </p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">&#123;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">int</span><span class="token operator">*</span> data<span class="token punctuation">;</span>
+    
+    <span class="token comment">// 构造函数</span>
+    <span class="token function">MyClass</span><span class="token punctuation">(</span>size_t size<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">int</span><span class="token punctuation">[</span>size<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Constructor: Resource allocated."</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 析构函数</span>
+    <span class="token operator">~</span><span class="token function">MyClass</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">delete</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Destructor: Resource deallocated."</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 拷贝构造函数</span>
+    <span class="token function">MyClass</span><span class="token punctuation">(</span><span class="token keyword">const</span> MyClass<span class="token operator">&amp;</span> other<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        data <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token operator">*</span>other<span class="token punctuation">.</span>data<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Copy Constructor: Deep copy performed."</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 移动构造函数</span>
+    <span class="token function">MyClass</span><span class="token punctuation">(</span>MyClass<span class="token operator">&amp;&amp;</span> other<span class="token punctuation">)</span> <span class="token keyword">noexcept</span> <span class="token punctuation">&#123;</span>
+        data <span class="token operator">=</span> other<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+        other<span class="token punctuation">.</span>data <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>  <span class="token comment">// 避免原对象的析构函数释放已转移的资源</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Move Constructor: Resource moved."</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 移动赋值运算符</span>
+    MyClass<span class="token operator">&amp;</span> <span class="token keyword">operator</span><span class="token operator">=</span><span class="token punctuation">(</span>MyClass<span class="token operator">&amp;&amp;</span> other<span class="token punctuation">)</span> <span class="token keyword">noexcept</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span> <span class="token operator">!=</span> <span class="token operator">&amp;</span>other<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">delete</span><span class="token punctuation">[</span><span class="token punctuation">]</span> data<span class="token punctuation">;</span>  <span class="token comment">// 释放已有资源</span>
+            data <span class="token operator">=</span> other<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+            other<span class="token punctuation">.</span>data <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>  <span class="token comment">// 防止释放已转移的资源</span>
+            std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Move Assignment Operator: Resource moved."</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> <span class="token operator">*</span><span class="token keyword">this</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><p><strong>移动构造函数</strong>：接受一个右值引用参数 <code>MyClass&amp;&amp;</code>，直接窃取（移动）资源，避免拷贝。</p>
+</li>
+<li><p><strong>移动赋值运算符</strong>：和移动构造函数类似，但需要先释放自身资源，再从另一个对象中移动资源。</p>
+</li>
+</ul>
+</li>
+<li><p>完美转发</p>
+<p>完美转发是指在模板函数中，将参数完整地传递给另一个函数，同时保留参数的类型（左值或右值）和原有的属性（如 <code>const</code>、<code>volatile</code>）。为此，C++11 引入了 <code>std::forward</code> 和 <code>std::move</code>。 </p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;utility></span>  <span class="token comment">// std::forward</span></span>
+
+<span class="token comment">// 接收右值引用并完美转发的模板函数</span>
+<span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token operator">></span>
+<span class="token keyword">void</span> <span class="token function">wrapper</span><span class="token punctuation">(</span>T<span class="token operator">&amp;&amp;</span> arg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 将参数完美转发给被调用的函数</span>
+    <span class="token function">callee</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span><span class="token generic-function"><span class="token function">forward</span><span class="token generic class-name"><span class="token operator">&lt;</span>T<span class="token operator">></span></span></span><span class="token punctuation">(</span>arg<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">callee</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">&amp;</span> x<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Lvalue reference: "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">callee</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">&amp;&amp;</span> x<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Rvalue reference: "</span> <span class="token operator">&lt;&lt;</span> x <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+    <span class="token function">wrapper</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 左值传递</span>
+    <span class="token function">wrapper</span><span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 右值传递</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>std::forward(arg)</code>：根据 <code>T</code> 的类型正确地转发参数。<code>T</code> 是左值引用时，<code>arg</code> 被转发为左值；<code>T</code> 是右值引用时，<code>arg</code> 被转发为右值。</p>
+<p><code>std::forward</code>：用于完美转发，根据传递给模板函数的参数类型，来正确地转发左值或右值。</p>
+<p><code>std::move</code>：简单地将一个左值强制转换为右值引用，不检查类型。</p>
+<p><code>std::move</code>：用于将一个对象显式转换为右值引用，使之适用于移动语义。</p>
+</li>
+<li><p>误区</p>
+<p><strong>误区 1：右值引用仅用于临时对象</strong>。实际上，右值引用用于所有临时对象以及可以“被窃取”的对象。</p>
+<p><strong>误区 2：右值引用总是比左值引用更高效</strong>。右值引用的高效依赖于具体场景和正确的实现，并非总是如此。</p>
+</li>
+</ul>
 <h3 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h3><p>与数据项相似，函数也有地址。函数的地址是存储其机器语言代码的内存的开始地址。</p>
 <h4 id="初始化与调用"><a href="#初始化与调用" class="headerlink" title="初始化与调用"></a>初始化与调用</h4><p>要再 <code>postProcess()</code> 函数里面调用 <code>NMS()</code> 函数，通常需要完成下面的工作：</p>
 <ol>
@@ -716,6 +814,65 @@ T <span class="token function">func</span><span class="token punctuation">(</spa
     <span class="token comment">// code</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
+<h4 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h4><ol>
+<li><p>概念与定义。</p>
+<p>可变参数的含义是：在函数传参的时候，参数的数量、类型都是可变的，不确定的。</p>
+<p>可变参数模板是支持任意数量和类型的参数的类模板或函数模板。要创建可变参数模板，需要理解几个要点：模板参数包、模板参数包、展开参数包；参考下例：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> _Args<span class="token operator">></span> 
+<span class="token keyword">void</span> <span class="token function">func</span><span class="token punctuation">(</span>_Args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> _args<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<ul>
+<li>在定义可变参数函数时，使用省略号 <code>...</code> 表示参数是可变的。</li>
+<li>其中 <code>_Args</code> 是一个模板参数包，<code>_args</code> 是一个函数参数包；</li>
+</ul>
+</li>
+<li><p>如何访问参数包的内容？</p>
+<p>访问参数包内容时，不能用 <code>_Args[idx]</code> 或者 <code>_args[idx]</code> 来访问第 <code>idx</code> 个类型或者参数，因为索引功能在此处不适用。可以通过递归或者数组来访问参数包内容。</p>
+<ul>
+<li><p>递归访问</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> _Args<span class="token operator">></span> 
+<span class="token keyword">void</span> <span class="token function">show_list</span><span class="token punctuation">(</span>_Args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> _args<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token function">show_list</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这样访问会报错，比如传入参数为：<code>show_list(3, &quot;hello&quot;, 3.33);</code> 如此会一直调用下去，陷入死循环，直至程序崩溃。应该改为这样：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token punctuation">,</span> <span class="token keyword">typename</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> _Args<span class="token operator">></span> 
+<span class="token keyword">void</span> <span class="token function">show_list</span><span class="token punctuation">(</span>T t<span class="token punctuation">,</span> _Args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> _args<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    cout <span class="token operator">&lt;&lt;</span> t <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+    <span class="token function">show_list</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">show_list</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这样改写之后，首先传入<code>show_list(3, &quot;hello&quot;, 3.33);</code> 其中 <code>t = 3, _args = (&quot;hello&quot;, 3.33)</code>，再次调用时则为 <code>show_list(&quot;hello&quot;, 3.33); </code>其中 <code>t = &quot;hello&quot;, _args = (3.33)</code>，最后当参数为空时，调用 <code>void show_list()&#123;&#125;</code> 函数结束循环。也可以定义打印参数的模板：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token operator">></span> 
+<span class="token keyword">void</span> <span class="token function">show_list</span><span class="token punctuation">(</span>T t<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    cout <span class="token operator">&lt;&lt;</span> t <span class="token operator">&lt;&lt;</span> endl<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span> <span class="token class-name">T</span><span class="token punctuation">,</span> <span class="token keyword">typename</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> _Args<span class="token operator">></span> 
+<span class="token keyword">void</span> <span class="token function">show_list</span><span class="token punctuation">(</span>T t<span class="token punctuation">,</span> _Args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> _args<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token function">show_list</span><span class="token punctuation">(</span>args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>通过数组获取所有参数</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">template</span> <span class="token operator">&lt;</span><span class="token keyword">typename</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> _Args<span class="token operator">></span>
+<span class="token keyword">int</span> <span class="token function">offset</span><span class="token punctuation">(</span><span class="token keyword">int</span> index<span class="token punctuation">,</span> _Args <span class="token operator">&amp;&amp;</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>_args<span class="token punctuation">)</span> <span class="token keyword">const</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">const</span> <span class="token keyword">int</span> index_array<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span>index<span class="token punctuation">,</span> _args<span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token function">offset_array</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">(</span>_args<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> index_array<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">offset_array</span><span class="token punctuation">(</span>size_t size<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">int</span> <span class="token operator">*</span>index_array<span class="token punctuation">)</span> <span class="token keyword">const</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><code>int index</code>：第一个参数是一个 <code>int</code> 类型的参数，命名为 <code>index</code>。<code>_Args&amp;&amp;... index_args</code>：这是一个函数参数包，<code>_Args</code> 是模板参数，<code>_Args&amp;&amp;...</code> 是其右值引用形式。该参数包名为 <code>index_args</code>，允许传入任意数量的参数，并将它们全部作为右值引用进行接收。</li>
+<li>定义了一个 <code>const int</code> 数组，数组元素由参数包 <code>index_args...</code> 展开填充，其中第一个元素为<code>index</code>。<code>index_args...</code> 会将所有传入的参数展开为一个逗号分隔的列表，最终结果是一个包含所有参数的 <code>int</code> 数组。 </li>
+<li><code>sizeof...()</code> 运算符可以返回参数包中的元素数量。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
 <h4 id="引用传参"><a href="#引用传参" class="headerlink" title="引用传参"></a>引用传参</h4><ul>
 <li>按值传参。</li>
 </ul>
@@ -1181,7 +1338,7 @@ type <span class="token function">add</span><span class="token punctuation">(</s
             
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">30.9k</span>
+                        class="white-color">32.5k</span>
             
             <br>
             <!-- 运行天数提醒. -->
