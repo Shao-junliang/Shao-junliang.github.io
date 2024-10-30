@@ -1,0 +1,1450 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="TensorRT课程笔记（4）, 暴躁小何的笔记">
+    <meta name="description" content="常见模型的预处理与后处理部分。">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>TensorRT课程笔记（4） | 暴躁小何的笔记</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">暴躁小何的笔记</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">暴躁小何的笔记</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/Shao-junliang" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/Shao-junliang" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">TensorRT课程笔记（4）</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/CUDA/">
+                                <span class="chip bg-color">CUDA</span>
+                            </a>
+                        
+                            <a href="/tags/TensorRT/">
+                                <span class="chip bg-color">TensorRT</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2024-07-25
+                </div>
+                
+
+                
+
+                <!-- lsj 3.25 在此处添加了文章作者信息 -->
+                
+                    <div class="info-break-policy">
+                        <i class="fa fa-user fa-fw"></i>作者:&nbsp;&nbsp;
+                        LSJune
+                    </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.4k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    12 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>本篇文章程序链接：</p>
+<p>上一节主要讲了模型的创建、加载与推理，本节主要是各个模型的预处理与后处理部分。</p>
+<h3 id="分类网络"><a href="#分类网络" class="headerlink" title="分类网络"></a>分类网络</h3><ul>
+<li><p>模型训练导出</p>
+<p>假设现在有个分类网络，如 <code>torchvision</code> 自带的预训练模型，模型具体结构：</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Classifier</span><span class="token punctuation">(</span>torch<span class="token punctuation">.</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>backbone <span class="token operator">=</span> torchvision<span class="token punctuation">.</span>models<span class="token punctuation">.</span>resnet18<span class="token punctuation">(</span>pretrained<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>  
+        
+    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        feature     <span class="token operator">=</span> self<span class="token punctuation">.</span>backbone<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+        probability <span class="token operator">=</span> torch<span class="token punctuation">.</span>softmax<span class="token punctuation">(</span>feature<span class="token punctuation">,</span> dim<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span> probability
+
+dummy <span class="token operator">=</span> torch<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">224</span><span class="token punctuation">,</span> <span class="token number">224</span><span class="token punctuation">)</span>
+torch<span class="token punctuation">.</span>onnx<span class="token punctuation">.</span>export<span class="token punctuation">(</span>model<span class="token punctuation">,</span> <span class="token punctuation">(</span>dummy<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"workspace/classifier.onnx"</span><span class="token punctuation">,</span> input_names<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"image"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> output_names<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"prob"</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+                  dynamic_axes<span class="token operator">=</span><span class="token punctuation">&#123;</span><span class="token string">"image"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">:</span> <span class="token string">"batch"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token string">"prob"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">:</span> <span class="token string">"batch"</span><span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> opset_version<span class="token operator">=</span><span class="token number">11</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>模型编译与加载，onnx模型的编译与加载在第三节已详细讲解，本节不再过多赘述。</p>
+</li>
+<li><p>数据预处理</p>
+<p>网络输入主要过程：加载图像 —&gt; 缩放 —&gt; 图像标准化 —&gt; cpu to gpu，具体过程封装成一个方法，适用于一般预处理流程：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">std<span class="token double-colon punctuation">::</span>pair<span class="token operator">&lt;</span><span class="token keyword">float</span> <span class="token operator">*</span><span class="token punctuation">,</span> <span class="token keyword">float</span> <span class="token operator">*</span><span class="token operator">></span> <span class="token function">preprocess</span><span class="token punctuation">(</span><span class="token keyword">int</span> b<span class="token punctuation">,</span> <span class="token keyword">int</span> c<span class="token punctuation">,</span> <span class="token keyword">int</span> w<span class="token punctuation">,</span> <span class="token keyword">int</span> h<span class="token punctuation">,</span> <span class="token keyword">const</span> cv<span class="token double-colon punctuation">::</span>Mat <span class="token operator">&amp;</span>img<span class="token punctuation">,</span> cudaStream_t stream<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>b <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> c <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> w <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> h <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span> img<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">return</span> std<span class="token double-colon punctuation">::</span><span class="token function">make_pair</span><span class="token punctuation">(</span><span class="token keyword">nullptr</span><span class="token punctuation">,</span> <span class="token keyword">nullptr</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+        
+    cv<span class="token double-colon punctuation">::</span>Mat <span class="token function">_img</span><span class="token punctuation">(</span>h<span class="token punctuation">,</span> w<span class="token punctuation">,</span> CV_8UC3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 图像缩放</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>img<span class="token punctuation">.</span>rows <span class="token operator">!=</span> h <span class="token operator">||</span> img<span class="token punctuation">.</span>cols <span class="token operator">!=</span> w<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        cv<span class="token double-colon punctuation">::</span><span class="token function">resize</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> _img<span class="token punctuation">,</span> cv<span class="token double-colon punctuation">::</span><span class="token function">Size</span><span class="token punctuation">(</span>w<span class="token punctuation">,</span> h<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        img<span class="token punctuation">.</span><span class="token function">copyTo</span><span class="token punctuation">(</span>_img<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token comment">// 初始化内存地址，分配内存</span>
+    <span class="token keyword">int</span> num <span class="token operator">=</span> b <span class="token operator">*</span> c <span class="token operator">*</span> w <span class="token operator">*</span> h<span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>in_data_host <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>in_data_device <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+    <span class="token function">cudaMallocHost</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>in_data_host<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span> <span class="token operator">*</span> num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">cudaMalloc</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>in_data_device<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span> <span class="token operator">*</span> num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 图像标准化，bgr to rgb，并且将img data 拷贝到开辟的内存上</span>
+    <span class="token keyword">int</span> _img_size <span class="token operator">=</span> w <span class="token operator">*</span> h<span class="token punctuation">;</span>
+    <span class="token keyword">float</span> mean<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0.406</span><span class="token punctuation">,</span> <span class="token number">0.456</span><span class="token punctuation">,</span> <span class="token number">0.485</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">float</span> std<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">0.225</span><span class="token punctuation">,</span> <span class="token number">0.224</span><span class="token punctuation">,</span> <span class="token number">0.229</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">unsigned</span> <span class="token keyword">char</span> <span class="token operator">*</span>pimg <span class="token operator">=</span> _img<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>_b <span class="token operator">=</span> in_data_host <span class="token operator">+</span> _img_size <span class="token operator">*</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>_g <span class="token operator">=</span> in_data_host <span class="token operator">+</span> _img_size <span class="token operator">*</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>_r <span class="token operator">=</span> in_data_host <span class="token operator">+</span> _img_size <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> _img_size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">,</span> pimg <span class="token operator">+=</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token operator">*</span>_r<span class="token operator">++</span> <span class="token operator">=</span> <span class="token punctuation">(</span>pimg<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">/</span> <span class="token number">255.0f</span> <span class="token operator">-</span> mean<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">/</span> std<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token operator">*</span>_g<span class="token operator">++</span> <span class="token operator">=</span> <span class="token punctuation">(</span>pimg<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">/</span> <span class="token number">255.0f</span> <span class="token operator">-</span> mean<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">/</span> std<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token operator">*</span>_b<span class="token operator">++</span> <span class="token operator">=</span> <span class="token punctuation">(</span>pimg<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">/</span> <span class="token number">255.0f</span> <span class="token operator">-</span> mean<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">/</span> std<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    <span class="token comment">// cpu to gpu</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>stream <span class="token operator">==</span> <span class="token keyword">nullptr</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">cudaMemcpyAsync</span><span class="token punctuation">(</span>in_data_device<span class="token punctuation">,</span> in_data_host<span class="token punctuation">,</span> num <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span><span class="token punctuation">,</span> cudaMemcpyHostToDevice<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">cudaMemcpyAsync</span><span class="token punctuation">(</span>in_data_device<span class="token punctuation">,</span> in_data_host<span class="token punctuation">,</span> num <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span><span class="token punctuation">,</span> cudaMemcpyHostToDevice<span class="token punctuation">,</span> stream<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> std<span class="token double-colon punctuation">::</span><span class="token function">make_pair</span><span class="token punctuation">(</span>in_data_host<span class="token punctuation">,</span> in_data_device<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p>数据后处理</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">float</span> <span class="token operator">*</span>prob <span class="token operator">=</span> output_data_host<span class="token punctuation">;</span>
+<span class="token keyword">int</span> predict_label <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">max_element</span><span class="token punctuation">(</span>prob<span class="token punctuation">,</span> prob <span class="token operator">+</span> num_classes<span class="token punctuation">)</span> <span class="token operator">-</span> prob<span class="token punctuation">;</span> <span class="token comment">// 确定预测分数最大值的下标</span>
+<span class="token keyword">auto</span> predict_name <span class="token operator">=</span> labels<span class="token punctuation">[</span>predict_label<span class="token punctuation">]</span><span class="token punctuation">;</span>	<span class="token comment">// labels 为解析后的类别数组</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h3 id="Yolov5推理"><a href="#Yolov5推理" class="headerlink" title="Yolov5推理"></a>Yolov5推理</h3><ul>
+<li><p><strong>数据预处理</strong>。预处理部分主要包括图像的缩放与归一化；</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">std<span class="token double-colon punctuation">::</span>pair<span class="token operator">&lt;</span>cv<span class="token double-colon punctuation">::</span>Mat<span class="token punctuation">,</span> cv<span class="token double-colon punctuation">::</span>Mat<span class="token operator">></span> <span class="token function">letterbox</span><span class="token punctuation">(</span><span class="token keyword">const</span> cv<span class="token double-colon punctuation">::</span>Mat <span class="token operator">&amp;</span>img<span class="token punctuation">,</span> <span class="token keyword">const</span> cv<span class="token double-colon punctuation">::</span>Size new_shape<span class="token punctuation">,</span> <span class="token keyword">const</span> cv<span class="token double-colon punctuation">::</span>Scalar color<span class="token punctuation">,</span> <span class="token keyword">float</span> <span class="token operator">*</span>d2i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// Scale ratio</span>
+    <span class="token keyword">float</span> scale <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">min</span><span class="token punctuation">(</span><span class="token punctuation">(</span>new_shape<span class="token punctuation">.</span>width <span class="token operator">/</span> <span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span>img<span class="token punctuation">.</span>cols<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span>new_shape<span class="token punctuation">.</span>height <span class="token operator">/</span> <span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span>img<span class="token punctuation">.</span>rows<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">float</span> i2d<span class="token punctuation">[</span><span class="token number">6</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment">/*
+     * [scale, 0] 控制的是缩放
+     * [0, scale]
+     * i2d[2] 与 i2d[5] 控制的是两次平移
+     */</span>
+    i2d<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> scale<span class="token punctuation">;</span> i2d<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    i2d<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">-</span>scale <span class="token operator">*</span> img<span class="token punctuation">.</span>cols <span class="token operator">+</span> new_shape<span class="token punctuation">.</span>width <span class="token operator">+</span> scale <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+    i2d<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i2d<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">=</span> scale<span class="token punctuation">;</span>
+    i2d<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token operator">-</span>scale <span class="token operator">*</span> img<span class="token punctuation">.</span>rows <span class="token operator">+</span> new_shape<span class="token punctuation">.</span>height <span class="token operator">+</span> scale <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+    cv<span class="token double-colon punctuation">::</span>Mat <span class="token function">m2x3_i2d</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> CV_32F<span class="token punctuation">,</span> i2d<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cv<span class="token double-colon punctuation">::</span>Mat <span class="token function">m2x3_d2i</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> CV_32F<span class="token punctuation">,</span> d2i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 反仿射变换，input_image to img 用的</span>
+    cv<span class="token double-colon punctuation">::</span><span class="token function">invertAffineTransform</span><span class="token punctuation">(</span>m2x3_i2d<span class="token punctuation">,</span> m2x3_d2i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cv<span class="token double-colon punctuation">::</span>Mat <span class="token function">input_image</span><span class="token punctuation">(</span>new_shape<span class="token punctuation">.</span>height<span class="token punctuation">,</span> new_shape<span class="token punctuation">.</span>width<span class="token punctuation">,</span> CV_8UC3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cv<span class="token double-colon punctuation">::</span><span class="token function">warpAffine</span><span class="token punctuation">(</span>img<span class="token punctuation">,</span> input_image<span class="token punctuation">,</span> m2x3_i2d<span class="token punctuation">,</span> input_image<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> cv<span class="token double-colon punctuation">::</span>INTER_LINEAR<span class="token punctuation">,</span> cv<span class="token double-colon punctuation">::</span>BORDER_CONSTANT<span class="token punctuation">,</span> color<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 此处返回 m2x3_d2i 是为了方便分割模型推理完后，将分割结果还原为原图尺寸</span>
+    <span class="token keyword">return</span> std<span class="token double-colon punctuation">::</span><span class="token function">make_pair</span><span class="token punctuation">(</span>input_image<span class="token punctuation">,</span> m2x3_d2i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+std<span class="token double-colon punctuation">::</span>tuple<span class="token operator">&lt;</span><span class="token keyword">float</span> <span class="token operator">*</span><span class="token punctuation">,</span> <span class="token keyword">float</span> <span class="token operator">*</span><span class="token operator">></span> <span class="token function">preprocess</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token double-colon punctuation">::</span>tuple<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">></span> input_shape<span class="token punctuation">,</span> <span class="token keyword">const</span> cv<span class="token double-colon punctuation">::</span>Mat <span class="token operator">&amp;</span>image<span class="token punctuation">,</span> <span class="token keyword">float</span> <span class="token operator">*</span>d2i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">auto</span> <span class="token punctuation">[</span>b<span class="token punctuation">,</span> c<span class="token punctuation">,</span> w<span class="token punctuation">,</span> h<span class="token punctuation">]</span> <span class="token operator">=</span> input_shape<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i_num <span class="token operator">=</span> b <span class="token operator">*</span> c <span class="token operator">*</span> w <span class="token operator">*</span> h<span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>input_data_host <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>input_data_device <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
+    <span class="token class-name">CTS</span><span class="token double-colon punctuation">::</span><span class="token function">checkRuntime</span><span class="token punctuation">(</span><span class="token function">cudaMallocHost</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>input_data_host<span class="token punctuation">,</span> i_num <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token class-name">CTS</span><span class="token double-colon punctuation">::</span><span class="token function">checkRuntime</span><span class="token punctuation">(</span><span class="token function">cudaMalloc</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>input_data_device<span class="token punctuation">,</span> i_num <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> res <span class="token operator">=</span> <span class="token class-name">CTS</span><span class="token double-colon punctuation">::</span><span class="token function">letterbox</span><span class="token punctuation">(</span>image<span class="token punctuation">,</span> cv<span class="token double-colon punctuation">::</span><span class="token function">Size</span><span class="token punctuation">(</span>w<span class="token punctuation">,</span> h<span class="token punctuation">)</span><span class="token punctuation">,</span> cv<span class="token double-colon punctuation">::</span><span class="token function">Scalar</span><span class="token punctuation">(</span><span class="token number">114</span><span class="token punctuation">,</span> <span class="token number">114</span><span class="token punctuation">,</span> <span class="token number">114</span><span class="token punctuation">)</span><span class="token punctuation">,</span> d2i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cv<span class="token double-colon punctuation">::</span>Mat input_image <span class="token operator">=</span> res<span class="token punctuation">.</span>first<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> img_size <span class="token operator">=</span> input_image<span class="token punctuation">.</span>cols <span class="token operator">*</span> input_image<span class="token punctuation">.</span>rows<span class="token punctuation">;</span>
+    <span class="token keyword">unsigned</span> <span class="token keyword">char</span> <span class="token operator">*</span>pimg <span class="token operator">=</span> input_image<span class="token punctuation">.</span>data<span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>phost_b <span class="token operator">=</span> input_data_host <span class="token operator">+</span> img_size <span class="token operator">*</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>phost_g <span class="token operator">=</span> input_data_host <span class="token operator">+</span> img_size <span class="token operator">*</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>phost_r <span class="token operator">=</span> input_data_host <span class="token operator">+</span> img_size <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> img_size<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">,</span> pimg <span class="token operator">+=</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token operator">*</span>phost_r<span class="token operator">++</span> <span class="token operator">=</span> pimg<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">/</span> <span class="token number">255.0f</span><span class="token punctuation">;</span>
+        <span class="token operator">*</span>phost_g<span class="token operator">++</span> <span class="token operator">=</span> pimg<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">/</span> <span class="token number">255.0f</span><span class="token punctuation">;</span>
+        <span class="token operator">*</span>phost_b<span class="token operator">++</span> <span class="token operator">=</span> pimg<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">/</span> <span class="token number">255.0f</span><span class="token punctuation">;</span>
+        <span class="token comment">/* YOLOX 的处理过程
+         * *phost_r++ = pimg[0];
+         * *phost_g++ = pimg[1];
+         * *phost_b++ = pimg[2];
+         */</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> std<span class="token double-colon punctuation">::</span><span class="token function">make_tuple</span><span class="token punctuation">(</span>input_data_host<span class="token punctuation">,</span> input_data_device<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>结果后处理</strong>。后处理主要包含 <code>NMS</code> 与结果还原到原图；</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">>></span> <span class="token function">nms</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">>></span> bboxes<span class="token punctuation">,</span> <span class="token keyword">float</span> nms_threshold<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 大于降序，小于升序</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">sort</span><span class="token punctuation">(</span>bboxes<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> bboxes<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">></span> <span class="token operator">&amp;</span>a<span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">></span> <span class="token operator">&amp;</span>b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token keyword">return</span> a<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span> <span class="token operator">></span> b<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">bool</span><span class="token operator">></span> <span class="token function">remove_flags</span><span class="token punctuation">(</span>bboxes<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">>></span> boxes_res<span class="token punctuation">;</span>
+    boxes_res<span class="token punctuation">.</span><span class="token function">reserve</span><span class="token punctuation">(</span>bboxes<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">auto</span> iou <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">></span> <span class="token operator">&amp;</span>a<span class="token punctuation">,</span> <span class="token keyword">const</span> std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">></span> <span class="token operator">&amp;</span>b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">float</span> cross_left <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> b<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> cross_top <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> b<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> cross_right <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">min</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> b<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> cross_bottom <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">min</span><span class="token punctuation">(</span>a<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> b<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">float</span> cross_area <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">0.0f</span><span class="token punctuation">,</span> cross_right <span class="token operator">-</span> cross_left<span class="token punctuation">)</span> <span class="token operator">*</span> std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">0.0f</span><span class="token punctuation">,</span> cross_bottom <span class="token operator">-</span> cross_top<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> union_area <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">0.0f</span><span class="token punctuation">,</span> a<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">-</span> a<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">0.0f</span><span class="token punctuation">,</span> a<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">-</span> a<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                           <span class="token operator">+</span> std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">0.0f</span><span class="token punctuation">,</span> b<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">-</span> b<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> std<span class="token double-colon punctuation">::</span><span class="token function">max</span><span class="token punctuation">(</span><span class="token number">0.0f</span><span class="token punctuation">,</span> b<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span> <span class="token operator">-</span> b<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                           <span class="token operator">-</span> cross_area<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>cross_area <span class="token operator">==</span> <span class="token number">0.0f</span> <span class="token operator">||</span> union_area <span class="token operator">==</span> <span class="token number">0.0f</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token keyword">return</span> <span class="token number">0.0f</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+        <span class="token keyword">return</span> cross_area <span class="token operator">/</span> union_area<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> bboxes<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>remove_flags<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token keyword">continue</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+        <span class="token keyword">auto</span> <span class="token operator">&amp;</span>ibox <span class="token operator">=</span> bboxes<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        boxes_res<span class="token punctuation">.</span><span class="token function">emplace_back</span><span class="token punctuation">(</span>ibox<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> bboxes<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token operator">++</span>j<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>remove_flags<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token keyword">continue</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+
+            <span class="token keyword">auto</span> <span class="token operator">&amp;</span>jbox <span class="token operator">=</span> bboxes<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>jbox<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span> <span class="token operator">==</span> ibox<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">iou</span><span class="token punctuation">(</span>ibox<span class="token punctuation">,</span> jbox<span class="token punctuation">)</span> <span class="token operator">>=</span> nms_threshold<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    remove_flags<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"boxes_res.size = %d\n"</span><span class="token punctuation">,</span> boxes_res<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> boxes_res<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">>></span> <span class="token function">postprocess</span><span class="token punctuation">(</span><span class="token keyword">float</span> <span class="token operator">*</span>output_data<span class="token punctuation">,</span> <span class="token keyword">int</span> numbox<span class="token punctuation">,</span> <span class="token keyword">int</span> numprob<span class="token punctuation">,</span> <span class="token keyword">int</span> numcls<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">float</span> <span class="token operator">*</span>d2i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>vector<span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">>></span> bboxes<span class="token punctuation">;</span>
+    <span class="token keyword">float</span> confidence_threshold <span class="token operator">=</span> <span class="token number">0.25</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> numbox<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">float</span> <span class="token operator">*</span>ptr <span class="token operator">=</span> output_data <span class="token operator">+</span> i <span class="token operator">*</span> numprob<span class="token punctuation">;</span>
+        <span class="token keyword">float</span> objness <span class="token operator">=</span> ptr<span class="token punctuation">[</span><span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>objness <span class="token operator">&lt;</span> confidence_threshold<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token keyword">continue</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+
+        <span class="token keyword">float</span> <span class="token operator">*</span>pclass <span class="token operator">=</span> ptr <span class="token operator">+</span> <span class="token number">5</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> label <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">max_element</span><span class="token punctuation">(</span>pclass<span class="token punctuation">,</span> pclass <span class="token operator">+</span> numcls<span class="token punctuation">)</span> <span class="token operator">-</span> pclass<span class="token punctuation">;</span>
+        <span class="token keyword">float</span> prob <span class="token operator">=</span> pclass<span class="token punctuation">[</span>label<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> confidence <span class="token operator">=</span> prob <span class="token operator">*</span> objness<span class="token punctuation">;</span>
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>confidence <span class="token operator">&lt;</span> confidence_threshold<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token keyword">continue</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+
+        <span class="token comment">// xywh</span>
+        <span class="token keyword">float</span> cx <span class="token operator">=</span> ptr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> cy <span class="token operator">=</span> ptr<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> w <span class="token operator">=</span> ptr<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> h <span class="token operator">=</span> ptr<span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// xywh to xyxy</span>
+        <span class="token keyword">float</span> left <span class="token operator">=</span> cx <span class="token operator">-</span> w <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> top <span class="token operator">=</span> cy <span class="token operator">-</span> h <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> right <span class="token operator">=</span> cx <span class="token operator">+</span> w <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> bottom <span class="token operator">=</span> cy <span class="token operator">+</span> w <span class="token operator">*</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 现在的结果是在缩放后的预处理图像上，将结果转换到输入的原图上去</span>
+        <span class="token keyword">float</span> base_img_left <span class="token operator">=</span> d2i<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">*</span> left <span class="token operator">+</span> d2i<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> base_img_right <span class="token operator">=</span> d2i<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">*</span> right <span class="token operator">+</span> d2i<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> base_img_top <span class="token operator">=</span> d2i<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">*</span> top <span class="token operator">+</span> d2i<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> base_img_bottom <span class="token operator">=</span> d2i<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">*</span> bottom <span class="token operator">+</span> d2i<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        bboxes<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span>base_img_left<span class="token punctuation">,</span> base_img_top<span class="token punctuation">,</span> base_img_right<span class="token punctuation">,</span> base_img_bottom<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span>label<span class="token punctuation">,</span> confidence<span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token keyword">float</span> nms_threshold <span class="token operator">=</span> <span class="token number">0.5</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> boxes <span class="token operator">=</span> <span class="token function">nms</span><span class="token punctuation">(</span>bboxes<span class="token punctuation">,</span> nms_threshold<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> boxes<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+<h3 id="Unet分割"><a href="#Unet分割" class="headerlink" title="Unet分割"></a>Unet分割</h3><p>以Unet官方模型为例，预处理部分与 <code>Yolov5</code> 预处理相同，因此只考虑后处理部分。</p>
+<p>模型推理后处理过程为：</p>
+<ol>
+<li>模型推理得到一个 [batch，512，512，21] 的 <code>tensor</code>，表示每个像素预测对应类别的概率值；假设 <code>batch = 1</code>；</li>
+<li>提取每个像素最大的概率值与对应的类别id，得到2个 [512, 512] 的 <code>tensor</code>，然后将这两个结果缩放至原图像大小；</li>
+<li>根据类别id生成对应掩码图并与原图像混合。</li>
+</ol>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">cv<span class="token double-colon punctuation">::</span>Mat <span class="token function">postprocess</span><span class="token punctuation">(</span><span class="token keyword">float</span> <span class="token operator">*</span>output_data_host<span class="token punctuation">,</span> <span class="token keyword">int</span> output_width<span class="token punctuation">,</span> <span class="token keyword">int</span> output_height<span class="token punctuation">,</span> <span class="token keyword">int</span> num_class<span class="token punctuation">,</span> <span class="token keyword">int</span> batch<span class="token punctuation">,</span> <span class="token keyword">const</span> cv<span class="token double-colon punctuation">::</span>Mat <span class="token operator">&amp;</span>img<span class="token punctuation">,</span> <span class="token keyword">const</span> cv<span class="token double-colon punctuation">::</span>Mat <span class="token operator">&amp;</span>m2x3_d2i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    cv<span class="token double-colon punctuation">::</span>Mat <span class="token function">out_prob</span><span class="token punctuation">(</span>output_height<span class="token punctuation">,</span> output_width<span class="token punctuation">,</span> CV_32F<span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// 存储的是每个像素点的最大概率值。</span>
+    cv<span class="token double-colon punctuation">::</span>Mat <span class="token function">out_iclass</span><span class="token punctuation">(</span>output_height<span class="token punctuation">,</span> output_width<span class="token punctuation">,</span> CV_8U<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 存储的是每个像素点预测的类别索引。</span>
+
+    <span class="token keyword">float</span> <span class="token operator">*</span>pnet <span class="token operator">=</span> output_data_host <span class="token operator">+</span> batch <span class="token operator">*</span> output_width <span class="token operator">*</span> output_height <span class="token operator">*</span> num_class<span class="token punctuation">;</span> <span class="token comment">// 指向第 batch 个输出数据的首地址。</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>prob <span class="token operator">=</span> out_prob<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">ptr</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span><span class="token keyword">uint8_t</span> <span class="token operator">*</span>pidx <span class="token operator">=</span> out_iclass<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">ptr</span><span class="token generic class-name"><span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span><span class="token keyword">uint8_t</span><span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>set<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> st<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token comment">// 提取每个像素最大的概率值与对应的类别id值</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> out_prob<span class="token punctuation">.</span>cols <span class="token operator">*</span> out_prob<span class="token punctuation">.</span>rows<span class="token punctuation">;</span> <span class="token operator">++</span>k<span class="token punctuation">,</span> pnet <span class="token operator">+=</span> num_class<span class="token punctuation">,</span> <span class="token operator">++</span>prob<span class="token punctuation">,</span> <span class="token operator">++</span>pidx<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> ic <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">max_element</span><span class="token punctuation">(</span>pnet<span class="token punctuation">,</span> pnet <span class="token operator">+</span> num_class<span class="token punctuation">)</span> <span class="token operator">-</span> pnet<span class="token punctuation">;</span> <span class="token comment">// 获取最大概率对应的索引</span>
+        <span class="token operator">*</span>prob <span class="token operator">=</span> pnet<span class="token punctuation">[</span>ic<span class="token punctuation">]</span><span class="token punctuation">;</span>                                         <span class="token comment">// 最大概率值</span>
+        <span class="token operator">*</span>pidx <span class="token operator">=</span> ic<span class="token punctuation">;</span>                                               <span class="token comment">// 最大概率类被索引</span>
+    <span class="token punctuation">&#125;</span>
+
+    <span class="token comment">// 将结果缩放至原图像大小</span>
+    cv<span class="token double-colon punctuation">::</span><span class="token function">warpAffine</span><span class="token punctuation">(</span>out_prob<span class="token punctuation">,</span> out_prob<span class="token punctuation">,</span> m2x3_d2i<span class="token punctuation">,</span> img<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> cv<span class="token double-colon punctuation">::</span>INTER_LINEAR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    cv<span class="token double-colon punctuation">::</span><span class="token function">warpAffine</span><span class="token punctuation">(</span>out_iclass<span class="token punctuation">,</span> out_iclass<span class="token punctuation">,</span> m2x3_d2i<span class="token punctuation">,</span> img<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> cv<span class="token double-colon punctuation">::</span>INTER_LINEAR<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    cv<span class="token double-colon punctuation">::</span>Mat image <span class="token operator">=</span> img<span class="token punctuation">.</span><span class="token function">clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">auto</span> pimage <span class="token operator">=</span> image<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">ptr</span><span class="token generic class-name"><span class="token operator">&lt;</span>cv<span class="token double-colon punctuation">::</span>Vec3b<span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> pprob <span class="token operator">=</span> out_prob<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">ptr</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> pclass <span class="token operator">=</span> out_iclass<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">ptr</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">uint8_t</span><span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 根据类别id生成对应掩码图并与原图像混合</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> img<span class="token punctuation">.</span>cols <span class="token operator">*</span> img<span class="token punctuation">.</span>rows<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">,</span> <span class="token operator">++</span>pimage<span class="token punctuation">,</span> <span class="token operator">++</span>pprob<span class="token punctuation">,</span> <span class="token operator">++</span>pclass<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> iclass <span class="token operator">=</span> <span class="token operator">*</span>pclass<span class="token punctuation">;</span>
+        <span class="token keyword">float</span> probability <span class="token operator">=</span> <span class="token operator">*</span>pprob<span class="token punctuation">;</span>
+        <span class="token keyword">auto</span> <span class="token operator">&amp;</span>pixel <span class="token operator">=</span> <span class="token operator">*</span>pimage<span class="token punctuation">;</span>
+        <span class="token keyword">float</span> foreground <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">min</span><span class="token punctuation">(</span><span class="token number">0.6f</span> <span class="token operator">+</span> probability <span class="token operator">*</span> <span class="token number">0.2f</span><span class="token punctuation">,</span> <span class="token number">0.8f</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> background <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">-</span> foreground<span class="token punctuation">;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> c <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> c <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">;</span> <span class="token operator">++</span>c<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">auto</span> value <span class="token operator">=</span> pixel<span class="token punctuation">[</span>c<span class="token punctuation">]</span> <span class="token operator">*</span> background <span class="token operator">+</span> foreground <span class="token operator">*</span> _classes_colors<span class="token punctuation">[</span>iclass <span class="token operator">*</span> <span class="token number">3</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">-</span> c<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            pixel<span class="token punctuation">[</span>c<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">)</span>std<span class="token double-colon punctuation">::</span><span class="token function">min</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> <span class="token number">255.0f</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> image<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="AlphaPose"><a href="#AlphaPose" class="headerlink" title="AlphaPose"></a>AlphaPose</h3><p>本次测试采用 <a target="_blank" rel="noopener" href="https://github.com/MVIG-SJTU/AlphaPose/tree/dependabot/pip/trackers/PoseFlow/numpy-1.22.0">AlphaPose</a> 下的 <a target="_blank" rel="noopener" href="https://github.com/MVIG-SJTU/AlphaPose/blob/dependabot/pip/trackers/PoseFlow/numpy-1.22.0/configs/coco_wholebody/resnet/256x192_res50_lr1e-3_2x-regression.yaml">Fast Pose</a> 模型。人体姿态检测过程：模型首先检测人的位置，然后再检测人体姿态关键点。本次测试中人体位置本次不在检测，直接传入人体位置对应的box框坐标，只进行人体姿态关键点的测试。</p>
+<ul>
+<li><p><strong>数据预处理</strong>。与 <code>Yolov5</code> 预处理类似，只是加了 <code>padding</code> 处理。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">float</span> rate <span class="token operator">=</span> box<span class="token punctuation">.</span>width <span class="token operator">></span> <span class="token number">100</span> <span class="token operator">?</span> <span class="token number">0.1f</span> <span class="token operator">:</span> <span class="token number">0.15f</span><span class="token punctuation">;</span>
+<span class="token keyword">float</span> pad_width <span class="token operator">=</span> box<span class="token punctuation">.</span>width <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">*</span> rate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">float</span> pad_height <span class="token operator">=</span> box<span class="token punctuation">.</span>height <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">*</span> rate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">float</span> scale <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span><span class="token function">min</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span>w <span class="token operator">/</span> pad_width<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span>h <span class="token operator">/</span> pad_height<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>结果后处理</strong>。模型结果后处理比较复杂时，可以在导出onnx模型时，将后处理过程也添加到onnx模型中，这样不仅可以省去复杂的后处理过程，还可以提升处理速度。</p>
+<ul>
+<li><p>导出onnx模型时添加后处理过程，只需将后处理的程序添加到导出时的forward之后即可。</p>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> torch
+<span class="token keyword">import</span> yaml
+<span class="token keyword">from</span> easydict <span class="token keyword">import</span> EasyDict <span class="token keyword">as</span> edict
+
+<span class="token keyword">from</span> alphapose<span class="token punctuation">.</span>models <span class="token keyword">import</span> builder
+
+<span class="token keyword">class</span> <span class="token class-name">Alphapose</span><span class="token punctuation">(</span>torch<span class="token punctuation">.</span>nn<span class="token punctuation">.</span>Module<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        config_file <span class="token operator">=</span> <span class="token string">"configs/halpe_136/resnet/256x192_res50_lr1e-3_2x-regression.yaml"</span>
+        check_point <span class="token operator">=</span> <span class="token string">"pretrained_models/multi_domain_fast50_regression_256x192.pth"</span>
+        <span class="token keyword">with</span> <span class="token builtin">open</span><span class="token punctuation">(</span>config_file<span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">)</span> <span class="token keyword">as</span> f<span class="token punctuation">:</span>
+            config <span class="token operator">=</span> edict<span class="token punctuation">(</span>yaml<span class="token punctuation">.</span>load<span class="token punctuation">(</span>f<span class="token punctuation">,</span> Loader<span class="token operator">=</span>yaml<span class="token punctuation">.</span>FullLoader<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        self<span class="token punctuation">.</span>pose_model <span class="token operator">=</span> builder<span class="token punctuation">.</span>build_sppe<span class="token punctuation">(</span>config<span class="token punctuation">.</span>MODEL<span class="token punctuation">,</span> preset_cfg<span class="token operator">=</span>config<span class="token punctuation">.</span>DATA_PRESET<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>pose_model<span class="token punctuation">.</span>load_state_dict<span class="token punctuation">(</span>torch<span class="token punctuation">.</span>load<span class="token punctuation">(</span>check_point<span class="token punctuation">,</span> map_location<span class="token operator">=</span><span class="token string">"cpu"</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">forward</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        hm <span class="token operator">=</span> self<span class="token punctuation">.</span>pose_model<span class="token punctuation">(</span>x<span class="token punctuation">)</span>	<span class="token comment"># 不加后处理则直接返回 hm</span>
+    	<span class="token comment"># 后处理程序    </span>
+        stride <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span>x<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">/</span> hm<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        b<span class="token punctuation">,</span> c<span class="token punctuation">,</span> h<span class="token punctuation">,</span> w <span class="token operator">=</span> <span class="token builtin">map</span><span class="token punctuation">(</span><span class="token builtin">int</span><span class="token punctuation">,</span> hm<span class="token punctuation">.</span>size<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        prob <span class="token operator">=</span> hm<span class="token punctuation">.</span>sigmoid<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        confidence<span class="token punctuation">,</span> _ <span class="token operator">=</span> prob<span class="token punctuation">.</span>view<span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> c<span class="token punctuation">,</span> h <span class="token operator">*</span> w<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">max</span><span class="token punctuation">(</span>dim<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> keepdim<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+        prob <span class="token operator">=</span> prob <span class="token operator">/</span> prob<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span>dim<span class="token operator">=</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> keepdim<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span>
+        coordx <span class="token operator">=</span> torch<span class="token punctuation">.</span>arange<span class="token punctuation">(</span>w<span class="token punctuation">,</span> device<span class="token operator">=</span>prob<span class="token punctuation">.</span>device<span class="token punctuation">,</span> dtype<span class="token operator">=</span>torch<span class="token punctuation">.</span>float32<span class="token punctuation">)</span>
+        coordy <span class="token operator">=</span> torch<span class="token punctuation">.</span>arange<span class="token punctuation">(</span>h<span class="token punctuation">,</span> device<span class="token operator">=</span>prob<span class="token punctuation">.</span>device<span class="token punctuation">,</span> dtype<span class="token operator">=</span>torch<span class="token punctuation">.</span>float32<span class="token punctuation">)</span>
+        hmx <span class="token operator">=</span> <span class="token punctuation">(</span>prob<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span>dim<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">*</span> coordx<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span>dim<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> keepdim<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span> <span class="token operator">*</span> stride
+        hmy <span class="token operator">=</span> <span class="token punctuation">(</span>prob<span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span>dim<span class="token operator">=</span><span class="token number">3</span><span class="token punctuation">)</span> <span class="token operator">*</span> coordy<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">sum</span><span class="token punctuation">(</span>dim<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">,</span> keepdim<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span> <span class="token operator">*</span> stride
+        <span class="token keyword">return</span> torch<span class="token punctuation">.</span>cat<span class="token punctuation">(</span><span class="token punctuation">[</span>hmx<span class="token punctuation">,</span> hmy<span class="token punctuation">,</span> confidence<span class="token punctuation">]</span><span class="token punctuation">,</span> dim<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">)</span>
+
+model <span class="token operator">=</span> Alphapose<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token builtin">eval</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+dummy <span class="token operator">=</span> torch<span class="token punctuation">.</span>zeros<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">256</span><span class="token punctuation">,</span> <span class="token number">192</span><span class="token punctuation">)</span>
+torch<span class="token punctuation">.</span>onnx<span class="token punctuation">.</span>export<span class="token punctuation">(</span>
+    model<span class="token punctuation">,</span> <span class="token punctuation">(</span>dummy<span class="token punctuation">,</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">"fast-pose-136.onnx"</span><span class="token punctuation">,</span> input_names<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"images"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> output_names<span class="token operator">=</span><span class="token punctuation">[</span><span class="token string">"keypoints"</span><span class="token punctuation">]</span><span class="token punctuation">,</span> 
+    opset_version<span class="token operator">=</span><span class="token number">11</span><span class="token punctuation">,</span>
+    dynamic_axes<span class="token operator">=</span><span class="token punctuation">&#123;</span>
+        <span class="token string">"images"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">:</span> <span class="token string">"batch"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span>
+        <span class="token string">"keypoints"</span><span class="token punctuation">:</span> <span class="token punctuation">&#123;</span><span class="token number">0</span><span class="token punctuation">:</span> <span class="token string">"batch"</span><span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p><strong>模型结果解析</strong>。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">cv<span class="token double-colon punctuation">::</span>Mat <span class="token function">fast_pose_postprocess</span><span class="token punctuation">(</span><span class="token keyword">float</span> <span class="token operator">*</span>output_data_host<span class="token punctuation">,</span> cv<span class="token double-colon punctuation">::</span>Mat <span class="token operator">&amp;</span>image<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">int</span> keypoint_num<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">int</span> keypoint_info<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">float</span> <span class="token operator">*</span>d2i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    cv<span class="token double-colon punctuation">::</span>Mat res <span class="token operator">=</span> image<span class="token punctuation">.</span><span class="token function">clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> keypoint_info<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">float</span> <span class="token operator">*</span>pkey <span class="token operator">=</span> output_data_host <span class="token operator">+</span> i <span class="token operator">*</span> keypoint_num<span class="token punctuation">;</span>
+        <span class="token keyword">float</span> x <span class="token operator">=</span> pkey<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>	<span class="token comment">// (x, y) 关键点坐标</span>
+        <span class="token keyword">float</span> y <span class="token operator">=</span> pkey<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">float</span> confidence <span class="token operator">=</span> pkey<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>	<span class="token comment">// 置信度</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>confidence <span class="token operator">></span> <span class="token number">0.5</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            x <span class="token operator">=</span> x <span class="token operator">*</span> d2i<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> d2i<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            y <span class="token operator">=</span> y <span class="token operator">*</span> d2i<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">+</span> d2i<span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+            cv<span class="token double-colon punctuation">::</span><span class="token function">circle</span><span class="token punctuation">(</span>res<span class="token punctuation">,</span> cv<span class="token double-colon punctuation">::</span><span class="token function">Point</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> cv<span class="token double-colon punctuation">::</span><span class="token function">Scalar</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">255</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> res<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+</ul>
+<p><strong>未完，待续~</strong></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">LSJune</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://shao-junliang.github.io/2024/07/25/cuda-tensorrt-senior/">http://shao-junliang.github.io/2024/07/25/cuda-tensorrt-senior/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">LSJune</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/CUDA/">
+                                    <span class="chip bg-color">CUDA</span>
+                                </a>
+                            
+                                <a href="/tags/TensorRT/">
+                                    <span class="chip bg-color">TensorRT</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '402e1ec91f1ff6375db9',
+        clientSecret: '3122e50655b57000ca790be9e0229afdbabd50a8',
+        repo: 'Shao-junliang.github.io',
+        owner: 'Shao-junliang',
+        admin: "Shao-junliang",
+        id: '2024-07-25T13-35-46',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2024/08/12/c-basic-ptr/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="指针与函数">
+                        
+                        <span class="card-title">指针与函数</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2024-08-12
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            LSJune
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2024/06/17/cuda-tensorrt-basic/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="TensorRT课程笔记（3）">
+                        
+                        <span class="card-title">TensorRT课程笔记（3）</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
+                        
+                            TensorRT课程笔记-系列三：cuda-tensorrt-basic
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-06-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            LSJune
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CUDA/">
+                        <span class="chip bg-color">CUDA</span>
+                    </a>
+                    
+                    <a href="/tags/TensorRT/">
+                        <span class="chip bg-color">TensorRT</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3, h4, h5, h6, h7, h8, h9'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+<!-- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script> -->
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            <!-- Copyright&nbsp; -->
+            &copy;
+            
+                <span id="year">2024</span>
+            
+            <a href="/about" target="_blank">LSJune</a>
+            <!-- lsj 3.25 修改了网站底部的备案信息 -->
+            <!-- |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a> -->
+            
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">37.3k</span>
+            
+            <br>
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2024";
+                        var startMonth = "3";
+                        var startDate = "21";
+                        var startHour = "18";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+            
+                
+            
+            
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+    
+    <!-- 这一行是添加的动态标签栏 -->
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "(´Д｀)大変だ！", clearTimeout(st)) : (document.title = "（●´3｀●）やれやれだぜ", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) }) </script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>

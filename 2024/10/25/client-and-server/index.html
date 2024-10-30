@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="blog_test, 暴躁小何的笔记">
-    <meta name="description" content="暴躁小何的博客测试">
+    <meta name="keywords" content="client-and-server, 暴躁小何的笔记">
+    <meta name="description" content="基于QT实现简易客户端与服务器数据传输">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>blog_test | 暴躁小何的笔记</title>
+    <title>client-and-server | 暴躁小何的笔记</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -336,12 +336,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">blog_test</h1>
+                    <h1 class="description center-align post-title">client-and-server</h1>
                 </div>
             </div>
         </div>
@@ -365,12 +365,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/test/">
-                                <span class="chip bg-color">test</span>
+                            <a href="/tags/C/">
+                                <span class="chip bg-color">C++</span>
                             </a>
                         
-                            <a href="/tags/Markdown/">
-                                <span class="chip bg-color">Markdown</span>
+                            <a href="/tags/QT/">
+                                <span class="chip bg-color">QT</span>
                             </a>
                         
                     </div>
@@ -385,7 +385,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-03-21
+                    2024-10-25
                 </div>
                 
 
@@ -402,14 +402,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    9
+                    2.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    9 分
                 </div>
                 
 
@@ -432,8 +432,205 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="暴躁小何的博客测试"><a href="#暴躁小何的博客测试" class="headerlink" title="暴躁小何的博客测试"></a>暴躁小何的博客测试</h2> <img src="/2024/03/21/blog-test/%E5%88%98%E4%BA%A6%E8%8F%B2.jpg" class="" title="暴躁小何">    
+                <p>本节旨在基于 QT 实现客户端与服务端的连接与数据传输。</p>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><ul>
+<li>面向连接的协议，即发送数据之前要先建立连接。</li>
+<li>面向字节流，发送数据时以字节为单位。</li>
+<li>只支持点对点通信。</li>
+<li>UDP 是无连接的协议，类似于广播，传输数据为报文，UDP可以一对一、一对多、多对一、多对多。</li>
+</ul>
+<h4 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h4><ul>
+<li><p>第一次握手：客户端什么情况都不知道，服务端确定了对方发送数据正常；</p>
+</li>
+<li><p>第二次握手：</p>
+<ul>
+<li>客户端确认了：自己发送与接收正常、服务器接收与发送正常；</li>
+<li>服务端确认了：自己接收正常，客户端发送正常；</li>
+</ul>
+</li>
+<li><p>第三次握手：</p>
+<ul>
+<li>客户端确认了：自己发送与接收正常、服务器发送与接收正常；</li>
+<li>服务端确认了：自己接收与发送正常，客户端发送与接收正常；</li>
+</ul>
+</li>
+<li><p>两次握手会导致：</p>
+<ul>
+<li><p>无法保证客户端的接收能力： 在两次握手中，客户端发送了一个请求包，服务器回应确认包，但此时服务器无法确认客户端是否准备好接收数据。如果服务器立即开始发送数据，客户端可能还未准备好接收，造成数据丢失。</p>
+</li>
+<li><p>旧的连接请求可能被误处理： 在两次握手中，如果客户端的请求在网络中因延迟而滞后，服务器可能会收到一个很久以前发出的连接请求，误认为是新的请求而建立连接，导致数据不一致。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h4><ul>
+<li>第一次挥手：客户端向服务器说：“我要关闭连接了”（Client将FIN置为1，发送一个序列号seq给Server；进入FIN_WAIT_1状态）</li>
+<li>第二次挥手：服务端向客户端传递，”收到，你要关闭连接了“ (Server收到FIN之后，发送一个ACK&#x3D;1，acknowledge number&#x3D;收到的序列号+1；进入CLOSE_WAIT状态)</li>
+<li>第三次挥手：服务器向客户端说，“我要关闭连接了”(Server将FIN置1，发送一个序列号给Client；进入LAST_ACK状态)</li>
+<li>第四次挥手：客户端向服务端传输：“已收到你要关闭连接”（Client收到服务器的FIN后，进入TIME_WAIT状态；接着将ACK置1，发送一个 acknowledge number&#x3D;序列号+1给服务器；服务器收到后，确认acknowledge number后，变为 CLOSED状态，不再向客户端发送数据。客户端等待2*MSL（报文段最长寿命）时间后，也进入 CLOSED状态。完成四次挥手。）</li>
+<li>二三次挥手没有合并的原因：服务器收到客户端断开连接的请求时，可能还有一些数据没有发完，这时先回复ACK，表示接 收到了断开连接的请求。等到数据发完之后再发FIN，断开服务器到客户端的数据传送。</li>
+</ul>
+<h3 id="客户端与服务端"><a href="#客户端与服务端" class="headerlink" title="客户端与服务端"></a>客户端与服务端</h3><h4 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h4><p>客户端主要实现流程：</p>
+<ul>
+<li><p>创建并初始化 <code>QTcpSocket</code> 对象 <code>socket</code>；</p>
+</li>
+<li><p><code>socket</code> 调用 <code>connectToHost()</code> 连接服务器；</p>
+</li>
+<li><p><code>socket</code> 调用成员函数 write，发送数据给服务器；</p>
+</li>
+<li><p>连接 <code>QTcpSocket</code> 对象的 <code>connected()</code> 信号槽，当客户端成功连接到服务器后触发 <code>connected()</code> 信号；</p>
+</li>
+<li><p>连接 <code>QTcpsocket</code> 对象的 <code>readyread()</code> 信号槽，当客户端接收到服务端发来数据时触发 <code>readyread()</code> 信号；</p>
+</li>
+<li><p>连接 <code>QTcpsocket</code> 对象的 <code>disconnected</code> 信号槽，当客户端对象调用成员函数 close，会触发 <code>QTcpsocket</code> 对象的 <code>disconnected</code> 信号，进而触发槽函数进行相应处理。</p>
+</li>
+</ul>
+<p>代码实现：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">TcpClient</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">QObject</span></span> <span class="token punctuation">&#123;</span>
+    Q_OBJECT
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">void</span> <span class="token function">Init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+<span class="token keyword">private</span> slots<span class="token operator">:</span>
+    <span class="token keyword">void</span> <span class="token function">serverInfoSlot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+<span class="token keyword">private</span><span class="token operator">:</span>
+    QTcpSocket <span class="token operator">*</span>_socket<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 
+<span class="token keyword">void</span> <span class="token class-name">TcpClient</span><span class="token double-colon punctuation">::</span><span class="token function">Init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">// 1.创建并初始化 QTcpSocket 对象</span>
+    _socket <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">QTcpSocket</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    QString IP <span class="token operator">=</span> <span class="token string">"xxx.xxx.xxx.xxx"</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> Port <span class="token operator">=</span> <span class="token number">8000</span><span class="token punctuation">;</span>
+    <span class="token comment">// 2.连接服务器</span>
+    _socket<span class="token operator">-></span><span class="token function">connectToHost</span><span class="token punctuation">(</span>IP<span class="token punctuation">,</span> Port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 3.客户端成功连接到服务器后触发的槽函数</span>
+    <span class="token function">connect</span><span class="token punctuation">(</span>_socket<span class="token punctuation">,</span> <span class="token operator">&amp;</span>QTcpSocket<span class="token double-colon punctuation">::</span>connected<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"connect successful!"</span> <span class="token operator">&lt;&lt;</span>std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 3.客户端断开与服务器连接后触发的槽函数</span>
+    <span class="token function">connect</span><span class="token punctuation">(</span>_socket<span class="token punctuation">,</span> <span class="token operator">&amp;</span>QTcpSocket<span class="token double-colon punctuation">::</span>connected<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"connect successful!"</span> <span class="token operator">&lt;&lt;</span>std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 3.客户端接收到服务端发来数据时触发的槽函数</span>
+    <span class="token function">connect</span><span class="token punctuation">(</span>_socket<span class="token punctuation">,</span> <span class="token operator">&amp;</span>QTcpSocket<span class="token double-colon punctuation">::</span>readyRead<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>TcpClient<span class="token double-colon punctuation">::</span>serverInfoSlot<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token class-name">TcpClient</span><span class="token double-colon punctuation">::</span><span class="token function">serverInfoSlot</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>socket<span class="token punctuation">.</span><span class="token function">canReadLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    	QString msg <span class="token operator">=</span> _socket<span class="token operator">-></span><span class="token function">readAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    	std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> msg<span class="token punctuation">.</span><span class="token function">toStdString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+        <span class="token comment">// 4.数据发送</span>
+        _socket<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token class-name">QString</span><span class="token double-colon punctuation">::</span><span class="token function">fromStdString</span><span class="token punctuation">(</span><span class="token string">"Received successfully!"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toUtf8</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        _socket<span class="token punctuation">.</span><span class="token function">flush</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h4><p>基于QT实现服务端，无显示界面，消息在终端显示；</p>
+<p>服务端基于 <code>QTcpServer</code> 实现，具体实现流程：</p>
+<ul>
+<li>创建 <code>QTcpServer</code> 对象 <code>server</code>；</li>
+<li><code>server</code> 设置监听端口，<code>server-&gt;listen</code> ;</li>
+<li>连接信号和槽；客户端发起连接时， <code>server</code> 会发出 <code>newConnection</code> 信号，将该信号连接到一个自定义的槽函数，来处理新连接；</li>
+<li>处理新连接； 在响应 <code>newConnection</code> 信号的槽函数中，使用 <code>QTcpServer::nextPendingConnection()</code> 方法获取与新客户端连接相关的 <code>QTcpSocket</code> 对象。</li>
+</ul>
+<p>代码实现：</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">TcpServer</span> <span class="token operator">:</span> <span class="token base-clause"><span class="token keyword">public</span> <span class="token class-name">QObject</span></span> <span class="token punctuation">&#123;</span>
+    Q_OBJECT
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">void</span> <span class="token function">Init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+<span class="token keyword">private</span> slots<span class="token operator">:</span>
+    <span class="token keyword">void</span> <span class="token function">newClientHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">void</span> <span class="token function">clientInfoSlot</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token class-name">TcpServer</span><span class="token double-colon punctuation">::</span><span class="token function">Init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 1.创建 QTcpServer 对象 </span>
+    _server <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token function">QTcpServer</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 2.设置监听端口及地址，监听地址</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>_server<span class="token operator">-></span><span class="token function">listen</span><span class="token punctuation">(</span>QHostAddress<span class="token double-colon punctuation">::</span>Any<span class="token punctuation">,</span> PORT<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"Failed to start server: "</span> <span class="token operator">&lt;&lt;</span> _server<span class="token operator">-></span><span class="token function">errorString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toStdString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 3.连接信号和槽；客户端发起连接时，触发 newClientHandler 函数处理连接</span>
+    <span class="token function">connect</span><span class="token punctuation">(</span>_server<span class="token punctuation">,</span> <span class="token operator">&amp;</span>QTcpServer<span class="token double-colon punctuation">::</span>newConnection<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>TcpServer<span class="token double-colon punctuation">::</span>newClientHandler<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token class-name">TcpServer</span><span class="token double-colon punctuation">::</span><span class="token function">newClientHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 建立TCP连接</span>
+    QTcpSocket <span class="token operator">*</span>socket <span class="token operator">=</span> _server<span class="token operator">-></span><span class="token function">nextPendingConnection</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>socket<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 获取客户端地址与端口号</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> socket<span class="token operator">-></span><span class="token function">peerAddress</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toStdString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token string">": "</span> <span class="token operator">&lt;&lt;</span> socket<span class="token operator">-></span><span class="token function">peerPort</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token comment">// 服务器收到客户端的消息，socket发出readyread信号</span>
+    <span class="token function">connect</span><span class="token punctuation">(</span>socket<span class="token punctuation">,</span> <span class="token operator">&amp;</span>QTcpSocket<span class="token double-colon punctuation">::</span>readyRead<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>TcpServer<span class="token double-colon punctuation">::</span>clientInfoSlot<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token class-name">TcpServer</span><span class="token double-colon punctuation">::</span><span class="token function">clientInfoSlot</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 在槽函数里面使用 sender() 可以获取信号的发出者</span>
+    QTcpSocket <span class="token operator">*</span>s <span class="token operator">=</span> <span class="token punctuation">(</span>QTcpSocket <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">sender</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>s<span class="token operator">-></span><span class="token function">canReadLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// 逐行读取</span>
+        QString msg <span class="token operator">=</span> s<span class="token operator">-></span><span class="token function">readLine</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> msg<span class="token punctuation">.</span><span class="token function">toStdString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="栈与堆扩展"><a href="#栈与堆扩展" class="headerlink" title="栈与堆扩展"></a>栈与堆扩展</h3><p>在客户端与服务端的实现过程中，运到一些问题，解决过程中了解了 <code>C++</code> 中堆与栈的相关概念，在此处进行记录。</p>
+<h4 id="栈（Stack）"><a href="#栈（Stack）" class="headerlink" title="栈（Stack）"></a>栈（Stack）</h4><p>栈是一种高效、自动管理的内存区域。它是“<strong>后进先出</strong>”（LIFO，Last In First Out）的数据结构，分配内存时的顺序是相反的：最后分配的内存块会最先释放。</p>
+<p><strong>栈的特点：</strong></p>
+<ul>
+<li>自动分配和释放：当函数调用时，函数内的局部变量会被自动分配在栈上；当函数执行完毕，栈上的局部变量会被自动释放，不需要程序员手动管理。</li>
+<li>内存限制：栈内存通常比堆内存小，适用于小而频繁分配的变量。</li>
+<li>高效：栈内存的分配和释放非常快，操作系统通过移动栈指针来管理内存。</li>
+<li>生命周期短：栈上的变量仅在函数作用域内有效，当函数返回后，这些变量就失效了。</li>
+</ul>
+<p><strong>哪些变量在栈上：</strong></p>
+<ul>
+<li><strong>局部变量</strong>：在函数或方法内部声明的基本数据类型（如 <code>int</code>、<code>float</code>、<code>char</code>）和指针类型。</li>
+<li><strong>函数参数</strong>：大多数情况下，函数的参数会被复制到栈上。</li>
+<li><strong>简单对象</strong>：如果一个对象是在栈上声明的，则该对象的内存会分配在栈上。</li>
+</ul>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">class</span> <span class="token class-name">MyClass</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> value<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">func</span><span class="token punctuation">(</span><span class="token keyword">int</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> b<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 函数参数 a 和 b 在栈上</span>
+    <span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>  <span class="token comment">// 局部变量 x 在栈上分配</span>
+    MyClass obj<span class="token punctuation">;</span>  <span class="token comment">// obj 在栈上分配</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="堆（Heap）"><a href="#堆（Heap）" class="headerlink" title="堆（Heap）"></a><strong>堆（Heap）</strong></h4><p>堆是一块较大的动态内存区域，由程序员手动控制。与栈不同，堆上的内存是动态分配的，程序员必须显式地进行分配和释放。</p>
+<p><strong>堆的特点：</strong></p>
+<ul>
+<li><strong>动态分配和释放</strong>：内存的分配和释放由程序员通过 <code>new</code> 和 <code>delete</code>（或 <code>malloc</code> 和 <code>free</code>）来管理。如果忘记释放内存，就会导致<strong>内存泄漏</strong>。</li>
+<li>内存空间大：堆的内存空间通常比栈大很多，但分配速度较慢。</li>
+<li>灵活的生命周期：堆上的变量不会随着函数返回而自动释放，可以在整个程序生命周期内存活，直到显式释放。</li>
+<li>较慢的分配和释放：由于堆需要动态查找可用内存块，分配和释放操作会比栈慢。</li>
+</ul>
+<p><strong>哪些变量在堆上：</strong></p>
+<ul>
+<li><strong>动态分配的对象或数组</strong>：任何通过 <code>new</code> 或 <code>malloc</code> 分配的变量或对象都在堆上分配。</li>
+<li><strong>动态分配的大型数据结构</strong>：例如，动态数组、链表、树等较大或需要在程序中长期使用的数据结构通常放在堆上。</li>
+<li><strong>对象的指针成员变量</strong>：如果类的成员变量是指针类型并且通过 <code>new</code> 进行分配，那么这些成员变量的内存也会在堆上。</li>
+</ul>
+<p><strong>内存泄漏和访问冲突</strong>：</p>
+<ul>
+<li><strong>内存泄漏</strong>：堆上分配的内存需要手动释放。如果忘记调用 <code>delete</code>，堆上的内存就不会被释放，导致内存泄漏。</li>
+<li><strong>访问冲突</strong>：如果使用未初始化的堆指针或释放后的指针，可能会导致访问无效内存，进而产生访问冲突（如 <code>0xC0000005</code> 错误）。</li>
+</ul>
+<h3 id="TCP连接助手"><a href="#TCP连接助手" class="headerlink" title="TCP连接助手"></a>TCP连接助手</h3><ul>
+<li>windows：网上有很多，此处分享一个我用的链接（<a target="_blank" rel="noopener" href="http://www.eastcent.com//upload/file/software/tcpassistv11.zip%EF%BC%89">http://www.eastcent.com//upload/file/software/tcpassistv11.zip）</a></li>
+<li>arm64：<ol>
+<li>下载源码：<a target="_blank" rel="noopener" href="https://github.com/justsure/mNetAssist_arm64%EF%BC%8C%E5%B0%86%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E7%A7%BB%E8%87%B3%E6%8C%87%E5%AE%9A%E7%9B%AE%E5%BD%95%EF%BC%8C%E5%A6%82%EF%BC%9A%60/usr/tcp/%60%EF%BC%9B">https://github.com/justsure/mNetAssist_arm64，将所有文件移至指定目录，如：`/usr/tcp/`；</a></li>
+<li>在 <code> /etc/ld.so.conf.d/</code> 目录下 添加 <code>mNetAssist.conf</code> 文件，内容为 <code>mNetAssist</code> 路径，此例应该为：<code>/usr/tcp/</code>；</li>
+<li>在终端执行：<code>sudo ldconfig</code> 命令；</li>
+<li>切换到 <code>tcp</code> 目录，执行 <code>./mNetAssist</code></li>
+</ol>
+</li>
+</ul>
 
                 
             </div>
@@ -460,7 +657,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://shao-junliang.github.io/2024/03/21/blog-test/">http://shao-junliang.github.io/2024/03/21/blog-test/</a>
+                    <a href="http://shao-junliang.github.io/2024/10/25/client-and-server/">http://shao-junliang.github.io/2024/10/25/client-and-server/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -498,12 +695,12 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/test/">
-                                    <span class="chip bg-color">test</span>
+                                <a href="/tags/C/">
+                                    <span class="chip bg-color">C++</span>
                                 </a>
                             
-                                <a href="/tags/Markdown/">
-                                    <span class="chip bg-color">Markdown</span>
+                                <a href="/tags/QT/">
+                                    <span class="chip bg-color">QT</span>
                                 </a>
                             
                         </div>
@@ -548,7 +745,7 @@
         repo: 'Shao-junliang.github.io',
         owner: 'Shao-junliang',
         admin: "Shao-junliang",
-        id: '2024-03-21T21-07-00',
+        id: '2024-10-25T09-33-26',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -576,29 +773,30 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/03/25/leetcode-study-binarytree/">
+                <a href="/2024/10/25/client-and-server/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="LeetCode-二叉树">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="client-and-server">
                         
-                        <span class="card-title">LeetCode-二叉树</span>
+                        <span class="card-title">client-and-server</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            二叉树基础与进阶
+                            基于QT实现简易客户端与服务器数据传输
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-03-25
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-10-25
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -607,15 +805,16 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">
-                        <span class="chip bg-color">二叉树</span>
+                    <a href="/tags/C/">
+                        <span class="chip bg-color">C++</span>
                     </a>
                     
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/QT/">
+                        <span class="chip bg-color">QT</span>
                     </a>
                     
                 </div>
@@ -629,13 +828,13 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/03/20/hello-world/">
+                <a href="/2024/08/12/c-basic-ptr/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="指针与函数">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">指针与函数</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -646,7 +845,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-08-12
                             </span>
                         <span class="publish-author">
                             
@@ -659,12 +858,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/test/">
-                        <span class="chip bg-color">test</span>
-                    </a>
-                    
-                    <a href="/tags/Markdown/">
-                        <span class="chip bg-color">Markdown</span>
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
                     </a>
                     
                 </div>
@@ -788,6 +983,13 @@
 
 </main>
 
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
 
 
 <!-- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script> -->
