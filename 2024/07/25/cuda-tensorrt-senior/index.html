@@ -402,14 +402,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.4k
+                    3.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    12 分
+                    16 分
                 </div>
                 
 
@@ -683,7 +683,7 @@ std<span class="token double-colon punctuation">::</span>vector<span class="toke
     <span class="token keyword">return</span> image<span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<h3 id="AlphaPose"><a href="#AlphaPose" class="headerlink" title="AlphaPose"></a>AlphaPose</h3><p>本次测试采用 <a target="_blank" rel="noopener" href="https://github.com/MVIG-SJTU/AlphaPose/tree/dependabot/pip/trackers/PoseFlow/numpy-1.22.0">AlphaPose</a> 下的 <a target="_blank" rel="noopener" href="https://github.com/MVIG-SJTU/AlphaPose/blob/dependabot/pip/trackers/PoseFlow/numpy-1.22.0/configs/coco_wholebody/resnet/256x192_res50_lr1e-3_2x-regression.yaml">Fast Pose</a> 模型。人体姿态检测过程：模型首先检测人的位置，然后再检测人体姿态关键点。本次测试中人体位置本次不在检测，直接传入人体位置对应的box框坐标，只进行人体姿态关键点的测试。</p>
+<h3 id="AlphaPose"><a href="#AlphaPose" class="headerlink" title="AlphaPose"></a>AlphaPose</h3><p>本次测试采用 <a target="_blank" rel="noopener" href="https://github.com/MVIG-SJTU/AlphaPose/tree/dependabot/pip/trackers/PoseFlow/numpy-1.22.0">AlphaPose</a> 下的 <a target="_blank" rel="noopener" href="https://github.com/MVIG-SJTU/AlphaPose/blob/dependabot/pip/trackers/PoseFlow/numpy-1.22.0/configs/coco_wholebody/resnet/256x192_res50_lr1e-3_2x-regression.yaml">Fast Pose</a> 模型。人体姿态检测过程：模型首先检测人的位置，然后再检测人体姿态关键点。本次测试中人体位置本次不在检测，直接传入人体位置对应的box框坐标，只进行人体姿态关键点的测试。模型的输出信息为：关键点的xy坐标，关键点的置信度（x, y, confidence……）。</p>
 <ul>
 <li><p><strong>数据预处理</strong>。与 <code>Yolov5</code> 预处理类似，只是加了 <code>padding</code> 处理。</p>
 <pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">float</span> rate <span class="token operator">=</span> box<span class="token punctuation">.</span>width <span class="token operator">></span> <span class="token number">100</span> <span class="token operator">?</span> <span class="token number">0.1f</span> <span class="token operator">:</span> <span class="token number">0.15f</span><span class="token punctuation">;</span>
@@ -755,8 +755,116 @@ torch<span class="token punctuation">.</span>onnx<span class="token punctuation"
 </ul>
 </li>
 </ul>
-<p><strong>未完，待续~</strong></p>
+<h3 id="mmdetection"><a href="#mmdetection" class="headerlink" title="mmdetection"></a>mmdetection</h3><p><strong>未完，待续~</strong></p>
+<h3 id="ONNXRuntime推理"><a href="#ONNXRuntime推理" class="headerlink" title="ONNXRuntime推理"></a>ONNXRuntime推理</h3><p>本节简要描述利用 ONNX Runtime 部署 ONNX 模型过程，其具体流程为：</p>
+<ul>
+<li>初始化 ONNX Runtime 环境：<ul>
+<li>创建 ONNX Runtime 的 <code>Env</code> 对象，用于配置日志级别和会话标识。 </li>
+<li>使用 <code>SessionOptions</code> 设置推理参数，如线程数、优化等级等。</li>
+</ul>
+</li>
+<li>加载模型：通过 <code>Ort::Session</code> 创建推理会话，加载 <code>.onnx</code> 模型文件。</li>
+<li>获取模型的输入输出信息：使用 <code>GetInputTypeInfo</code> 和 <code>GetOutputTypeInfo</code> 获取输入和输出的类型信息。提取输入输出张量的维度信息，用于后续张量创建。</li>
+<li>准备输入张量：<ul>
+<li>根据模型输入的维度创建输入张量。</li>
+<li>填充输入数据（如图像预处理、归一化等）。</li>
+<li>使用 <code>Ort::Value::CreateTensor</code> 创建输入张量。</li>
+</ul>
+</li>
+<li>准备输出张量：获取输出张量的形状信息，创建相应大小的输出张量。</li>
+<li>推理过程：调用 <code>session.Run</code> 方法执行推理，将输入数据送入模型并获取输出。参数包括输入输出节点名称、输入输出张量、以及推理选项。</li>
+<li>输出结果解析。</li>
+</ul>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">onnxruntime_infer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 初始化 ONNX Runtime 环境</span>
+    Ort<span class="token double-colon punctuation">::</span>Env <span class="token function">env</span><span class="token punctuation">(</span>ORT_LOGGING_LEVEL_INFO<span class="token punctuation">,</span> <span class="token string">"onnx"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Ort<span class="token double-colon punctuation">::</span>SessionOptions session_options<span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> mem <span class="token operator">=</span> Ort<span class="token double-colon punctuation">::</span><span class="token class-name">MemoryInfo</span><span class="token double-colon punctuation">::</span><span class="token function">CreateCpu</span><span class="token punctuation">(</span>OrtArenaAllocator<span class="token punctuation">,</span> OrtMemTypeDefault<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    session_options<span class="token punctuation">.</span><span class="token function">SetInterOpNumThreads</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    session_options<span class="token punctuation">.</span><span class="token function">SetGraphOptimizationLevel</span><span class="token punctuation">(</span>GraphOptimizationLevel<span class="token double-colon punctuation">::</span>ORT_ENABLE_EXTENDED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 加载模型</span>
+    std<span class="token double-colon punctuation">::</span>string model_path <span class="token operator">=</span> <span class="token string">"../src/cuda-tensorrt-senior-api/static/yolov5s_modified.onnx"</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>wstring_convert<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>codecvt_utf8_utf16<span class="token operator">&lt;</span><span class="token keyword">wchar_t</span><span class="token operator">>></span> converter<span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>wstring wide_model_path <span class="token operator">=</span> converter<span class="token punctuation">.</span><span class="token function">from_bytes</span><span class="token punctuation">(</span>model_path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Ort<span class="token double-colon punctuation">::</span>Session <span class="token function">session</span><span class="token punctuation">(</span>env<span class="token punctuation">,</span> wide_model_path<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> session_options<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> output_dims <span class="token operator">=</span> session<span class="token punctuation">.</span><span class="token function">GetOutputTypeInfo</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">GetTensorTypeAndShapeInfo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">GetShape</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span>input_names<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"images"</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token operator">*</span>output_names<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"output"</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
 
+    <span class="token comment">/* 输入 tensor */</span>
+    <span class="token keyword">int64_t</span> input_shape<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">640</span><span class="token punctuation">,</span> <span class="token number">640</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> input_numel <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">*</span> <span class="token number">3</span> <span class="token operator">*</span> <span class="token number">640</span> <span class="token operator">*</span> <span class="token number">640</span><span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>input_data_host <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">float</span><span class="token punctuation">[</span>input_numel<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> input_tensor <span class="token operator">=</span> Ort<span class="token double-colon punctuation">::</span><span class="token class-name">Value</span><span class="token double-colon punctuation">::</span><span class="token function">CreateTensor</span><span class="token punctuation">(</span>mem<span class="token punctuation">,</span> input_data_host<span class="token punctuation">,</span> input_numel<span class="token punctuation">,</span> input_shape<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+    <span class="token comment">/* 向输入 tensor 中填充数据 */</span>
+    
+    <span class="token comment">/* 输出 tensor */</span>
+    <span class="token keyword">int</span> output_numbox <span class="token operator">=</span> output_dims<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> output_numprob <span class="token operator">=</span> output_dims<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> output_numel <span class="token operator">=</span> <span class="token number">1</span> <span class="token operator">*</span> output_numbox <span class="token operator">*</span> output_numprob<span class="token punctuation">;</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>output_data_host <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token keyword">float</span><span class="token punctuation">[</span>output_numel<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int64_t</span> output_shape<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span> output_numbox<span class="token punctuation">,</span> output_numprob<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> output_tensor <span class="token operator">=</span> Ort<span class="token double-colon punctuation">::</span><span class="token class-name">Value</span><span class="token double-colon punctuation">::</span><span class="token function">CreateTensor</span><span class="token punctuation">(</span>mem<span class="token punctuation">,</span> output_data_host<span class="token punctuation">,</span> output_numel<span class="token punctuation">,</span> output_shape<span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// 模型推理</span>
+    Ort<span class="token double-colon punctuation">::</span>RunOptions options<span class="token punctuation">;</span>
+    session<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span>options<span class="token punctuation">,</span>
+                <span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token keyword">const</span> <span class="token operator">*</span><span class="token punctuation">)</span>input_names<span class="token punctuation">,</span> <span class="token operator">&amp;</span>input_tensor<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span>
+                <span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token keyword">const</span> <span class="token operator">*</span><span class="token punctuation">)</span>output_names<span class="token punctuation">,</span> <span class="token operator">&amp;</span>output_tensor<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">/* python run方法
+    res = session.run(["output"]，&#123;"images" : input_tensor&#125;)
+        参数一：list，元素是输出节点；
+        参数二：dict，key 是输入节点名称 value 是输入的 tensor；
+        返回值：list，每个输出节点的输出值；
+    */</span>
+
+    <span class="token comment">/* 结果解析 */</span>
+    
+    <span class="token comment">// 释放资源</span>
+    <span class="token keyword">delete</span><span class="token punctuation">[</span><span class="token punctuation">]</span> input_data_host<span class="token punctuation">;</span>
+    <span class="token keyword">delete</span><span class="token punctuation">[</span><span class="token punctuation">]</span> output_data_host<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="OpenVINO推理"><a href="#OpenVINO推理" class="headerlink" title="OpenVINO推理"></a>OpenVINO推理</h3><p>本节简要描述利用 OpenVINO  部署 ONNX 模型过程，其具体流程为：</p>
+<ul>
+<li>初始化 OpenVINO 核心：创建一个 <code>ov::Core</code> 对象，这是模型加载和推理的基础。</li>
+<li>加载和编译模型：使用 <code>core.compile_model</code> 方法加载 ONNX 模型文件，并将其编译到默认设备。</li>
+<li>创建推理请求：调用 <code>model.create_infer_request</code> 创建推理请求实例。</li>
+<li>获取输入输出张量：使用 <code>get_input_tensor</code> 和 <code>get_output_tensor</code> 方法获取输入和输出张量。如果模型支持动态形状（dynamic shape），需要显式设置输入张量的形状。</li>
+<li>准备输入数据：调用 <code>input.data()</code> 获取输入张量的内存指针。使用常规方式（如读取图像、归一化等）填充输入数据。</li>
+<li>模型推理。</li>
+<li>输出结果解析：获取输出张量的数据指针。根据模型的输出格式解析结果。</li>
+<li>释放内存。</li>
+</ul>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">void</span> <span class="token function">onenvino_infer</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    ov<span class="token double-colon punctuation">::</span>Core core<span class="token punctuation">;</span>
+    <span class="token comment">// 编译模型</span>
+    <span class="token keyword">auto</span> model <span class="token operator">=</span> core<span class="token punctuation">.</span><span class="token function">compile_model</span><span class="token punctuation">(</span><span class="token string">"../src/cuda-tensorrt-senior-api/static/yolov5s_modified.onnx"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 创建推理请求</span>
+    <span class="token keyword">auto</span> iq <span class="token operator">=</span> model<span class="token punctuation">.</span><span class="token function">create_infer_request</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 获取输入与输出</span>
+    <span class="token keyword">auto</span> input <span class="token operator">=</span> iq<span class="token punctuation">.</span><span class="token function">get_input_tensor</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> output <span class="token operator">=</span> iq<span class="token punctuation">.</span><span class="token function">get_output_tensor</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 动态 shape 需要手动确定输入维度</span>
+    input<span class="token punctuation">.</span><span class="token function">set_shape</span><span class="token punctuation">(</span><span class="token punctuation">&#123;</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">640</span><span class="token punctuation">,</span> <span class="token number">640</span><span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 注意：此处一定要先设置输入维度之后在获取输入 data 指针，否则获取到的 data 为空</span>
+    <span class="token keyword">float</span> <span class="token operator">*</span>input_data_host <span class="token operator">=</span> input<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">data</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/* 输入数据 */</span>
+    iq<span class="token punctuation">.</span><span class="token function">infer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 模型推理</span>
+
+    <span class="token keyword">float</span> <span class="token operator">*</span>output_data_host <span class="token operator">=</span> output<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">data</span><span class="token generic class-name"><span class="token operator">&lt;</span><span class="token keyword">float</span><span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 获取输出 data 指针</span>
+
+    <span class="token comment">/* 结果解析 */</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Ending!"</span> <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="RALL-接口模式"><a href="#RALL-接口模式" class="headerlink" title="RALL + 接口模式"></a>RALL + 接口模式</h3><h3 id=""><a href="#" class="headerlink" title=""></a></h3>
                 
             </div>
             <hr/>
@@ -1136,7 +1244,7 @@ torch<span class="token punctuation">.</span>onnx<span class="token punctuation"
             
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">37.3k</span>
+                        class="white-color">43k</span>
             
             <br>
             <!-- 运行天数提醒. -->
