@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="TensorRT课程笔记（2）, 暴躁小何的笔记">
-    <meta name="description" content="TensorRT课程笔记-系列二：cuda-runtime-api">
+    <meta name="keywords" content="AV-basics, 暴躁小何的笔记">
+    <meta name="description" content="音视频处理基础概念">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>TensorRT课程笔记（2） | 暴躁小何的笔记</title>
+    <title>AV-basics | 暴躁小何的笔记</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -336,12 +336,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">TensorRT课程笔记（2）</h1>
+                    <h1 class="description center-align post-title">AV-basics</h1>
                 </div>
             </div>
         </div>
@@ -365,12 +365,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/CUDA/">
-                                <span class="chip bg-color">CUDA</span>
-                            </a>
-                        
-                            <a href="/tags/TensorRT/">
-                                <span class="chip bg-color">TensorRT</span>
+                            <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/">
+                                <span class="chip bg-color">音视频处理</span>
                             </a>
                         
                     </div>
@@ -385,7 +381,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-05-31
+                    2025-01-24
                 </div>
                 
 
@@ -402,14 +398,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.4k
+                    6.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    13 分
+                    21 分
                 </div>
                 
 
@@ -432,289 +428,309 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>本篇文章程序链接：<a target="_blank" rel="noopener" href="https://github.com/Shao-junliang/TensorRT-Course-Notes/tree/master/cuda-runtime-api">https://github.com/Shao-junliang/TensorRT-Course-Notes/tree/master/cuda-runtime-api</a></p>
-<h3 id="1-上下文"><a href="#1-上下文" class="headerlink" title="1. 上下文"></a>1. 上下文</h3><ol>
-<li><p>CUDA Runtime是封装了CUDA Driver的高级别更友好的API。</p>
-</li>
-<li><p>cudaruntime需要引入cudart这个so文件。</p>
-</li>
-<li><p>上下文管理：</p>
-<ul>
-<li><p>使用<code>cuDevicePrimaryCtxRetain</code>为每个设备设置context，不再手工管理context，并且不提供直接管理context的API。</p>
-</li>
-<li><p>任何依赖CUcontext的API被调用时，会触发CUcontext的创建和对设备的绑定。</p>
-<ul>
-<li>此后任何API调用时，会以设备id为基准，调取绑定好的CUcontext。</li>
-<li>这种模式被称为懒加载模式，避免了手动维护CUcontext的麻烦。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>cuda的状态返回值，都是<code>cudaError_t</code>类型，通过check宏捕获状态并处理是一种通用方式。</p>
-<ul>
-<li>官方案例采用宏，并非本例程序里的函数加宏。</li>
-<li>函数加宏具有更加好的便利性 。</li>
-</ul>
-</li>
-</ol>
-<h3 id="2-内存"><a href="#2-内存" class="headerlink" title="2. 内存"></a>2. 内存</h3><ol>
-<li>关于内存模型，请参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1jX4y1w7Um">https://www.bilibili.com/video/BV1jX4y1w7Um</a><ul>
-<li>内存大体可分为<ul>
-<li>主机内存：Host Memory，也就是CPU内存，内存；</li>
-<li>设备内存：Device Memory，也就是GPU内存，显存；<ul>
-<li>设备内存又分为（括号里的数字表示到计算芯片的距离）：<ul>
-<li>寄存器内存(1)：Register Memory</li>
-<li>纹理内存(2)：Texture Memory</li>
-<li>共享内存(2)：Shared Memory</li>
-<li>常量内存(2)：Constant Memory</li>
-<li>全局内存(3)：Global Memory</li>
-<li>本地内存(3)：Local Memory</li>
-</ul>
-</li>
-<li><strong>距离计算芯片越近，计算速度就越快</strong>，空间越小，价格越贵。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>通过<code>cudaMalloc</code>分配GPU内存，分配到setDevice指定的当前设备上。</li>
-<li>通过<code>cudaMallocHost</code>分配page locked memory，即pinned memory，页锁定内存。<ul>
-<li>页锁定内存是主机内存，CPU可以直接访问。</li>
-<li>页锁定内存也可以被GPU直接访问，使用DMA（Direct Memory Access）技术。<ul>
-<li>注意这么做的性能会比较差，因为主机内存距离GPU太远，隔着PCIE等，不适合大量数据传输。</li>
-</ul>
-</li>
-<li>页锁定内存是物理内存，过度使用会导致系统性能低下（导致虚拟内存等一系列技术变慢）。</li>
-</ul>
-</li>
-<li>内存拷贝：<code>cudaMemcpy</code><ul>
-<li>如果host不是页锁定内存，则：<ul>
-<li><p>Device To Host的过程，等价于：</p>
-<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">pinned = cudaMallocHost // 创建锁页内存
-copy Device to pinned	// 拷贝Device数据到pinned
-copy pinned to Host		// 拷贝pinned数据到Host
-free pinned				// 释放内存<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-<li><p>Host To Device的过程，等价于：</p>
-<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">pinned = cudaMallocHost	// 创建锁页内存
-copy Host to pinned		// 拷贝Host数据到pinned
-copy pinned to Device	// 拷贝pinned数据到Device
-free pinned				// 释放内存<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre></li>
-</ul>
-</li>
-<li>如果host是页锁定内存，则：<ul>
-<li>Device To Host的过程，等价于：copy Device to Host</li>
-<li>Host To Device的过程，等价于：copy Host to Device</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="3-流"><a href="#3-流" class="headerlink" title="3. 流"></a>3. 流</h3><ol>
-<li>stream是一个流句柄，可以当做是一个队列。<ul>
-<li>cuda执行器从 stream 中一条条的读取指令并执行；如<code>cudaMemcpyAsync</code>函数等同于向stream这个队列中加入一个cudaMemcpy指令并排队；</li>
-<li>使用到stream的函数，在向stream中加入指令后立即返回，并不会等待指令执行结束；</li>
-<li>通过<code>cudaStreamSynchronize</code>函数，等待stream中所有指令执行完毕，也就是队列为空，即同步操作。</li>
-</ul>
-</li>
-<li>当使用stream时，注意：<strong>由于异步函数会立即返回，因此传递进入的参数要考虑其生命周期，应确认函数调用结束后再做释放</strong>。</li>
-<li>还可以向stream中加入Event，用以监控是否到达了某个检查点，具体流程：<ul>
-<li><code>cudaEventCreate</code>，创建事件;</li>
-<li><code>cudaEventRecord</code>，记录事件；在stream中加入某个事件，当队列执行到该事件后，修改其状态;</li>
-<li><code>cudaEventQuery</code>，查询事件当前状态；</li>
-<li><code>cudaEventElapsedTime</code>，计算两个事件之间经历的时间间隔，若要统计某些核函数执行时间，请使用这个函数，能够得到最准确的统计；</li>
-<li><code>cudaEventSynchronize</code>，同步某个事件，等待事件到达；</li>
-<li><code>cudaStreamWaitEvent</code>，等待流中的某个事件；</li>
-</ul>
-</li>
-<li>默认流，对于cudaMemcpy等同步函数，其等价于执行了：<ul>
-<li><code>cudaMemcpyAsync</code>(… 默认流) 加入队列；</li>
-<li><code>cudaStreamSynchronize</code>(默认流) 等待执行完成；</li>
-<li>默认流与当前设备上下文类似，是与当前设备进行的关联。因此，如果大量使用默认流，会导致性能低下。</li>
-</ul>
-</li>
-</ol>
-<h3 id="4-核函数"><a href="#4-核函数" class="headerlink" title="4. 核函数"></a>4. 核函数</h3><p>cu文件可以当做正常cpp写即可，它是cpp的超集，兼容支持cpp的所有特性。</p>
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本节主要阐述音视频的一些基础概念，以及一些基本流程。</p>
+<h2 id="视频播放原理"><a href="#视频播放原理" class="headerlink" title="视频播放原理"></a>视频播放原理</h2><p>视频播放原理从视频文件结构、播放原理、音视频同步和转码过程四个方面，简要阐述音视频的基础概念。</p>
+<h3 id="视频文件结构"><a href="#视频文件结构" class="headerlink" title="视频文件结构"></a>视频文件结构</h3><p>视频文件由<strong>文件信息</strong>和<strong>音视频数据</strong>组成，不同的封装格式决定了视频文件的具体结构。常见的封装格式包括 <code>.mp4</code>、<code>.avi</code>、<code>.flv</code>、<code>.hls</code> 等，一些流媒体协议如 RTMP、RTSP、HTTP-FLV 等也可以被视为特殊的封装形式。</p>
 <ol>
-<li><p>cu文件中引入的一些新的符号和语法：</p>
-<ul>
-<li><p><code>__global__</code>标记，核函数标记，调用方必须是host，返回值必须是void；</p>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">__global__ <span class="token keyword">void</span> <span class="token function">kernel</span><span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">float</span><span class="token operator">*</span> pdata<span class="token punctuation">,</span> <span class="token keyword">int</span> ndata<span class="token punctuation">)</span>
+<li><strong>文件信息</strong><br>文件信息记录了视频文件的元数据，如<strong>封装格式、编码格式、时长、分辨率</strong>以及其他 meta 信息。这些信息为后续对音视频数据的解压缩和播放提供了必要的指引。</li>
+<li><strong>音视频数据</strong><br>音视频数据是经过压缩处理后的数据块，通常音频数据与视频数据交叉存储。需要注意的是，每一小块音频或视频数据不一定对应独立的一帧。音视频文件中通常包含多个轨道（Track），例如音频轨道、视频轨道，甚至字幕轨道。播放器通常只会选择一个音频轨道和一个视频轨道进行播放，但原则上支持多轨道并存。</li>
+</ol>
+<h3 id="视频播放原理-1"><a href="#视频播放原理-1" class="headerlink" title="视频播放原理"></a>视频播放原理</h3><p>播放视频的过程主要涉及<strong>解封装</strong>和<strong>解码</strong>两个步骤。</p>
+<img src="/2025/01/24/av-basics/%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%8E%9F%E7%90%86.png" class="" title="视频播放原理">     
 
-<span class="token comment">// 调用方式，"&lt;&lt;&lt; >>>"参数类型是：&lt;&lt;&lt;dim3 gridDim, dim3 blockDim, size_t bytesSharedMemorySize, cudaStream_t stream>>></span>
-kernel<span class="token operator">&lt;&lt;</span><span class="token operator">&lt;</span>gridDim<span class="token punctuation">,</span> blockDim<span class="token punctuation">,</span> bytesSharedMemorySize<span class="token punctuation">,</span> stream<span class="token operator">>></span><span class="token operator">></span><span class="token punctuation">(</span>pdata<span class="token punctuation">,</span> ndata<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<ol>
+<li><strong>解封装（Demux）</strong><br>播放视频时，播放器会按照顺序读取音视频数据块并解封装。解封装的作用是提取出音视频的压缩数据，但这些压缩数据还不能直接播放。封装格式决定了视频文件的数据结构和数据块的存储规则。</li>
+<li><strong>解码（Decode）</strong><br>解码是将解封装后的压缩数据进行解压缩的过程。解码过程依赖于特定的编码格式及其对应的解码器，例如 H.264、H.265、AAC 等。编码格式决定了音视频数据的压缩方式及算法，因此不同编码格式的解码器程序也不相同。</li>
+</ol>
+<h3 id="音视频同步原理"><a href="#音视频同步原理" class="headerlink" title="音视频同步原理"></a>音视频同步原理</h3><p>音视频同步的关键在于<strong>时间戳（Timestamp）</strong>。</p>
+<img src="/2025/01/24/av-basics/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%90%8C%E6%AD%A5%E5%8E%9F%E7%90%86.png" class="" title="音视频同步原理">      
+
+<ol>
+<li><p><strong>时间戳类型</strong></p>
+<ul>
+<li><strong>解码时间戳（DTS）</strong>：指示解码器按照顺序解码音视频数据块的顺序。</li>
+<li><strong>播放时间戳（PTS）</strong>：指示播放器在具体时间播放对应的音频采样或视频帧。</li>
+</ul>
+</li>
+<li><p><strong>时间基换算</strong></p>
+<p>时间戳通常是相对时间，需要通过时间基进行换算，最终得到对应的绝对播放时间。播放器根据 PTS 信息来实现音频与视频的同步播放。</p>
+</li>
+</ol>
+ <img src="/2025/01/24/av-basics/%E6%97%B6%E9%97%B4%E6%88%B3%E6%8D%A2%E7%AE%97.png" class="" title="时间戳换算">      
+
+<h3 id="转码过程原理"><a href="#转码过程原理" class="headerlink" title="转码过程原理"></a>转码过程原理</h3><p>转码的核心是对视频文件进行重新编码。</p>
+<img src="/2025/01/24/av-basics/%E8%BD%AC%E7%A0%81%E8%BF%87%E7%A8%8B.png" class="" title="转码过程">   
+
+<ol>
+<li><strong>解封装与解码</strong><br>提取音视频数据块并进行解码，生成未压缩的图像帧和音频采样。</li>
+<li><strong>处理</strong><br>对解码后的数据进行处理，如调整分辨率、修改采样率、裁剪画面等。</li>
+<li><strong>重新编码与封装</strong><br>将处理后的数据重新编码为指定的编码格式，并按照目标封装格式重新打包成完整的视频文件。</li>
+</ol>
+<h2 id="视频基础参数概念"><a href="#视频基础参数概念" class="headerlink" title="视频基础参数概念"></a>视频基础参数概念</h2><p>在音视频领域，视频的组成离不开一帧帧画面的累积和它们的动态连接。理解视频的基础参数方便更好地掌握视频处理中的核心要点。</p>
+<h3 id="单个视频帧"><a href="#单个视频帧" class="headerlink" title="单个视频帧"></a>单个视频帧</h3><p>单个视频帧可以看作是一张静态图片，主要包含以下几个重要参数：</p>
+<ul>
+<li><strong>分辨率</strong>：指图像的宽高像素大小，如 1920×1080。标识如 “1080P” 中的 “P” 表示逐行扫描（Progressive），而 “I” 表示隔行扫描（Interlaced）。常见分辨率：<ul>
+<li>4K：3840*2160</li>
+<li>2K：2560*1440</li>
+<li>1080P：1920*1080</li>
+<li>720P：1280*720</li>
+<li>360P：640*360</li>
+</ul>
+</li>
+<li><strong>像素</strong>：指分辨率长宽相乘后的值。例如，1920×1080 的分辨率包含 207 万像素点。</li>
+<li><strong>DPI</strong>（Dots Per Inch）：表示每英寸像素密度，主要用于衡量图片或屏幕显示的精细程度。</li>
+<li><strong>色彩空间模型</strong>：定义像素记录颜色的方式，常见模型包括 RGB 和 YUV。其中，RGB 更适合显示设备，YUV 则常用于视频压缩和传输。</li>
+</ul>
+<h3 id="多个视频帧"><a href="#多个视频帧" class="headerlink" title="多个视频帧"></a>多个视频帧</h3><p>当视频由多个帧组成时，额外引入了一些重要参数：</p>
+<ul>
+<li><strong>帧率</strong>：表示每秒播放的帧数，单位为 fps（Frames Per Second）。常见的帧率如 24fps（电影帧率）、30fps（普通视频）、60fps（高刷新率视频）。</li>
+<li><strong>播放时间戳 PTS</strong>：标记每一帧在视频播放中的时间点，用于确保音视频同步。</li>
+<li><strong>码率</strong>：又称音频比特率，码率就是一秒钟的数据量大小，单位为 kbps 或 Mbps。再不压缩的情况下，<strong>原始码率&#x3D;采样数*位深度*声道数</strong>，码率越高，画质越好，但占用存储或带宽越多。</li>
+</ul>
+<h3 id="H-264-和-H-265"><a href="#H-264-和-H-265" class="headerlink" title="H.264 和 H.265"></a>H.264 和 H.265</h3><p>在视频编码中，H.264 和 H.265 是两种主流压缩编码格式，引入了 IPB 帧的概念，用于提高视频压缩效率：</p>
+<ul>
+<li><p><strong>I帧（Intra-coded Frame）</strong>：独立帧，包含完整画面信息，可单独解码， 数据量是最大的。 </p>
+</li>
+<li><p><strong>P帧（Predicted Frame）</strong>：预测帧，基于前一帧进行编码， 数据并不完整， 只记录差异信息。</p>
+</li>
+<li><p><strong>B帧（Bi-directional Frame）</strong>：双向预测帧，基于前后帧进行压缩，压缩效率最高。</p>
+</li>
+<li><p><strong>GOP（Group of Pictures）</strong>指的是一组完整的视频帧，如gop设置为25，那么编码器会让每25帧的第一帧必定为I帧 。如果帧率也是25帧，那每秒的第一帧就必定是I帧。</p>
+</li>
+</ul>
+<p>  这些特殊帧通过减少冗余信息存储，大幅降低了视频文件的体积，同时在解码时恢复出流畅画面。</p>
+<p><strong>不同场景关注的点（无论是什么场景，都需要关注码率、最大码率的设置 ）</strong>： </p>
+<ul>
+<li><strong>在线播放</strong>：一般不需要特别关心I帧、B帧、P帧、GOP。 但是如果出现未加载完视频跳转不太流畅等问题的话，则可能是视频的某两个I帧相隔特别远，为了防止这种问题，可以将<strong>GOP设置为帧率的4-5倍</strong>，保证每4-5秒必有一个I帧。</li>
+<li><strong>直播场景</strong>：<strong>I帧、B帧、P帧、GOP都需要特变关注</strong>。I帧是独立的帧，B帧、P帧的播放实质上都需要依赖I帧，所以流媒体服务器需要<strong>设置缓存I帧</strong>，这样首屏花屏的问题会得到一定程度缓解。出现局部花屏时还需要<strong>设置GOP</strong>，GOP一般设置为<strong>帧率的1-2倍</strong>，保证每1-2秒必有I帧。这样的话，理论上只有在1-2秒这个间隙中开始拉流才会出现花屏问题。</li>
+</ul>
+<h2 id="音频基础参数概念"><a href="#音频基础参数概念" class="headerlink" title="音频基础参数概念"></a>音频基础参数概念</h2><h3 id="音频采样的基本概念"><a href="#音频采样的基本概念" class="headerlink" title="音频采样的基本概念"></a>音频采样的基本概念</h3><p>音频采样是音频数字化的基础，以下是音频采样中四个核心概念：<strong>采样、位深度、声道和采样率</strong>。</p>
+<ul>
+<li><p><strong>采样</strong>是对声音信号在某一刻的声音强度进行记录的过程。音频的最小单位并不是一帧，而是一个采样点。采样点记录了当前时刻的声音样本，这些样本通过模数转换（ADC，Analog-to-Digital Conversion）生成可存储的数字化数据。</p>
+</li>
+<li><p><strong>位深度</strong>（Bit Depth）是指每个采样点的数据存储大小。位深度越大，声音的动态范围和细节就越丰富。例如，16位深度可以记录 2¹⁶（65536）种不同的振幅变化，是音频文件中最常见的位深度，广泛用于网络视频和音频文件。而24位深度则常用于高品质音频。</p>
+<ul>
+<li>16位深度：每个采样点占2字节。</li>
+<li>24位深度：每个采样点占3字节，能表现更精细的声音动态。</li>
+</ul>
+</li>
+<li><p><strong>声道</strong>（Channel）决定了音频的空间感和方向性。常见的声道配置包括：</p>
+<ul>
+<li><strong>单声道（Mono）</strong>：只有一个声道，音频播放时所有声音都集中于一个音源。</li>
+<li><strong>双声道（Stereo）</strong>：有左右两个声道，提供立体声效果。双声道的采样数据量是单声道的两倍。</li>
+<li><strong>多声道（如5.1、7.1声道）</strong>：用于影院音效，多个声道数据会按照顺序排列存储，播放时按对应的扬声器输出。</li>
+</ul>
+</li>
+<li><p><strong>采样率</strong>（Sampling Rate）是每秒对声音进行采样的次数，单位是赫兹（Hz）。采样率越高，声音的还原度越好。但需注意，采样率越高，文件大小也越大。常见采样率：</p>
+<ul>
+<li>44.1 kHz：音质可满足 CD 标准。</li>
+<li>48 kHz：常见于影视音频，音质略高于 CD 标准。</li>
+<li>96 kHz 或更高：常见于专业录音或高解析音频格式。</li>
+</ul>
+</li>
+</ul>
+<h3 id="单个音频帧的概念"><a href="#单个音频帧的概念" class="headerlink" title="单个音频帧的概念"></a>单个音频帧的概念</h3><p>为了实现音视频同步播放，音频引入了“音频帧”的概念。</p>
+<p><strong>音频帧</strong>是将一小段时间内的多个音频采样数据打包形成的结构化数据单元。由于每个采样点的数据量很小，如果为每个采样点附加播放时间戳（PTS，Presentation Timestamp），会严重浪费存储空间。因此，音频采样数据会打包成音频帧，一个音频帧对应一段连续的采样数据。<strong>优点</strong>：</p>
+<ul>
+<li>减少时间戳占用的存储空间。</li>
+<li>提高音频文件的播放效率。</li>
+</ul>
+<p><strong>音频帧示例</strong>：假设音频的采样率为 48 kHz，位深度为 16 位，声道数为 2：</p>
+<ul>
+<li>每秒有 48,000 个采样点。</li>
+<li>每个采样点的大小为 16 位 × 2 声道 &#x3D; 4 字节。</li>
+<li>每秒的音频数据大小为 48,000 × 4 &#x3D; 192 KB。</li>
+</ul>
+<p>如果将 1 秒的采样数据分为 100 帧，每帧包含 480 个采样点，则每帧的数据大小为 480 × 4 &#x3D; 1920 字节。每帧的播放时长为 1 秒 ÷ 100 帧 &#x3D; 10 毫秒。</p>
+<h3 id="多个音频帧与播放的关系"><a href="#多个音频帧与播放的关系" class="headerlink" title="多个音频帧与播放的关系"></a>多个音频帧与播放的关系</h3><p>当音频文件被打包为多个音频帧后，<strong>播放时间戳（PTS）、码率和编码格式</strong>决定了播放效果和质量：</p>
+<p><strong>播放时间戳（PTS）</strong> 是指音频帧的播放开始时间。</p>
+<ul>
+<li><p>每个音频帧的 PTS 指示其在播放中的起始点。</p>
+</li>
+<li><p>播放时，采样数据会按采样频率连续输出，直到下一帧的 PTS 到达。</p>
+</li>
+<li><p><strong>优化意义</strong>：保证音视频同步，尤其在变速播放或跳转播放时，PTS 是核心参考。</p>
+</li>
+</ul>
+<p><strong>码率</strong>（Bitrate）是指音频每秒的数据量大小，单位为 kbps（千位每秒）。<strong>原始码率计算公式</strong>：码率&#x3D;采样率×位深度×声道数。如：采样率为 48 kHz，位深度为 16 位，双声道码率为：<code>48,000×16×2=1536000bps=1536kbps</code></p>
+<ul>
+<li><strong>高码率</strong>：音质更好，但文件更大。</li>
+<li><strong>低码率</strong>：音质下降，但适合网络传输。</li>
+</ul>
+<p><strong>编码格式</strong>决定了音频数据的压缩和存储方式，是影响音频质量和播放效率的重要因素。常见编码格式包括：</p>
+<ul>
+<li><strong>无损格式</strong>：如 WAV、FLAC，保留了完整的音频数据，但文件较大。</li>
+<li><strong>有损格式</strong>：如 MP3、AAC，压缩掉人耳不敏感的频段数据，文件更小，但音质会有所损失。</li>
+</ul>
+<h2 id="直播工作原理"><a href="#直播工作原理" class="headerlink" title="直播工作原理"></a>直播工作原理</h2><p>直播的核心在于实时传输和播放音视频流，与普通视频转码不同，直播的输入和输出均为实时流媒体（直播流），而不是静态视频文件。整个直播过程可以概括为三个主要环节：<strong>直播流数据获取</strong>、<strong>直播转码</strong>和<strong>直播流数据输出</strong>。</p>
+<h3 id="直播工作流程概述"><a href="#直播工作流程概述" class="headerlink" title="直播工作流程概述"></a>直播工作流程概述</h3><p>直播流程的关键在于引入两个流媒体服务。</p>
+<img src="/2025/01/24/av-basics/%E7%9B%B4%E6%92%AD%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png" class="" title="直播工作流程"> 
 
 <ul>
-<li>其中gridDim, blockDim, bytesSharedMemory, stream是线程layout参数；</li>
-<li>gridDim 与 blockDim 都是 <code>dim3</code> 类型，<code>dim3</code>有构造函数<code>dim3(int x, int y=1, int z=1)</code>，因此当直接赋值为int时，实则定义了<code>dim.x = value, dim.y = 1, dim.z = 1</code></li>
-<li>如果指定了stream，则把核函数加入到stream中异步执行；pdata和ndata则是核函数的函数调用参数；</li>
-<li>核函数调用参数必须传值，不能传引用，参数可以是类类型等；</li>
-<li>核函数执行时无论stream是否为nullptr，都将是异步执行；</li>
-<li>因此在核函数中进行printf操作时，必须进行等待，例如<code>cudaDeviceSynchronize</code>、或者<code>cudaStreamSynchronize</code>，否则将无法看到打印的信息。</li>
+<li><strong>流媒体服务 A</strong>：用于接收直播源数据（直播流推送到此服务）。</li>
+<li><strong>流媒体服务 B</strong>：用于分发处理后的直播流供用户观看。</li>
+</ul>
+<p>转码模块从流媒体服务 A 拉取直播流进行处理，处理后的直播流再推送到流媒体服务 B。用户可从流媒体服务 B 拉取视频流观看。如果直播的推流协议与观看协议一致，则可仅使用一个流媒体服务。<br>简化流程为：<strong>直播流数据获取 → 转码 → 直播流数据输出</strong>。</p>
+<h3 id="直播源数据获取"><a href="#直播源数据获取" class="headerlink" title="直播源数据获取"></a>直播源数据获取</h3><p>直播源数据通常通过网络传输，需要流媒体服务作为中转站，不同场景的获取方式如下：</p>
+<ol>
+<li><strong>直播平台场景</strong>：<ul>
+<li>主播通过推流工具（如 OBS）将音视频流推送到直播平台的流媒体服务。</li>
+<li>常用协议：<strong>RTMP</strong>。</li>
 </ul>
 </li>
-<li><p><code>__device__</code>标记，设备调用的函数，调用方必须是device。</p>
-</li>
-<li><p><code>__host__</code>标记，主机调用函数，调用方必须是主机；也可以<code>__device__</code> <code>__host__</code>两个标记同时有，表明该函数可以设备也可以主机。</p>
-</li>
-<li><p><code>__constant__</code>标记，定义常量内存。</p>
-</li>
-<li><p><code>__shared__</code>标记，定义共享内存。</p>
-</li>
-<li><p>通过cudaPeekAtLastError&#x2F;cudaGetLastError函数，捕获核函数是否出现错误或者异常。</p>
-</li>
-<li><p>内存索引的计算公式</p>
-</li>
-</ul>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">int</span> position <span class="token operator">=</span> <span class="token number">0</span>
-<span class="token keyword">for</span> i in <span class="token function">range</span><span class="token punctuation">(</span><span class="token number">6</span><span class="token punctuation">)</span><span class="token operator">:</span>
-    position <span class="token operator">*=</span> dims<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
-    position <span class="token operator">+=</span> indexs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
-</li>
-<li><p>buildin变量，内置变量。</p>
-<ul>
-<li>所有核函数都可以访问，其取值由执行器维护和改变；</li>
-<li>gridDim[x, y, z]：网格维度，线程布局的大小，在核函数启动时指定；</li>
-<li>blockDim[x, y, z]：块维度，线程布局的大小，在核函数启动时指定；</li>
-<li>blockIdx[x, y, z]：块索引，对应最大值为gridDim，由执行器根据当前执行的线程进行赋值，核函数内访问时已经被配置好；</li>
-<li>threadIdx[x, y, z]：线程索引，对应最大值是blockDim，由执行器根据当前执行的线程进行赋值，核函数内访问时已经被配置好；</li>
-<li>Dim是固定的，启动后不会改变，并且是Idx的最大值；</li>
-<li>每个Dim都具有x、y、z三个维度，分别以z、y、x为高低顺序。</li>
+<li><strong>转播场景</strong>：<ul>
+<li>直接从对方流媒体服务拉取直播流进行转播。</li>
+<li>常用协议：<strong>RTMP</strong>、<strong>HLS</strong>、<strong>HTTP-FLV</strong>、<strong>RTSP</strong> 等。</li>
 </ul>
 </li>
-<li><p>thread, grid, block 和 threadIdx</p>
-<ul>
-<li><p>如果假设一个Grid相当于一个立方体，如图所示:</p>
-<img src="/2024/05/31/cuda-runtime-basic/organization-of-threads.jpg" class="" title="Grids"> 
-<p>图为一个gridDim[2, 2, 2]的girds，每一个小立方体为一个block，图中的block为blockDim[6, 6, 3]，其中绿色位置的小方块则代表一个block中的thread；</p>
-</li>
-<li><p>threadIdx表示的含义为thread的1D idx，所以先确定知道在第几个block里，再确定在这个block里的第几个thread。</p>
-</li>
-<li><p>一个核函数只能有一个grid，一个grid可以有很多个block，每个block可以有很多的线程。</p>
-</li>
+<li><strong>录播场景（文件直播）</strong>：<ul>
+<li>直播源是静态视频文件，不需要流媒体服务中转，直接读取文件推流。</li>
 </ul>
 </li>
 </ol>
-<h3 id="5-layout"><a href="#5-layout" class="headerlink" title="5. layout"></a>5. layout</h3><ol>
-<li>layout是设置核函数执行的线程数，包括最大线程数、每个块的最大线程数、 以及warp的大小。 <ul>
-<li>maxGridSize对应gridDim的取值最大值；</li>
-<li>maxThreadsDim对应blockDim的取值最大值；</li>
-<li>warpSize对应线程束中的线程数量；</li>
-<li>maxThreadsPerBlock对应blockDim元素乘积最大值；</li>
-</ul>
-</li>
-<li>layout的4个主要变量的关系：<ul>
-<li>gridDim是layout维度，其对应的索引是blockIdx，blockIdx最大值为 [0, gridDim-1]。</li>
-<li>blockDim是layout维度，其对应的索引是threadIdx，threadIdx最大值为 [0, blockDim-1]，blockDim维度乘积必须小于等于maxThreadsPerBlock。</li>
-<li>gridDim、blockDim为维度，启动核函数后是固定的；</li>
-<li>blockIdx、threadIdx为索引，启动核函数后，枚举每一个维度值，不同线程取值不同。</li>
-</ul>
-</li>
-<li>核函数启动时，&lt;&lt;&lt;&gt;&gt;&gt;的参数分别为：&lt;&lt;&lt;gridDim, blockDim, shraed_memory_size, cudaStream_t&gt;&gt;&gt;，shared_memory_size为共享内存（shared memory）大小。</li>
-<li>对于一维数组时，通常只定义layout的x维度，若处理的是二维，则可以考虑定义x、y维度，如单通道图像。</li>
-</ol>
-<h3 id="6-共享内存"><a href="#6-共享内存" class="headerlink" title="6. 共享内存"></a>6. 共享内存</h3><ol>
-<li><p><code>sharedMemPerBlock</code> 为block中最大可用的共享内存，可以利用共享内存使得 block 内的threads相互通信。</p>
-<img src="/2024/05/31/cuda-runtime-basic/example.jpg" class="" title="sharedMemPerBlock 的应用案例"> 
-</li>
-<li><p>共享内存是片上内存，更靠近计算单元，因此比globalMem速度更快，通常可以充当缓存使用。</p>
+<h3 id="直播转码"><a href="#直播转码" class="headerlink" title="直播转码"></a>直播转码</h3><p>转码是将直播源中的音视频流解码处理后重新编码并封装的过程。完成转码后，处理好的直播流推送到流媒体服务供用户观看。</p>
 <ul>
-<li>数据先读入到sharedMem，做各类计算时，使用sharedMem而非globalMem</li>
+<li>观看协议选择：<ul>
+<li><strong>低延迟协议</strong>：RTMP、WebRTC（适合实时互动场景，但 RTMP 已不被主流浏览器支持，因 Flash 停用）。</li>
+<li><strong>高兼容性协议</strong>：HTTP-FLV、HLS（适合大部分播放器和浏览器，但延迟较高）。</li>
 </ul>
 </li>
-<li><p><code>demo_kernel&lt;&lt;&lt;1, 1, 12, nullptr&gt;&gt;&gt;()</code>；其中第三个参数12，是指定动态共享内存dynamic_shared_memory的大小，单位是bytes，也就是说可以安全存放3个float。</p>
-<ul>
-<li>dynamic_shared_memory变量必须使用 <code>extern __shared__</code>开头；</li>
-<li>并且定义为不确定大小的数组 <code>[]</code>；</li>
-<li>变量在函数外部与内部定义效果都一样；</li>
-<li>其指针由cuda调度器执行时赋值；</li>
+</ul>
+<h4 id="4-直播流输出及直播-CDN"><a href="#4-直播流输出及直播-CDN" class="headerlink" title="4. 直播流输出及直播 CDN"></a>4. 直播流输出及直播 CDN</h4><p>直接将直播流输出给用户观看会消耗大量带宽。以 2Mbps 的直播流为例，100Mbps 带宽的服务器理论上只能支持 50 人观看。为应对大规模并发访问，通常需要引入<strong>直播 CDN（内容分发网络）</strong>。</p>
+<ol>
+<li><strong>直播 CDN 的作用</strong>：<ul>
+<li>CDN 作为分发节点，可以分摊请求压力。</li>
+<li>转码后的直播流通过 <strong>RTMP</strong> 推送到 CDN，CDN 自动生成多种观看协议（如 RTMP、HTTP-FLV、WebRTC、HLS 等）供用户选择。</li>
 </ul>
 </li>
-<li><p>static_shared_memory作为静态分配的共享内存。</p>
-<ul>
-<li>不加extern，以<code>__shared__</code>开头；</li>
-<li>定义时需要明确数组的大小；</li>
-<li>静态分配的地址比动态分配的地址低；</li>
-</ul>
-</li>
-<li><p>动态共享变量，无论定义多少个，地址都一样。</p>
-</li>
-<li><p>静态共享变量，定义几个地址随之叠加。</p>
-</li>
-<li><p>如果配置的各类共享内存总和大于<code>sharedMemPerBlock</code>，则核函数执行出错，<code>Invalid argument</code></p>
-<ul>
-<li>不同类型的静态共享变量定义，其内存划分并不一定是连续的；</li>
-<li>中间会有内存对齐策略，使得第一个和第二个变量之间可能存在空隙；</li>
-<li>因此如果变量之间存在空隙，可能小于全部大小的共享内存时就会报错。</li>
+<li><strong>直播转码与 CDN 的关系</strong>：<ul>
+<li>CDN 一般不提供复杂的转码功能，只支持简单的协议转换（如解封装与重封装，性能消耗较低）。</li>
+<li>如果需要码率调整、分辨率更改等复杂操作，需要依赖额外的转码服务（如云服务或自建转码模块）。</li>
 </ul>
 </li>
 </ol>
-<h3 id="7-atomic"><a href="#7-atomic" class="headerlink" title="7. atomic"></a>7. atomic</h3><ol>
-<li>atomicAdd是原子加法，同类型原子操作有很多，如原子减法等；</li>
-<li>输出的数组需要预先分配空间，如[cuda-runtime-api-9-atomic.cpp][]的：output_capacity；</li>
-<li>最后统计结果的时候记得取min，int output_size &#x3D; min(output_host[0], output_capacity)；<ul>
-<li>因为核函数中，add的次数可能会超过capacity大小，导致后续访问越界的发生；</li>
+<h2 id="直播协议"><a href="#直播协议" class="headerlink" title="直播协议"></a>直播协议</h2><p>常见的直播协议主要有：HTTP-FLV、HLS、RTMP、WebRTC 和 RTSP。</p>
+<h3 id="RTMP-协议"><a href="#RTMP-协议" class="headerlink" title="RTMP 协议"></a>RTMP 协议</h3><p>RTMP（Real-Time Messaging Protocol）是一种用于推流和拉流的协议，常用于将直播源推送到 CDN。由于浏览器不再支持 Flash，RTMP 目前主要用于推流。</p>
+<p>rtmp 地址是 <code>rtmp://</code> 开头，推流地址与拉流地址相同，在高并发下可能会出现不稳定的问题，所以rtmp一般只用作直播源推流、推流到直播CDN等场景。rtmp 协议需要特定的流媒体服务软件，如 SRS、加入了 rtmp 插件的 Nginx 等，此类流媒体软件实际上就是音视频数据的中转站，数据一般在内存中循环覆盖，不会写入磁盘。</p>
+<p>rtmp 协议的延迟一般比较低，rtmp 协议延迟一般在1~3秒左右，rtmp 通信建立在 tcp 长连接通道上，在封装音视频数据时会强制切片，限制每个数据包的大小强制切片也一定程度保证了实时性。有一定的弱网抵抗能力，因为每个数据包都不会太大，所以当某个数据包校验失败时，重新发送的成本不会太大，但也由于合并数据包会加大CPU压力，所以是有一定的性能消耗的。</p>
+<p>rtmp 协议还有一些变种协议，如 RTMPT、RTMPS 等</p>
+<p><strong>应用场景</strong>：推流至 CDN，再通过其他协议拉流。</p>
+<h3 id="HTTP-FLV-协议"><a href="#HTTP-FLV-协议" class="headerlink" title="HTTP-FLV 协议"></a>HTTP-FLV 协议</h3><p>HTTP-FLV 是基于 HTTP 的 FLV 数据流协议，适合拉流观看。</p>
+<p><strong>特点</strong>：</p>
+<ul>
+<li><strong>低延迟</strong>：延迟 1-3 秒，略高于 RTMP。</li>
+<li><strong>易部署</strong>：兼容性强，无需特殊服务端支持。</li>
 </ul>
-</li>
-<li>输出的数组可能会乱序，即不同执行时刻结果不同。这是因为cuda是并行的，调度顺序不确定；<ul>
-<li>因此capacity一定要比预期的最大值大一些，才可能保证结果不会丢失；</li>
-<li>可以通过储存index，然后在cpu上执行一次排序，实现有序输出；</li>
+<p><strong>不足</strong>：</p>
+<ul>
+<li>需要插件（如 flv.js）支持浏览器播放。</li>
+<li>仅支持拉流。</li>
 </ul>
-</li>
-<li>此类型的代码实现是模型后处理的关键，是处理动态数组的关键。</li>
-</ol>
-<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token keyword">float</span> <span class="token operator">*</span>parray <span class="token operator">=</span> <span class="token keyword">nullptr</span><span class="token punctuation">;</span>
-<span class="token function">checkRuntime</span><span class="token punctuation">(</span><span class="token function">cudaMalloc</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>output_device<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1000</span> <span class="token operator">*</span> <span class="token number">7</span> <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">float</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token comment">// parray 是这样的数据格式：[count, box1, box2, ……]，count 为 int，box1 为 yolo 检测结果的结构体；</span>
-<span class="token comment">// atomicAdd(parray, 1) 的操作相当于是 count += 1, 但是返回的是没有 +1 之前的 old_count;</span>
-<span class="token keyword">int</span> idx <span class="token operator">=</span> <span class="token function">atomicAdd</span><span class="token punctuation">(</span>parray<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><strong>组合应用</strong>：RTMP 推流 + HTTP-FLV 拉流是目前主流方案。</p>
+<img src="/2025/01/24/av-basics/%E6%8E%A8%E6%B5%81%E6%8B%89%E6%B5%81%E7%A4%BA%E4%BE%8B.png" class="" title="推流拉流示例">  
 
-<h3 id="8-仿射变换"><a href="#8-仿射变换" class="headerlink" title="8. 仿射变换"></a>8. 仿射变换</h3><ol>
-<li><p>仿射变换+双线性插值，在CV场景下，解决图像预处理是非常合适的。如Yolo的letterbox，实则是边缘填充；CenterNet的居中对齐；</p>
-</li>
-<li><p>在仿射核函数里，循环的次数为dst.width * dst.height，以dst为参照集；因此，无论src多大，dst固定的话，计算量也是固定的。</p>
-</li>
-<li><p>仿射变换的公式推导。</p>
+<h3 id="HLS-协议"><a href="#HLS-协议" class="headerlink" title="HLS 协议"></a>HLS 协议</h3><p>HLS（HTTP Live Streaming）协议并不严格是一个流式协议。它的工作原理是通过HTTP协议下载静态文件。</p>
+<p><strong>组成结构</strong></p>
+<ol>
+<li><strong>.ts碎片视频文件</strong>：每个文件的长度通常为几秒。</li>
+<li><strong>.m3u8索引文件</strong>：记录了这些视频碎片文件的地址，客户端获取到该索引文件后，通过HTTP协议下载对应的碎片视频文件并开始播放。</li>
+</ol>
+ <img src="/2025/01/24/av-basics/HLS%E7%BB%93%E6%9E%84.png" class="" title="HLS结构"> 
+
+<p><strong>HLS协议工作原理。</strong></p>
 <ul>
-<li><p>旋转变换：<br>$$<br>\begin{bmatrix} x’ \\ y’ \end{bmatrix} &#x3D; \begin{bmatrix} cos(\theta) &amp; sin(\theta) \\ -sin(\theta) &amp; cos(\theta) \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix}<br>$$</p>
-</li>
-<li><p>缩放变换：<br>$$<br>\begin{bmatrix} x’ \\ y’ \end{bmatrix} &#x3D; \begin{bmatrix} scale_x &amp; 0 \\ 0 &amp; scale_y \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix}<br>$$</p>
-</li>
-<li><p>平移变换：<br>$$<br>\begin{bmatrix} x’ \\ y’ \end{bmatrix} &#x3D; \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} + \begin{bmatrix} \Delta x \\ \Delta y \end{bmatrix}<br>$$</p>
-</li>
-<li><p>旋转 + 缩放：<br>$$<br>\begin{bmatrix} x’ \\ y’ \end{bmatrix} &#x3D; \begin{bmatrix} cos(\theta)*scale_x  &amp; sin(\theta)*scale_y \\ -sin(\theta)*scale_x &amp; cos(\theta)*scale_y \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix}<br>$$</p>
-</li>
-<li><p>旋转 + 缩放 + 平移：<br>$$<br>\begin{bmatrix} x’ \\ y’ \\ z’ \end{bmatrix} &#x3D; \begin{bmatrix} cos(\theta)*scale_x  &amp; sin(\theta)*scale_y &amp; \Delta x \\ -sin(\theta)*scale_x &amp; cos(\theta)*scale_y &amp; \Delta y \\ 0 &amp; 0 &amp; 1 \end{bmatrix} \begin{bmatrix} x \\ y \\ 1 \end{bmatrix}<br>$$</p>
-</li>
+<li><strong>客户端播放</strong>：客户端通过访问以 <code>http://</code> 开头、<code>.m3u8</code> 结尾的地址，获得视频内容的播放信息。</li>
+<li><strong>静态文件</strong>：HLS 协议中的视频文件和索引文件是直接存储在磁盘上的，因此不需要专门的流媒体服务软件，像 Nginx 等 HTTP 服务就可以提供 HLS 支持。</li>
 </ul>
-</li>
+<p><strong>应用场景</strong></p>
+<ul>
+<li><strong>点播模式</strong><img src="/2025/01/24/av-basics/HLS%E7%82%B9%E6%92%AD%E6%A8%A1%E5%BC%8F.png" class="" title="HLS点播模式"></li>
+</ul>
+<p>可以通过转码软件直接生成 HLS 相关的 <code>.ts</code> 和 <code>.m3u8</code> 文件；也可以在 Nginx 加入 RTMP 插件，接收 RTMP 推流，再转为 HLS 文件。在直播场景下，<code>.ts</code> 碎片视频文件每隔几秒钟生成一次，且 <code>.m3u8</code> 索引文件不断更新。旧的视频文件会被删除，保持文件数量不超过设定的上限。</p>
+<ul>
+<li><strong>直播模式</strong><img src="/2025/01/24/av-basics/HLS%E7%9B%B4%E6%92%AD%E6%A8%A1%E5%BC%8F.png" class="" title="HLS直播模式"></li>
+</ul>
+<p>由于 HLS 的相关文件是无状态的静态文件且文件大小有限，负载均衡和 CDN 加速效果良好。在点播场景中，HLS 协议的优势非常明显，视频播放更流畅、加载跳转更顺滑。客户端根据 <code>.m3u8</code> 索引文件来下载对应的 <code>.ts</code> 视频文件，快速开始播放。HLS 协议的直播延迟较大，一般为5-30秒，使用CDN时可能更长，甚至达到1分钟左右。</p>
+<p><strong>直播与点播的差异</strong></p>
+<ul>
+<li><strong>点播</strong>：视频文件和索引文件通常是静态的，文件大小固定，适合通过 CDN 进行加速。</li>
+<li><strong>直播</strong>：视频数据实时生成并打包成 <code>.ts</code> 文件，索引文件频繁更新，客户端需要定期获取最新的 <code>.m3u8</code> 文件。直播时的延迟较高，HLS 协议在直播场景中的表现较为逊色。</li>
+</ul>
+<p><strong>HLS的二级索引</strong></p>
+<img src="/2025/01/24/av-basics/HLS%E4%BA%8C%E7%BA%A7%E7%B4%A2%E5%BC%95.png" class="" title="HLS二级索引">  
+
+<p><code>.m3u8</code> 索引文件支持二级索引，可以包含多个不同质量的流（如高清、标清、流畅等）。播放器可以根据当前网络带宽自动切换播放流，这也是大多数网页播放器提供“自动”功能的原因。</p>
+<h3 id="Web-RTC"><a href="#Web-RTC" class="headerlink" title="Web-RTC"></a>Web-RTC</h3><p>WebRTC（Web Real-Time Communication）最初设计为一种点对点的视频和语音通话协议，但由于其低延迟的特性，在某些直播场景中也被广泛应用。</p>
+<p><strong>WebRTC协议特点</strong></p>
+<ol>
+<li><strong>点对点通信</strong>：WebRTC是一种点对点协议，支持直接在浏览器或应用间建立连接，减少中间环节的延迟。</li>
+<li><strong>基于UDP</strong>：使用UDP协议进行数据传输，支持流式发送数据，延迟比RTMP更低，理论延迟可低至1秒以内。</li>
+<li><strong>实时性强</strong>：适合需要高交互性的直播场景，例如直播带货、互动课堂等。</li>
 </ol>
-<h3 id="9-thrust特性"><a href="#9-thrust特性" class="headerlink" title="9. thrust特性"></a>9. thrust特性</h3><ol>
-<li>thrust是cuda开发的，基于cuda的stl库。</li>
-<li>对于thrust中的lambda表达式，需要增加__device__标记表明函数可以被核函数调用；由于使用到了device vector，因此编译环境需要修改为nvcc编译，且cpp文件要改为cu文件；此时需要在xmake中添加nvcc工具链，具体可参考<a target="_blank" rel="noopener" href="https://xmake.io/#/zh-cn/guide/configuration?id=%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B7%A5%E5%85%B7%E9%93%BE">自定义工具链</a></li>
-<li>内存的复制和分配，被cuda封装。</li>
+<p><strong>应用场景</strong></p>
+<ul>
+<li><strong>直播推流和观看</strong>：<ul>
+<li>WebRTC协议支持推流和拉流，地址通常以 <code>webrtc://</code> 开头，且推流和拉流地址相同。</li>
+<li>在直播场景中，WebRTC提供低延迟体验，使得观众和主播的互动更加即时。</li>
+</ul>
+</li>
+<li><strong>服务器支持</strong>：<ul>
+<li>虽然WebRTC是点对点协议，但在直播场景中需要通过WebRTC服务器实现流媒体服务。</li>
+<li>常用的流媒体服务器软件包括<a target="_blank" rel="noopener" href="https://ossrs.net/">SRS</a>，支持高效的WebRTC流处理。</li>
+</ul>
+</li>
+</ul>
+<h3 id="RTSP-协议"><a href="#RTSP-协议" class="headerlink" title="RTSP 协议"></a>RTSP 协议</h3><p>RTSP 一般不用作直播场景，RTSP 一般用作摄像头、监控等硬件设备的实时视频流观看与推送上。尽管 RTSP 协议也支持推流&#x2F;拉流，且支持 TCP、UDP 切换以及其他诸多优点。但是泛用性不足，特别是现在的浏览器都不支持 RTSP 的播放。</p>
+<h2 id="在线视频格式"><a href="#在线视频格式" class="headerlink" title="在线视频格式"></a>在线视频格式</h2><p>记下来主要讨论封装格式的作用、以及一些主流封装格式（MP4、FLV、HLS），详细解析它们的特点、优劣及适用场景。</p>
+<h4 id="封装格式的作用"><a href="#封装格式的作用" class="headerlink" title="封装格式的作用"></a>封装格式的作用</h4><p>一个视频文件实际上分为<strong>三层结构</strong>：<strong>封装、编码和基础数据</strong>。播放器要正确播放视频，必须<strong>同时支持这三层格式</strong>。</p>
+<p>大多数封装格式<strong>不限制音视频数据的基础参数</strong>（如帧率、分辨率、采样率等）。封装格式的核心作用是<strong>对音频、视频及元数据进行统一的组织和管理</strong>，并按特定规则编排成文件。</p>
+<p>虽然封装格式本身不会改变音视频数据的质量，但它对特定场景的播放表现有显著影响。例如：</p>
+<ul>
+<li><strong>MKV</strong> 支持外挂字幕和多语言切换。</li>
+<li><strong>FLV、HLS</strong> 在在线播放场景下，首帧播放和未加载跳转的表现更优。</li>
+</ul>
+<h4 id="MP4格式"><a href="#MP4格式" class="headerlink" title="MP4格式"></a>MP4格式</h4><p>MP4 是当前最常见的封装格式，文件通常以 <code>.mp4</code> 结尾。它以<strong>高兼容性、灵活性强、适用范围广</strong>闻名，是目前几乎所有播放器和浏览器都支持的封装格式。</p>
+<img src="/2025/01/24/av-basics/MP4%E7%BB%93%E6%9E%84.png" class="" title="MP4结构">  
+
+<p>MP4 文件是<strong>树状结构</strong>，由多个数据块嵌套组成。关键数据块包括：</p>
+<ol>
+<li><strong>ftyp</strong>：存储编码格式和标准信息，用于解码器选择。</li>
+<li><strong>mdat</strong>：存储音视频的原始数据（通常不带时间戳）。</li>
+<li><strong>moov</strong>：存储元数据和播放时间戳的映射关系，是播放器计算音视频帧播放时间的关键。</li>
 </ol>
-<h3 id="10-error"><a href="#10-error" class="headerlink" title="10. error"></a>10. error</h3><ol>
-<li>由于cuda核函数是异步执行，如果cuda核函数出错，立即执行<code>cudaPeekAtLastError</code>时只会拿到对输入参数校验是否正确的状态，而不会拿到核函数是否执行正确的状态，所以此时拿到的状态码为：<code>no error</code>。</li>
-<li>因此一般等待核函数执行完毕后，才可以知道当前核函数是否出错，一般通过设备同步或者流同步进行等待。</li>
-<li>错误分为可恢复和不可恢复两种：<ul>
-<li>可恢复：<ul>
-<li>参数配置错误等，例如block越界（一般最大值是1024），shared memory大小超出范围（一般是48KB）；</li>
-<li>通过cudaGetLastError可以获取错误代码，同时把当前状态恢复为success；</li>
-<li>该错误在调用核函数后可以立即通过cudaGetLastError&#x2F;cudaPeekAtLastError拿到；</li>
-<li>该错误在下一个函数调用的时候会覆盖；</li>
+<p>在在线播放场景中，如果 MP4 文件的 <code>moov</code> 数据块未能提前加载，视频往往会出现长时间的加载等待。因此，对于需要快速播放的 MP4 文件，应将 <code>moov</code> 数据块放在 <code>mdat</code> 之前，以加速首帧播放。</p>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li><strong>短视频</strong>（文件较小，时长较短）：直接使用 MP4 格式即可，方便快捷，且兼容性高。</li>
+<li><strong>长视频</strong>（文件较大，时长较长）：不推荐使用 MP4 格式，因为CDN 加速效果较差，长时间播放可能会导致中断等问题。</li>
 </ul>
-</li>
-<li>不可恢复：<ul>
-<li>核函数执行错误，例如访问越界等等异常；</li>
-<li>该错误则会传递到之后的所有cuda操作上；</li>
-<li>错误状态通常需要等到核函数执行完毕才能够拿到，也就是有可能在后续的任何流程中突然异常（因为是异步的）。</li>
+<h4 id="FLV格式"><a href="#FLV格式" class="headerlink" title="FLV格式"></a>FLV格式</h4><p>FLV 是 Adobe 主导的网络视频封装格式，与 RTMP 和 HTTP-FLV 协议紧密相关。它专为网络视频设计，网页只需引入 flv.js 插件即可播放。</p>
+<p>FLV 的最大优势在于，每个音视频数据块都有时间戳标识。这种设计让 FLV 在<strong>首帧播放</strong>和<strong>未加载跳转</strong>场景中表现出色。</p>
+<p>然而，FLV 文件在未加载跳转时，可能会因未建立关键帧索引而出现报错或中断的问题。因此，网络视频使用 FLV 格式时，应确保建立关键帧索引以提升用户体验。</p>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li><strong>直播和长视频</strong>：FLV 格式的稳定性优于 MP4，更适合大文件和长时间播放。</li>
+<li><strong>普通 CDN 加速效果较差</strong>：若采用 FLV 大文件播放，可配合专门的大文件 CDN 解决方案。</li>
 </ul>
-</li>
+<h4 id="HLS格式"><a href="#HLS格式" class="headerlink" title="HLS格式"></a>HLS格式</h4><p>HLS 是一种将视频切片为多个小文件的封装格式。其基本原理是将视频分割成若干 <code>.ts</code> 碎片文件，并通过 <code>.m3u8</code> 索引文件管理这些碎片。在线播放时，播放器按需下载碎片文件，加载播放。</p>
+<p>相比于 MP4 和 FLV，HLS 格式在<strong>长视频场景</strong>下表现更优，尤其是在：</p>
+<ul>
+<li><strong>未加载跳转</strong>：可以快速切换至指定位置播放。</li>
+<li><strong>CDN 加速</strong>：更好地支持大规模分发。</li>
+<li><strong>多线程预加载</strong>：提高加载速度。</li>
 </ul>
-</li>
-</ol>
+<p>不过，HLS 格式在短视频场景中的优势并不显著，且由于 <code>.ts</code> 文件是独立的可播放视频，会额外增加流量消耗。此外，HLS 视频需要网站系统自行转封装或借助云服务完成，增加了复杂性。</p>
+<p><strong>适用场景</strong>：</p>
+<ul>
+<li><strong>长视频和直播</strong>：HLS 格式能充分利用其切片机制，在高并发环境下保障流畅播放。</li>
+<li><strong>短视频</strong>：优势不明显，可根据需求选择其他封装格式。</li>
+</ul>
+<h2 id="常用基础框架"><a href="#常用基础框架" class="headerlink" title="常用基础框架"></a>常用基础框架</h2><ul>
+<li>编解码框架：<a target="_blank" rel="noopener" href="https://www.ffmpeg.org/">FFmpeg</a>、<a target="_blank" rel="noopener" href="https://gstreamer.freedesktop.org/documentation/tutorials/index.html?gi-language=c">GStreamer</a></li>
+<li>图像处理框架：OpenCV</li>
+<li>复杂图像生成：OpenGL</li>
+</ul>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/daniel_leung/category_12192843.html">https://blog.csdn.net/daniel_leung/category_12192843.html</a></p>
 
                 
             </div>
@@ -741,7 +757,7 @@ kernel<span class="token operator">&lt;&lt;</span><span class="token operator">&
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://shao-junliang.github.io/2024/05/31/cuda-runtime-basic/">http://shao-junliang.github.io/2024/05/31/cuda-runtime-basic/</a>
+                    <a href="http://shao-junliang.github.io/2025/01/24/av-basics/">http://shao-junliang.github.io/2025/01/24/av-basics/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -779,12 +795,8 @@ kernel<span class="token operator">&lt;&lt;</span><span class="token operator">&
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/CUDA/">
-                                    <span class="chip bg-color">CUDA</span>
-                                </a>
-                            
-                                <a href="/tags/TensorRT/">
-                                    <span class="chip bg-color">TensorRT</span>
+                                <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/">
+                                    <span class="chip bg-color">音视频处理</span>
                                 </a>
                             
                         </div>
@@ -829,7 +841,7 @@ kernel<span class="token operator">&lt;&lt;</span><span class="token operator">&
         repo: 'Shao-junliang.github.io',
         owner: 'Shao-junliang',
         admin: "Shao-junliang",
-        id: '2024-05-31T13-41-13',
+        id: '2025-01-24T15-13-43',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -857,29 +869,30 @@ kernel<span class="token operator">&lt;&lt;</span><span class="token operator">&
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/06/17/cuda-tensorrt-basic/">
+                <a href="/2025/01/24/av-basics/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="TensorRT课程笔记（3）">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="AV-basics">
                         
-                        <span class="card-title">TensorRT课程笔记（3）</span>
+                        <span class="card-title">AV-basics</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            TensorRT课程笔记-系列三：cuda-tensorrt-basic
+                            音视频处理基础概念
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-06-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-01-24
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -888,15 +901,12 @@ kernel<span class="token operator">&lt;&lt;</span><span class="token operator">&
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/CUDA/">
-                        <span class="chip bg-color">CUDA</span>
-                    </a>
-                    
-                    <a href="/tags/TensorRT/">
-                        <span class="chip bg-color">TensorRT</span>
+                    <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/">
+                        <span class="chip bg-color">音视频处理</span>
                     </a>
                     
                 </div>
@@ -910,24 +920,24 @@ kernel<span class="token operator">&lt;&lt;</span><span class="token operator">&
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/05/29/cuda-driver-basic/">
+                <a href="/2024/12/11/leetcode-study-pathfinddp/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="TensorRT课程笔记（1）">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="《动态规划路径问题》">
                         
-                        <span class="card-title">TensorRT课程笔记（1）</span>
+                        <span class="card-title">《动态规划路径问题》</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            TensorRT课程笔记-系列一：cuda-driver-api
+                            LeetBook阅读笔记——《动态规划路径问题》
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-05-29
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-12-11
                             </span>
                         <span class="publish-author">
                             
@@ -940,12 +950,12 @@ kernel<span class="token operator">&lt;&lt;</span><span class="token operator">&
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/CUDA/">
-                        <span class="chip bg-color">CUDA</span>
+                    <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+                        <span class="chip bg-color">动态规划</span>
                     </a>
                     
-                    <a href="/tags/TensorRT/">
-                        <span class="chip bg-color">TensorRT</span>
+                    <a href="/tags/%E8%B7%AF%E5%BE%84/">
+                        <span class="chip bg-color">路径</span>
                     </a>
                     
                 </div>
