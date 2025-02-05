@@ -351,7 +351,16 @@
 
             <div class="description center-align">
                 
-                    <span id="subtitle"></span>
+                    <div class="led-container">
+                        <div class="led-screen">
+                            
+                                <span class="led-text">
+                                    书山有路勤为径，学海无涯苦作舟
+                                </span>
+                                
+                        </div>
+                    </div>
+
                     <script src="/libs/typed/typed.js"></script>
                     <script>
                         var typed = new Typed("#subtitle", {
@@ -359,7 +368,21 @@
                             
                                 "书山有路勤为径，学海无涯苦作舟",
                             
-                                "Diligence is the path to the mountain of knowledge, hard-working is the boat to the endless sea of learning.",
+                        ],
+                            startDelay: 300,
+                            typeSpeed: 100,
+                            loop: true,
+                            backSpeed: 50,
+                            showCursor: true
+                        });
+                    </script>
+                    <!-- <span id="subtitle"></span>
+                    <script src="/libs/typed/typed.js"></script>
+                    <script>
+                        var typed = new Typed("#subtitle", {
+                            strings: [ 
+                            
+                                "书山有路勤为径，学海无涯苦作舟",
                             
                         ],
                             startDelay: 300,
@@ -368,12 +391,72 @@
                             backSpeed: 50,
                             showCursor: true
                     });
-                    </script>
+                    </script> -->
                     
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* 保持背景图片 */
+    body {
+        background-image: url('');
+        /* 这里是背景图片路径 */
+        background-size: cover;
+        /* 使背景图片覆盖整个页面 */
+        background-position: center;
+        /* 背景图片居中 */
+        background-attachment: fixed;
+        /* 保持背景固定 */
+        margin: 0;
+        padding: 0;
+    }
+
+    .led-container {
+        position: relative;
+        /* 容器宽度，可以调整 */
+        width: 60%;
+        margin: 0 auto;
+        overflow: hidden;
+        /* 隐藏超出容器范围的部分 */
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .led-screen {
+        display: inline-block;
+        /* 确保文本在一行内显示 */
+        white-space: nowrap;
+        padding: 10px;
+        /* LED 风格的颜色 */
+        color: #FFFFFF;
+        /* 使用等宽字体，模拟 LED 效果 */
+        font-family: "Courier New", monospace;
+        /* 根据需要调整字体大小 */
+        font-size: 24px;
+        /* 控制滚动速度 */
+        animation: scrollLED 10s linear infinite;
+    }
+
+    .led-text {
+        display: inline-block;
+        padding-right: 50px;
+        /* 增加文字之间的间隔 */
+    }
+
+    @keyframes scrollLED {
+        0% {
+            transform: translateX(100%);
+            /* 从右侧开始 */
+        }
+
+        100% {
+            transform: translateX(-100%);
+            /* 滚动到左侧 */
+        }
+    }
+</style>
 
 
     <script>

@@ -352,7 +352,16 @@
 
             <div class="description center-align">
                 
-                    <span id="subtitle"></span>
+                    <div class="led-container">
+                        <div class="led-screen">
+                            
+                                <span class="led-text">
+                                    书山有路勤为径，学海无涯苦作舟
+                                </span>
+                                
+                        </div>
+                    </div>
+
                     <script src="/libs/typed/typed.js"></script>
                     <script>
                         var typed = new Typed("#subtitle", {
@@ -360,7 +369,21 @@
                             
                                 "书山有路勤为径，学海无涯苦作舟",
                             
-                                "Diligence is the path to the mountain of knowledge, hard-working is the boat to the endless sea of learning.",
+                        ],
+                            startDelay: 300,
+                            typeSpeed: 100,
+                            loop: true,
+                            backSpeed: 50,
+                            showCursor: true
+                        });
+                    </script>
+                    <!-- <span id="subtitle"></span>
+                    <script src="/libs/typed/typed.js"></script>
+                    <script>
+                        var typed = new Typed("#subtitle", {
+                            strings: [ 
+                            
+                                "书山有路勤为径，学海无涯苦作舟",
                             
                         ],
                             startDelay: 300,
@@ -369,12 +392,72 @@
                             backSpeed: 50,
                             showCursor: true
                     });
-                    </script>
+                    </script> -->
                     
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* 保持背景图片 */
+    body {
+        background-image: url('');
+        /* 这里是背景图片路径 */
+        background-size: cover;
+        /* 使背景图片覆盖整个页面 */
+        background-position: center;
+        /* 背景图片居中 */
+        background-attachment: fixed;
+        /* 保持背景固定 */
+        margin: 0;
+        padding: 0;
+    }
+
+    .led-container {
+        position: relative;
+        /* 容器宽度，可以调整 */
+        width: 60%;
+        margin: 0 auto;
+        overflow: hidden;
+        /* 隐藏超出容器范围的部分 */
+        border-radius: 5px;
+        padding: 10px;
+    }
+
+    .led-screen {
+        display: inline-block;
+        /* 确保文本在一行内显示 */
+        white-space: nowrap;
+        padding: 10px;
+        /* LED 风格的颜色 */
+        color: #FFFFFF;
+        /* 使用等宽字体，模拟 LED 效果 */
+        font-family: "Courier New", monospace;
+        /* 根据需要调整字体大小 */
+        font-size: 24px;
+        /* 控制滚动速度 */
+        animation: scrollLED 10s linear infinite;
+    }
+
+    .led-text {
+        display: inline-block;
+        padding-right: 50px;
+        /* 增加文字之间的间隔 */
+    }
+
+    @keyframes scrollLED {
+        0% {
+            transform: translateX(100%);
+            /* 从右侧开始 */
+        }
+
+        100% {
+            transform: translateX(-100%);
+            /* 滚动到左侧 */
+        }
+    }
+</style>
 
 
     <script>
@@ -543,7 +626,7 @@
         },
         xAxis: {
             type: 'category',
-            data: ["2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01"]
+            data: ["2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02"]
         },
         yAxis: {
             type: 'value',
@@ -553,7 +636,7 @@
                 name: '文章篇数',
                 type: 'line',
                 color: ['#6772e5'],
-                data: [0,0,3,3,3,1,1,1,0,1,0,1,1],
+                data: [0,3,3,3,1,1,1,0,1,0,1,1,0],
                 markPoint: {
                     symbolSize: 45,
                     color: ['#fa755a','#3ecf8e','#82d3f4'],
@@ -619,7 +702,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ["c++","CUDA","TensorRT","test","Markdown","摄像头取流","C++","QT","音视频处理","动态规划"]
+                data: ["c++","CUDA","TensorRT","test","Markdown","音视频处理","摄像头取流","二叉树","数据结构","C++"]
             }
         ],
         yAxis: [
@@ -750,6 +833,12 @@
         <div class="tag-chips center-align">
             
             
+            <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/">
+                <span class="chip center-align waves-effect waves-light chip-default">音视频处理</span>
+            </a>
+            
+            
+            
             <a href="/tags/c/">
                 <span class="chip center-align waves-effect waves-light chip-default">c++</span>
             </a>
@@ -762,16 +851,22 @@
             
             
             
-            
-            
-            <a href="/tags/QT/">
-                <span class="chip center-align waves-effect waves-light chip-default">QT</span>
+            <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">
+                <span class="chip center-align waves-effect waves-light chip-default">二叉树</span>
             </a>
             
             
             
-            <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/">
-                <span class="chip center-align waves-effect waves-light chip-default">音视频处理</span>
+            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                <span class="chip center-align waves-effect waves-light chip-default">数据结构</span>
+            </a>
+            
+            
+            
+            
+            
+            <a href="/tags/QT/">
+                <span class="chip center-align waves-effect waves-light chip-default">QT</span>
             </a>
             
             
@@ -794,6 +889,12 @@
             
             
             
+            <a href="/tags/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85/">
+                <span class="chip center-align waves-effect waves-light chip-default">生产者与消费者</span>
+            </a>
+            
+            
+            
             <a href="/tags/test/">
                 <span class="chip center-align waves-effect waves-light chip-default">test</span>
             </a>
@@ -802,12 +903,6 @@
             
             <a href="/tags/Markdown/">
                 <span class="chip center-align waves-effect waves-light chip-default">Markdown</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85/">
-                <span class="chip center-align waves-effect waves-light chip-default">生产者与消费者</span>
             </a>
             
             
@@ -822,18 +917,6 @@
             
             <a href="/tags/xmake/">
                 <span class="chip center-align waves-effect waves-light chip-default">xmake</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">
-                <span class="chip center-align waves-effect waves-light chip-default">二叉树</span>
-            </a>
-            
-            
-            
-            <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                <span class="chip center-align waves-effect waves-light chip-default">数据结构</span>
             </a>
             
             
