@@ -1,0 +1,1429 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="ROS基础, 暴躁小何的笔记">
+    <meta name="description" content="ROS初级教程笔记">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>ROS基础 | 暴躁小何的笔记</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">暴躁小何的笔记</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">暴躁小何的笔记</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/Shao-junliang" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/Shao-junliang" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">ROS基础</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/ROS/">
+                                <span class="chip bg-color">ROS</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-03-03
+                </div>
+                
+
+                
+
+                <!-- lsj 3.25 在此处添加了文章作者信息 -->
+                
+                    <div class="info-break-policy">
+                        <i class="fa fa-user fa-fw"></i>作者:&nbsp;&nbsp;
+                        LSJune
+                    </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    15 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本节是记录ROS架构的一些基础操作和基本知识。</p>
+<h2 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h2><p>arm64 linux 安装 ros 参考链接：<a target="_blank" rel="noopener" href="https://wiki.ros.org/cn/noetic/Installation">https://wiki.ros.org/cn/noetic/Installation</a></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">sh</span> <span class="token parameter variable">-c</span> <span class="token string">'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'</span>
+<span class="token function">sudo</span> apt-key adv <span class="token parameter variable">--keyserver</span> <span class="token string">'hkp://keyserver.ubuntu.com:80'</span> --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
+<span class="token function">sudo</span> <span class="token function">apt</span> update
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> ros-noetic-desktop-full
+<span class="token builtin class-name">source</span> /opt/ros/noetic/setup.bash
+<span class="token builtin class-name">echo</span> <span class="token string">"source /opt/ros/noetic/setup.bash"</span> <span class="token operator">>></span> ~/.bashrc
+<span class="token builtin class-name">source</span> ~/.bashrc
+<span class="token comment"># rosdep 初始化</span>
+<span class="token function">sudo</span> rosdep init
+rosdep update<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="创建工作空间"><a href="#创建工作空间" class="headerlink" title="创建工作空间"></a>创建工作空间</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 尽量在home目录下创建，其他位置可能会报错</span>
+<span class="token function">mkdir</span> <span class="token parameter variable">-p</span> catkin_ws/src
+<span class="token builtin class-name">cd</span> catkin_ws/
+catkin_make
+<span class="token comment"># 将工作空间环境添加到 ~/.bashrc 文件中</span>
+<span class="token builtin class-name">source</span> devel/setup.bash
+<span class="token builtin class-name">echo</span> <span class="token string">"source ~/catkin_ws/devel/setup.bash"</span> <span class="token operator">>></span> ~/.bashrc
+<span class="token builtin class-name">source</span> ~/.bashrc<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>创建成功后在 <code>catkin_ws</code> 目录下包含三个文件夹，分别为：</p>
+<p><code>build</code> 文件夹：编译空间，用于存放CMake和catkin的缓存信息、配置信息和其他中间文件。</p>
+<p><code>devel</code> 文件夹：开发空间，用于存放编译后生成的目标文件，包括头文件、动态&amp;静态链接库、可执行文件等。</p>
+<p><code>src</code> 文件夹：存放软件包源码。</p>
+<p><code>catkin_make</code> 是一个命令行工具，它简化了标准 <code>catkin</code> 工作流程。可以认为 <code>catkin_make</code> 是在标准 <code>CMake</code> 工作流程中依次调用了 <code>cmake</code> 和 <code>make</code>。 </p>
+<h2 id="ROS-软件包"><a href="#ROS-软件包" class="headerlink" title="ROS 软件包"></a>ROS 软件包</h2><p>一个 <code>catkin</code> 软件包必须包含：符合 <code>catkin</code> 规范的 <code>package.xml</code> 文件与一个 <code>catkin</code> 版本的 <code>CMakeLists.txt</code> 文件。</p>
+<ul>
+<li>创建catkin软件包</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">cd</span> ~/catkin_ws/src
+<span class="token comment"># catkin_create_pkg &lt;package_name> [depend1] [depend2] [depend3] ……</span>
+<span class="token comment"># 例：创建一个名为 beginner_tutorials 的软件包，依赖 std_msgs rospy roscpp</span>
+catkin_create_pkg beginner_tutorials std_msgs rospy roscpp
+<span class="token comment"># 查看一级依赖关系</span>
+rospack depends1 beginner_tutorials 
+<span class="token comment"># 查看间接依赖关系</span>
+rospack depends1 rospy<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>构建catkin软件包</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 在catkin工作空间下执行 catkin_make 命令即可构建src目录下的所有catkin项目。</span>
+catkin_make<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="ROS-节点"><a href="#ROS-节点" class="headerlink" title="ROS 节点"></a>ROS 节点</h2><p>每个人ROS软件包里面可以有多个节点，每个节点实现一个功能，节点实际上是ROS软件包中的一个<strong>可执行文件</strong>。 </p>
+<p><code>roscore</code> 是运行所有ROS程序前首先要运行的命令。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rosnode list				<span class="token comment"># 显示当前正在运行的ROS节点信息</span>
+rosnode info /<span class="token punctuation">[</span>node_name<span class="token punctuation">]</span> 	<span class="token comment"># 返回某个指定节点的信息。例如：rosnode info /rosout</span>
+rosrun <span class="token punctuation">[</span>package_name<span class="token punctuation">]</span> <span class="token punctuation">[</span>node_name<span class="token punctuation">]</span>	<span class="token comment"># 用包名直接运行软件包内的节点（而不需要知道包的路径）。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="节点间通讯"><a href="#节点间通讯" class="headerlink" title="节点间通讯"></a>节点间通讯</h2><h3 id="话题"><a href="#话题" class="headerlink" title="话题"></a>话题</h3><p><strong>话题（Topic）</strong>是节点间进行持续通讯的一种形式。话题通讯的两个节点通过话题的名称建立起话题通讯连接，话题中通讯的数据，叫做 <strong>消息（Message）</strong>。Message 通常会按照一定的频率持续不断的发送，以保证消息数据的实时性。消息的发送方叫做话题的<strong>发布者（Publisher）。</strong>消息的接收方叫做话题的<strong>订阅者（Subsciber）。</strong></p>
+<ul>
+<li><p>Publisher（发布者）</p>
+</li>
+<li><p>Subscriber（订阅者）</p>
+</li>
+<li><p>topic（话题）</p>
+<p>1.一个ROS节点网络中，可以同时存在多个topic。</p>
+<p>2.一个topic可以有多个publisher，也可以有多个subscriber</p>
+<p>3.一个节点可以对多个topic进行订阅，也可以发布多个topic。</p>
+<p>4.不同的传感器消息通常会拥有各自独立topic名称，每个topic只有一个publisher。</p>
+<p>5.机器人速度指令话题通常会有多个publisher，但是同一时间只能有一个发言人。</p>
+</li>
+<li><p>message（消息）</p>
+</li>
+</ul>
+<h4 id="ROS话题示例"><a href="#ROS话题示例" class="headerlink" title="ROS话题示例"></a>ROS话题示例</h4><p>在终端键入以下命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rosrun turtlesim turtlesim_node	
+rosrun turtlesim turtle_teleop_key
+<span class="token comment"># 执行成功的话就可以使用键盘上的方向键来控制turtle运动了。</span>
+<span class="token comment"># 如果不能控制，请选中turtle_teleop_key的终端窗口以确保按键输入能够被捕获。</span>
+<span class="token comment"># 上面的两个节点之间的故事可以用动态图来描述</span>
+rosrun rqt_graph rqt_graph	<span class="token comment"># 显示节点之间的关系</span>
+rosrun rqt_plot rqt_plot	<span class="token comment"># 显示发布到某个话题上的数据</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>弹出界面如下所示：</p>
+<img src="/2025/03/03/ros-basic/ROS%E8%AF%9D%E9%A2%98%E7%A4%BA%E4%BE%8B.png" class="" title="ROS话题示例"> 
+
+<p>上图为 <code>turtlesim_node</code> 节点和 <code>turtle_teleop_key</code> 节点以及 <code>rqt_graph</code> 的示例，可以看出当鼠标停放在 <code>rqt_graph</code> 中的图节点上时，相应的<strong>ROS节点</strong>（蓝色和绿色）和<strong>ROS话题</strong>（红色）就会高亮显示。 </p>
+<p>其实上面的 <code>turtlesim_node</code> 节点和 <code>turtle_teleop_key</code> 节点之间是通过一个<strong>ROS话题</strong>来相互通信的。<code>turtle_teleop_key</code> 在话题上<strong>发布</strong>键盘按下的消息，<code>turtlesim</code> 则<strong>订阅</strong>该话题以接收消息。</p>
+<p>通过 <code>rostopic</code> 命令工具可以获取ROS话题的相关信息。<strong>ROS话题不属于发布者与订阅者，而是由ROS系统创建管理。</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rostopic <span class="token parameter variable">-h</span>					<span class="token comment"># 使用帮助选项查看可用的rostopic的子命令</span>
+rostopic <span class="token builtin class-name">echo</span> <span class="token punctuation">[</span>topic<span class="token punctuation">]</span>		<span class="token comment"># 查看话题里面的内容，用 echo -e [Unicode] 可以解析消息Unicode编码 </span>
+rostopic hz <span class="token punctuation">[</span>topic_name<span class="token punctuation">]</span> 	<span class="token comment"># 查看话题中每秒发送的数据个数。</span>
+rostopic list				<span class="token comment"># 列出当前已被订阅和发布的所有话题。</span>
+rostopic list <span class="token parameter variable">-v</span>			<span class="token comment"># 列出所有发布和订阅的主题及其类型的详细信息。</span>
+rostopic <span class="token builtin class-name">type</span> <span class="token punctuation">[</span>topic<span class="token punctuation">]</span>		<span class="token comment"># 查看所发布话题的消息类型。</span>
+rosmsg show <span class="token punctuation">[</span>msg_type<span class="token punctuation">]</span>		<span class="token comment"># 使用rosmsg查看消息的详细信息</span>
+rostopic pub <span class="token punctuation">[</span>topic<span class="token punctuation">]</span> <span class="token punctuation">[</span>msg_type<span class="token punctuation">]</span> <span class="token punctuation">[</span>args<span class="token punctuation">]</span>		<span class="token comment"># 把数据发布到当前某个正在广播的话题上。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="publisher-实现"><a href="#publisher-实现" class="headerlink" title="publisher 实现"></a>publisher 实现</h4><p>以摄像头取流与YOLO推理为例，发布者为摄像头取流模块，订阅者为YOLO推理模块。</p>
+<p>首先创建关于摄像头取流的软件包：<code>catkin_create_pkg camera_pkg rospy roscpp std_msgs</code></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;ros/ros.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;std_msgs/String.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>	
+    <span class="token comment">// 初始化 ROS 系统，节点命名为 hik_node</span>
+    ros<span class="token double-colon punctuation">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"hik_node"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 创建一个节点句柄，用来与 ROS 系统交互，例如创建发布者、订阅者、服务端、客户端等。</span>
+    ros<span class="token double-colon punctuation">::</span>NodeHandle nh<span class="token punctuation">;</span>
+    <span class="token comment">// 使用节点句柄创建一个发布者，发布的消息类型是 std_msgs::String，话题名为 "HikTopic"，队列长度为 10。</span>
+    ros<span class="token double-colon punctuation">::</span>Publisher pub <span class="token operator">=</span> nh<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">advertise</span><span class="token generic class-name"><span class="token operator">&lt;</span>std_msgs<span class="token double-colon punctuation">::</span>String<span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token string">"HikTopic"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 生成频率对象，控制每秒发送次数</span>
+    ros<span class="token double-colon punctuation">::</span>Rate <span class="token function">loop_rate</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">// ros 节点程序不会响应外部信号，所以此处的while true 不会被终端 Ctrl+C 关掉，只能用 Ctrl+Shift+W 强制关闭终端</span>
+    <span class="token comment">// while (true) &#123;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span>ros<span class="token double-colon punctuation">::</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>   <span class="token comment">// ros::ok 可以响应外部信号</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Hik node send stream to HikTopic!\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        std_msgs<span class="token double-colon punctuation">::</span>String msg<span class="token punctuation">;</span>
+        msg<span class="token punctuation">.</span>data <span class="token operator">=</span> <span class="token string">"Hik stream data."</span><span class="token punctuation">;</span>
+        pub<span class="token punctuation">.</span><span class="token function">publish</span><span class="token punctuation">(</span>msg<span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token comment">// 将这条消息发布到话题 "HikTopic"。    </span>
+        loop_rate<span class="token punctuation">.</span><span class="token function">sleep</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>      
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="subscriber-实现"><a href="#subscriber-实现" class="headerlink" title="subscriber 实现"></a>subscriber 实现</h4><p>订阅者为YOLO推理模块。创建可以实现YOLO推理功能的软件包：<code>catkin_create_pkg yolo_pkg rospy roscpp std_msgs</code></p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;ros/ros.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;std_msgs/String.h></span></span>
+
+<span class="token keyword">void</span> <span class="token function">hik_callback</span><span class="token punctuation">(</span>std_msgs<span class="token double-colon punctuation">::</span>String msg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Yolo receive HikTopic message is: %s\n"</span> <span class="token punctuation">,</span>msg<span class="token punctuation">.</span>data<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">void</span> <span class="token function">dh_callback</span><span class="token punctuation">(</span>std_msgs<span class="token double-colon punctuation">::</span>String msg<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Yolo receive DHTopic message is: %s\n"</span> <span class="token punctuation">,</span>msg<span class="token punctuation">.</span>data<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    ros<span class="token double-colon punctuation">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"yolo_det_node"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    ros<span class="token double-colon punctuation">::</span>NodeHandle nh<span class="token punctuation">;</span>
+    ros<span class="token double-colon punctuation">::</span>Subscriber yolo_det <span class="token operator">=</span>  nh<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">"HikTopic"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> hik_callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ros<span class="token double-colon punctuation">::</span>Subscriber yolo_det_2 <span class="token operator">=</span>  nh<span class="token punctuation">.</span><span class="token function">subscribe</span><span class="token punctuation">(</span><span class="token string">"DHTopic"</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">,</span> dh_callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>ros<span class="token double-colon punctuation">::</span><span class="token function">ok</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token comment">// 执行一次回调处理。与 ros::spin() 不同的是，ros::spinOnce() 只会处理一次回调然后返回，常常用于需要在循环中处理其他逻辑的情况（本例暂时没有其它逻辑）。</span>
+        ros<span class="token double-colon punctuation">::</span><span class="token function">spinOnce</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<img src="/2025/03/03/ros-basic/%E5%8F%91%E5%B8%83%E8%80%85%E8%AE%A2%E9%98%85%E8%80%85%E7%A4%BA%E4%BE%8B.png" class="" title="发布者订阅者示例"> 
+
+<h3 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h3><p><strong>服务（Services）</strong>是节点之间通讯的另一种方式。服务允许节点发送一个<strong>请求（request）</strong>并获得一个<strong>响应（response）</strong>。</p>
+<p>rosservice 常用命令</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rosservice list         				<span class="token comment"># 输出活跃服务的信息</span>
+rosservice call <span class="token punctuation">[</span>service<span class="token punctuation">]</span> <span class="token punctuation">[</span>args<span class="token punctuation">]</span>        <span class="token comment"># 用给定的参数调用服务</span>
+rosservice <span class="token builtin class-name">type</span> <span class="token punctuation">[</span>service<span class="token punctuation">]</span>         		<span class="token comment"># 输出服务的类型</span>
+rosservice <span class="token function">find</span>         				<span class="token comment"># 按服务的类型查找服务</span>
+rosservice uri          				<span class="token comment"># 输出服务的ROSRPC uri</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>参数服务器能够存储整型（integer）、浮点（float）、布尔（boolean）、字典（dictionaries）和列表（list）等数据类型。rosparam 使用YAML标记语言的语法。  <code>rosparam</code> 操作参数常用命令。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rosparam list           				<span class="token comment"># 列出参数名</span>
+rosparam <span class="token builtin class-name">set</span> <span class="token punctuation">[</span>param_name<span class="token punctuation">]</span> <span class="token punctuation">[</span>param_value<span class="token punctuation">]</span>	<span class="token comment"># 设置参数</span>
+rosparam get <span class="token punctuation">[</span>param_name<span class="token punctuation">]</span>            	<span class="token comment"># 获取参数，"rosparam get /" 显示参数服务器上的所有内容</span>
+rosparam load <span class="token punctuation">[</span>file_name<span class="token punctuation">]</span> <span class="token punctuation">[</span>namespace<span class="token punctuation">]</span>	<span class="token comment"># 从文件中加载参数</span>
+rosparam dump <span class="token punctuation">[</span>file_name<span class="token punctuation">]</span> <span class="token punctuation">[</span>namespace<span class="token punctuation">]</span>	<span class="token comment"># 向文件中转储参数</span>
+rosparam delete         				<span class="token comment"># 删除参数</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p> <code>rqt_console</code> 连接了ROS的日志框架，以显示节点的输出信息。<code>rqt_logger_level</code> 可以在节点运行时改变输出信息的详细级别，包括<code>Debug</code>、<code>Info</code>、<code>Warn</code> 和 <code>Error</code>。 启动命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rosrun rqt_console rqt_console				<span class="token comment"># 启动控制台</span>
+rosrun rqt_logger_level rqt_logger_level	<span class="token comment"># 启动日志级别设置窗口</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h4 id="创建ROS消息和服务"><a href="#创建ROS消息和服务" class="headerlink" title="创建ROS消息和服务"></a>创建ROS消息和服务</h4><p><strong>msg</strong>（消息）：msg文件就是文本文件，用于描述ROS消息的字段。它们用于为不同编程语言编写的消息生成源代码。msg文件就是简单的文本文件，每行都有一个字段类型和字段名称。 </p>
+<pre class="line-numbers language-msg" data-language="msg"><code class="language-msg">Header header
+string lidar_name<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>srv</strong>（服务）：一个srv文件描述一个服务。它由两部分组成：请求（request）和响应（response）。 srv 文件包含两个部分：请求和响应。这两部分用一条 <code>---</code> 线隔开。如下示例：</p>
+<pre class="line-numbers language-srv" data-language="srv"><code class="language-srv">int64 A
+int64 B
+---
+int64 Sum<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上述例子中 <code>A</code> 和 <code>B</code> 是请求, <code>Sum</code> 是响应。</p>
+<p>msg文件存放在软件包的<code>msg</code>目录下，srv文件则存放在<code>srv</code>目录下。 </p>
+<p>在使用msg消息时，为了确保msg文件能被转换为C++、Python和其他语言的源代码，需要在 <code>package.xml</code> 添加如下命令：</p>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>build_depend</span><span class="token punctuation">></span></span>message_generation<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>build_depend</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>exec_depend</span><span class="token punctuation">></span></span>message_runtime<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>exec_depend</span><span class="token punctuation">></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>在 <code>CMakeLists.txt</code> 文件中添加：</p>
+<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">find_package(catkin REQUIRED COMPONENTS message_generation)
+add_message_files(FILES MessageName.msg)		# 添加msg文件（MessageName.msg）
+add_service_files(FILES AddTwoInts.srv)			# 添加srv文件（AddTwoInts.srv）
+generate_messages(DEPENDENCIES std_msgs)		# 添加消息用到的包含.msg文件的软件包（本例中为std_msgs0）
+catkin_package(CATKIN_DEPENDS message_runtime)	<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>注意：上面命令中必须按照顺序引入。</strong>即：<code>add_message_files</code>, <code>add_service_files</code> 必须在 <code>generate_messages</code> 之前，  <code>generate_messages</code> 必须在 <code>catkin_package</code> 之前。</p>
+<p>命令行显示 <code>msg</code> 消息：<code>rosmsg show [message type]</code></p>
+<p>命令行显示 <code>srv</code> 服务：<code>rossrv show [service type]</code></p>
+<p>从msg文件srv文件定义中生成源代码文件：使用 <code>catkin_make</code> 重新make一下软件包即可；</p>
+<p><code>msg</code> 目录中的 <code>.msg</code> 文件生成的C++消息头文件在 <code>~/catkin_ws/devel/include/pkg_name/</code>。 </p>
+<p><code>srv </code> 目录中的 <code>.srv</code> 文件生成的C++消息头文件在 <code>~/catkin_ws/devel/include/pkg_name/</code>。 </p>
+<h4 id="Service-实现"><a href="#Service-实现" class="headerlink" title="Service 实现"></a>Service 实现</h4><p>按照ROS官网教程简单实现一个<strong>ROS 服务端（Service Server）</strong>示例。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;ros/ros.h></span></span>
+<span class="token comment">// 自定义的服务消息头文件（.srv 文件生成的 C++ 头文件），其中包含 Request 与 Response 的定义。</span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;service_client_pkg/AddTwoInts.h></span></span>
+
+<span class="token keyword">bool</span> <span class="token function">add</span><span class="token punctuation">(</span>service_client_pkg<span class="token double-colon punctuation">::</span>AddTwoInts<span class="token double-colon punctuation">::</span>Request <span class="token operator">&amp;</span>req<span class="token punctuation">,</span> service_client_pkg<span class="token double-colon punctuation">::</span>AddTwoInts<span class="token double-colon punctuation">::</span>Response <span class="token operator">&amp;</span>res<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    res<span class="token punctuation">.</span>sum <span class="token operator">=</span> req<span class="token punctuation">.</span>a <span class="token operator">+</span> req<span class="token punctuation">.</span>b<span class="token punctuation">;</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"res.sum: %d = %d + %d "</span><span class="token punctuation">,</span> res<span class="token punctuation">.</span>sum<span class="token punctuation">,</span> req<span class="token punctuation">.</span>a<span class="token punctuation">,</span> req<span class="token punctuation">.</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    ros<span class="token double-colon punctuation">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"add_two_ints_server"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ros<span class="token double-colon punctuation">::</span>NodeHandle nh<span class="token punctuation">;</span>
+	
+    <span class="token comment">// 创建一个服务服务器，第一个参数 "add_two_ints" 表示服务的名称；第二个参数 add 指向定义好的服务回调函数。</span>
+    ros<span class="token double-colon punctuation">::</span>ServiceServer service <span class="token operator">=</span> nh<span class="token punctuation">.</span><span class="token function">advertiseService</span><span class="token punctuation">(</span><span class="token string">"add_two_ints"</span><span class="token punctuation">,</span> add<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Ready to add two ints."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 进入循环等待回调，如果客户端调用 "add_two_ints" 服务，就会执行回调函数 add(...)。该函数会一直阻塞，直到节点被关闭（如用户按下 Ctrl+C）。</span>
+    ros<span class="token double-colon punctuation">::</span><span class="token function">spin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="Client-实现"><a href="#Client-实现" class="headerlink" title="Client 实现"></a>Client 实现</h4><pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"ros/ros.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"service_client_pkg/AddTwoInts.h"</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;cstdlib></span></span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span><span class="token operator">*</span>argv<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    ros<span class="token double-colon punctuation">::</span><span class="token function">init</span><span class="token punctuation">(</span>argc<span class="token punctuation">,</span> argv<span class="token punctuation">,</span> <span class="token string">"add_two_ints_client"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>argc <span class="token operator">!=</span> <span class="token number">3</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"usage: add_two_ints_client X Y"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    
+    ros<span class="token double-colon punctuation">::</span>NodeHandle nh<span class="token punctuation">;</span>
+    <span class="token comment">// 创建一个客户端对象，用于连接名为 "add_two_ints" 的服务。</span>
+    <span class="token comment">// 模板参数 service_client_pkg::AddTwoInts 表示客户端将要发送 / 接收的请求 / 响应类型必须和服务端完全对应。</span>
+    ros<span class="token double-colon punctuation">::</span>ServiceClient client <span class="token operator">=</span> nh<span class="token punctuation">.</span><span class="token generic-function"><span class="token function">serviceClient</span><span class="token generic class-name"><span class="token operator">&lt;</span>service_client_pkg<span class="token double-colon punctuation">::</span>AddTwoInts<span class="token operator">></span></span></span><span class="token punctuation">(</span><span class="token string">"add_two_ints"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">// 创建一个服务对象 srv，其中包含 request 和 response 两部分。</span>
+    service_client_pkg<span class="token double-colon punctuation">::</span>AddTwoInts srv<span class="token punctuation">;</span>
+    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>a <span class="token operator">=</span> <span class="token function">atoll</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 将命令行参数 argv[1] 转换为长长整数并赋值给请求中的 a</span>
+    srv<span class="token punctuation">.</span>request<span class="token punctuation">.</span>b <span class="token operator">=</span> <span class="token function">atoll</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 向服务端发送请求 srv.request，并等待服务端返回结果填入 srv.response。</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>client<span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>srv<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">ROS_INFO</span><span class="token punctuation">(</span><span class="token string">"Sum: %ld"</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token keyword">long</span> <span class="token keyword">int</span><span class="token punctuation">)</span>srv<span class="token punctuation">.</span>response<span class="token punctuation">.</span>sum<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">ROS_ERROR</span><span class="token punctuation">(</span><span class="token string">"Failed to call service add_two_ints"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="调用示例"><a href="#调用示例" class="headerlink" title="调用示例"></a>调用示例</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">rosrun service_client_pkg add_two_ints_server		<span class="token comment"># 开启服务</span>
+rosrun service_client_pkg add_two_ints_client <span class="token number">1</span> <span class="token number">6</span>	<span class="token comment"># 客户端调用服务</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h2 id="launch文件"><a href="#launch文件" class="headerlink" title="launch文件"></a>launch文件</h2><p>1.使用launch文件，可以通过roslaunch指令一次启动多个节点。</p>
+<p>2.在launch文件中，为节点添加 output&#x3D;“screen”属性，可以让节点信息输出在终端中。(ROS WARN不受该属性控制)</p>
+<p>3.在launch文件中，为节点添加launch-prefix&#x3D;“gnome-terminal -e”属性，可以让节点单独运行在一个独立终端中。</p>
+<p>使用命令：<code>roslaunch [package] [filename.launch]</code> 启动定义在launch（启动）文件中的节点。</p>
+<p>上文发布者与订阅者launch脚本StreamInfer.launch如下：</p>
+<pre class="line-numbers language-launch" data-language="launch"><code class="language-launch">&lt;launch&gt;
+    &lt;node pkg&#x3D;&quot;camera_pkg&quot; type&#x3D;&quot;hik_node&quot; name&#x3D;&quot;hik_node&quot; output&#x3D;&quot;screen&quot;&#x2F;&gt;
+
+    &lt;!-- 节点单独显示在一个终端，方便调试 --&gt;
+    &lt;node pkg&#x3D;&quot;camera_pkg&quot; type&#x3D;&quot;dh_node&quot; name&#x3D;&quot;dh_node&quot; launch-prefix&#x3D;&quot;gnome-terminal -e&quot;&#x2F;&gt;
+    &lt;node pkg&#x3D;&quot;yolo_pkg&quot; type&#x3D;&quot;yolo_det_node&quot; name&#x3D;&quot;yolo_det_node&quot; output&#x3D;&quot;screen&quot;&#x2F;&gt;
+&lt;&#x2F;launch&gt;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>启动：cd 到launch脚本目录，运行<code>roslaunch StreamInfer.launch</code></p>
+<h2 id="ROS命令"><a href="#ROS命令" class="headerlink" title="ROS命令"></a>ROS命令</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">roscore	<span class="token comment"># 运行所有ROS程序前首先要运行的命令。用launch文件运行可以不用执行该命令</span>
+
+rosnode list				<span class="token comment"># 显示当前正在运行的ROS节点信息</span>
+rosnode info /<span class="token punctuation">[</span>node_name<span class="token punctuation">]</span> 	<span class="token comment"># 返回某个指定节点的信息。例如：rosnode info /rosout</span>
+
+
+rosrun <span class="token punctuation">[</span>package_name<span class="token punctuation">]</span> <span class="token punctuation">[</span>node_name<span class="token punctuation">]</span>	<span class="token comment"># 用包名直接运行软件包内的节点（而不需要知道包的路径）。</span>
+rosrun rqt_graph rqt_graph			<span class="token comment"># 显示节点之间的关系</span>
+rosrun rqt_plot rqt_plot					<span class="token comment"># 显示发布到某个话题上的数据</span>
+rosrun rqt_console rqt_console				<span class="token comment"># 启动控制台</span>
+rosrun rqt_logger_level rqt_logger_level	<span class="token comment"># 启动日志级别设置窗口</span>
+
+
+rostopic <span class="token parameter variable">-h</span>					<span class="token comment"># 使用帮助选项查看可用的rostopic的子命令</span>
+rostopic <span class="token builtin class-name">echo</span> <span class="token punctuation">[</span>topic<span class="token punctuation">]</span>		<span class="token comment"># 查看话题里面的内容，用 echo -e [Unicode] 可以解析消息Unicode编码 </span>
+rostopic hz <span class="token punctuation">[</span>topic_name<span class="token punctuation">]</span> 	<span class="token comment"># 查看话题中每秒发送的数据个数。</span>
+rostopic list				<span class="token comment"># 列出当前已被订阅和发布的所有话题。</span>
+rostopic list <span class="token parameter variable">-v</span>			<span class="token comment"># 列出所有发布和订阅的主题及其类型的详细信息。</span>
+rostopic <span class="token builtin class-name">type</span> <span class="token punctuation">[</span>topic<span class="token punctuation">]</span>		<span class="token comment"># 查看所发布话题的消息类型。</span>
+rosmsg show <span class="token punctuation">[</span>msg_type<span class="token punctuation">]</span>		<span class="token comment"># 使用rosmsg查看消息的详细信息</span>
+rostopic pub <span class="token punctuation">[</span>topic<span class="token punctuation">]</span> <span class="token punctuation">[</span>msg_type<span class="token punctuation">]</span> <span class="token punctuation">[</span>args<span class="token punctuation">]</span>		<span class="token comment"># 把数据发布到当前某个正在广播的话题上。</span>
+
+
+rosservice list         				<span class="token comment"># 输出活跃服务的信息</span>
+rosservice call <span class="token punctuation">[</span>service<span class="token punctuation">]</span> <span class="token punctuation">[</span>args<span class="token punctuation">]</span>        <span class="token comment"># 用给定的参数调用服务</span>
+rosservice <span class="token builtin class-name">type</span> <span class="token punctuation">[</span>service<span class="token punctuation">]</span>         		<span class="token comment"># 输出服务的类型</span>
+rosservice <span class="token function">find</span>         				<span class="token comment"># 按服务的类型查找服务</span>
+rosservice uri          				<span class="token comment"># 输出服务的ROSRPC uri</span>
+
+
+rosparam list           				<span class="token comment"># 列出参数名</span>
+rosparam <span class="token builtin class-name">set</span> <span class="token punctuation">[</span>param_name<span class="token punctuation">]</span> <span class="token punctuation">[</span>param_value<span class="token punctuation">]</span>	<span class="token comment"># 设置参数</span>
+rosparam get <span class="token punctuation">[</span>param_name<span class="token punctuation">]</span>            	<span class="token comment"># 获取参数，"rosparam get /" 显示参数服务器上的所有内容</span>
+rosparam load <span class="token punctuation">[</span>file_name<span class="token punctuation">]</span> <span class="token punctuation">[</span>namespace<span class="token punctuation">]</span>	<span class="token comment"># 从文件中加载参数</span>
+rosparam dump <span class="token punctuation">[</span>file_name<span class="token punctuation">]</span> <span class="token punctuation">[</span>namespace<span class="token punctuation">]</span>	<span class="token comment"># 向文件中转储参数</span>
+rosparam delete         				<span class="token comment"># 删除参数</span>
+
+rosmsg show <span class="token punctuation">[</span>message type<span class="token punctuation">]</span>		<span class="token comment"># 查看自定义msg结构</span>
+rossrv show <span class="token punctuation">[</span>service type<span class="token punctuation">]</span>		<span class="token comment"># 查看服务的信息</span>
+
+roslaunch <span class="token punctuation">[</span>package<span class="token punctuation">]</span> <span class="token punctuation">[</span>filename.launch<span class="token punctuation">]</span>	<span class="token comment"># 运行launch文件</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>参考链接：<a target="_blank" rel="noopener" href="https://wiki.ros.org/cn/ROS/Tutorials">https://wiki.ros.org/cn/ROS/Tutorials</a></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">LSJune</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://shao-junliang.github.io/2025/03/03/ros-basic/">http://shao-junliang.github.io/2025/03/03/ros-basic/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">LSJune</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/ROS/">
+                                    <span class="chip bg-color">ROS</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '402e1ec91f1ff6375db9',
+        clientSecret: '3122e50655b57000ca790be9e0229afdbabd50a8',
+        repo: 'Shao-junliang.github.io',
+        owner: 'Shao-junliang',
+        admin: "Shao-junliang",
+        id: '2025-03-03T15-46-52',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2025/03/03/ros-basic/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="ROS基础">
+                        
+                        <span class="card-title">ROS基础</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
+                        
+                            ROS初级教程笔记
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-03
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            LSJune
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/ROS/">
+                        <span class="chip bg-color">ROS</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/02/10/rabbitmq-cpp-basic/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="RabbitMQ基础用法">
+                        
+                        <span class="card-title">RabbitMQ基础用法</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
+                        
+                            RabbitMQ基础操作
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-02-10
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            LSJune
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/c/">
+                        <span class="chip bg-color">c++</span>
+                    </a>
+                    
+                    <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">
+                        <span class="chip bg-color">消息队列</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3, h4, h5, h6, h7, h8, h9'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+<!-- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script> -->
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            <!-- Copyright&nbsp; -->
+            &copy;
+            
+                <span id="year">2024-2025</span>
+            
+            <a href="/about" target="_blank">LSJune</a>
+            <!-- lsj 3.25 修改了网站底部的备案信息 -->
+            <!-- |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a> -->
+            
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">57k</span>
+            
+            <br>
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2024";
+                        var startMonth = "3";
+                        var startDate = "21";
+                        var startHour = "18";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+            
+                
+            
+            
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+    
+    <!-- 这一行是添加的动态标签栏 -->
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "(´Д｀)大変だ！", clearTimeout(st)) : (document.title = "（●´3｀●）やれやれだぜ", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) }) </script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>

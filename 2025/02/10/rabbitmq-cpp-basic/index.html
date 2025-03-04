@@ -402,14 +402,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3k
+                    3.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    13 分
+                    14 分
                 </div>
                 
 
@@ -754,7 +754,38 @@ amqp_tcp_socket.h is deprecated, use rabbitmq-c/tcp_socket.h instead.
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
- <img src="/2025/02/10/rabbitmq-cpp-basic/%E7%BB%93%E6%9E%9C%E6%BC%94%E7%A4%BA.gif" class="" title="结果演示">      
+ <img src="/2025/02/10/rabbitmq-cpp-basic/%E7%BB%93%E6%9E%9C%E6%BC%94%E7%A4%BA.gif" class="" title="结果演示">     
+
+<h2 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h2><ul>
+<li>简单模式</li>
+<li>工作队列模式</li>
+<li>发布订阅模式</li>
+<li>路由模式</li>
+<li>通配符模式</li>
+<li>远程调用模式</li>
+</ul>
+<p> TODO</p>
+<h2 id="数据传输可靠性分析"><a href="#数据传输可靠性分析" class="headerlink" title="数据传输可靠性分析"></a>数据传输可靠性分析</h2><p>消费者扩展：</p>
+<ul>
+<li>消费者消息确认：当消费者收到消息后有两种确认方式，<strong>自动确认</strong>与<strong>手动确认</strong>。<ul>
+<li><strong>自动确认</strong>：指消息只要被消费者接收到，无论是否成功处理消息，则自动签收，并将消息从队列中移除。</li>
+<li><strong>手动签收</strong>：即在业务处理成功再通知签收消息，如果出现异常，则拒签消息，让消息依然保留在队列当中。</li>
+</ul>
+</li>
+</ul>
+<p>TODO</p>
+<h2 id="其他属性"><a href="#其他属性" class="headerlink" title="其他属性"></a>其他属性</h2><ul>
+<li>消费限流：当队列中积压大量数据时，若此时开启一个消费线程，大量数据同时推送过来时，消费者若处理不过来，可能会造成线程崩溃。为了避免这一现象，RabbitMQ 提供了一种 Qos（Quality Of Service，服务质量）服务质量保证功能，即在非自动确认消息的前提下，如果<strong>一定数目的消息（预取值）</strong>未被确认之前，不再进行消费新的消息。 </li>
+<li>不公平分发</li>
+<li>优先级队列</li>
+<li>消息存活时间</li>
+<li>死信队列</li>
+<li>延迟队列</li>
+</ul>
+<p>TODO</p>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45606067/article/details/134734794">https://blog.csdn.net/weixin_45606067/article/details/134734794</a></p>
+<h2 id="集群搭建"><a href="#集群搭建" class="headerlink" title="集群搭建"></a>集群搭建</h2><p>TODO</p>
+
                 
             </div>
             <hr/>
@@ -896,30 +927,29 @@ amqp_tcp_socket.h is deprecated, use rabbitmq-c/tcp_socket.h instead.
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2025/02/10/rabbitmq-cpp-basic/">
+                <a href="/2025/03/03/ros-basic/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="RabbitMQ基础用法">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="ROS基础">
                         
-                        <span class="card-title">RabbitMQ基础用法</span>
+                        <span class="card-title">ROS基础</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            RabbitMQ基础操作
+                            ROS初级教程笔记
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-02-10
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-03-03
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -928,16 +958,11 @@ amqp_tcp_socket.h is deprecated, use rabbitmq-c/tcp_socket.h instead.
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/c/">
-                        <span class="chip bg-color">c++</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/">
-                        <span class="chip bg-color">消息队列</span>
+                    <a href="/tags/ROS/">
+                        <span class="chip bg-color">ROS</span>
                     </a>
                     
                 </div>
@@ -1136,7 +1161,7 @@ amqp_tcp_socket.h is deprecated, use rabbitmq-c/tcp_socket.h instead.
             
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">53k</span>
+                        class="white-color">57k</span>
             
             <br>
             <!-- 运行天数提醒. -->
