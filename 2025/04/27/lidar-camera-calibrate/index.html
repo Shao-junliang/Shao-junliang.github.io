@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="xmake入门, 暴躁小何的笔记">
-    <meta name="description" content="xmake常用命令介绍">
+    <meta name="keywords" content="雷达相机标定, 暴躁小何的笔记">
+    <meta name="description" content="雷达相机标定笔记">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>xmake入门 | 暴躁小何的笔记</title>
+    <title>雷达相机标定 | 暴躁小何的笔记</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -336,12 +336,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.png')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">xmake入门</h1>
+                    <h1 class="description center-align post-title">雷达相机标定</h1>
                 </div>
             </div>
         </div>
@@ -365,8 +365,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/xmake/">
-                                <span class="chip bg-color">xmake</span>
+                            <a href="/tags/%E6%A0%87%E5%AE%9A/">
+                                <span class="chip bg-color">标定</span>
                             </a>
                         
                     </div>
@@ -381,7 +381,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-04-26
+                    2025-04-27
                 </div>
                 
 
@@ -398,14 +398,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1k
+                    709
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    2 分
                 </div>
                 
 
@@ -428,103 +428,106 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="xmake-常用命令"><a href="#xmake-常用命令" class="headerlink" title="xmake 常用命令"></a><code>xmake</code> 常用命令</h3><h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">xmake		&#x2F;&#x2F; 编译程序
-xmake run	&#x2F;&#x2F; 运行程序    
-xmake install -y	&#x2F;&#x2F; 将当前编译好的程序安装到系统环境，默认位置&#x2F;user&#x2F;local下
-xmake uninstall -y	&#x2F;&#x2F; 卸载安装程序；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+                <h3 id="相机标定"><a href="#相机标定" class="headerlink" title="相机标定"></a>相机标定</h3><h4 id="相机内参标定"><a href="#相机内参标定" class="headerlink" title="相机内参标定"></a>相机内参标定</h4><ul>
+<li>首先采集不同位置的标定板照片</li>
+<li>matlab工具箱选择 <code>Camera Calibrator</code> 工具</li>
+</ul>
+ <img src="/2025/04/27/lidar-camera-calibrate/img1.png" class="" title="选择 Camera Calibrator 工具">
 
-<h4 id="基本命令介绍"><a href="#基本命令介绍" class="headerlink" title="基本命令介绍"></a>基本命令介绍</h4><p><code>xmake --help</code></p>
- <img src="/2024/04/26/xmake-start/xmake_help.png" class="" title="xmake help"> 
-
-<p>xmake命令行格式为：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">xmake [task] [options] [target]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p><code>[]</code> 表示可选输入，task为子命令任务名，options为参数选项，target指的是当前命令针对那些目标程序；</p>
-<p>常用子命令：</p>
 <ul>
-<li><code>build</code>：程序构建；</li>
-<li><code>clean</code>：删除编译过程中的所有二进制文件和临时文件；</li>
-<li><code>config</code>：配置编译需要的参数，如平台、架构等，缩写用 <code>f</code> 表示；</li>
-<li><code>global</code>：配置xmake的全局编译参数；</li>
-<li><code>install</code>：安装编译后的目标程序；</li>
-<li><code>package</code>：打包编译生成的库与头文件；</li>
-<li><code>require</code>：手动拉取第三方依赖库；</li>
-<li><code>run</code>：运行目标程序；</li>
-<li><code>uninstall</code>：卸载目标程序；</li>
-<li><code>update</code>：更新xmake；</li>
+<li>导入采集好的标定图片</li>
 </ul>
-<p>build子命令：</p>
+ <img src="/2025/04/27/lidar-camera-calibrate/img2.png" class="" title="导入图片">
+
 <ul>
-<li><code>-v/--verbose</code>：查看详细完整的编译命令。</li>
-<li><code>-r/--rebuild</code>：强制重新编译所有代码。</li>
-<li><code>-j/--jobs</code>：指定多任务编译的并行任务数。</li>
-<li><code>-w/--warning</code>：编译过程中显示编译警告信息。</li>
+<li>输入标定板尺寸</li>
 </ul>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">xmake -rv			&#x2F;&#x2F; 查看详细编译选项
-xmake f -m debug	&#x2F;&#x2F; 切换到debug模式、也可以切换release、releasedbg模式
-xmake f -o &#x2F;out		&#x2F;&#x2F; 切换编译输出目录
-xmake f -v			&#x2F;&#x2F; 查看当前的配置信息
-&#x2F;&#x2F; --cflags 仅仅添加 C 编译选项，--cxxflags 为仅仅添加 C++ 编译选项，--cxflags 同时添加 C&#x2F;C++ 编译选项。
-xmake f --cxflags&#x3D;&quot;-DTEST&quot;	&#x2F;&#x2F; 仅仅添加C编译选项
-&#x2F;&#x2F; 添加链接库和搜索路径
-xmake f --ldflags&#x3D;&quot;-L&#x2F;tmp -lpthread&quot;		&#x2F;&#x2F; 表示新增 &#x2F;tmp 的库搜索目录，并添加额外的 pthread 链接库
-xmake f --links&#x3D;&quot;pthread&quot; --linkdirs&#x3D;&quot;&#x2F;tmp&quot; &#x2F;&#x2F; 与上面一行效果一样
-xmake f --toolchain&#x3D;clang	 &#x2F;&#x2F; 切换到 clang 编译器，前提是安装了clang 
-xmake f -c		&#x2F;&#x2F; 重置所有配置     
-xmake update -f	&#x2F;&#x2F; xmake更新到最新版本<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+ <img src="/2025/04/27/lidar-camera-calibrate/img3.png" class="" title="设置标定板尺寸">
 
-<p><code>xmake show</code> 显示的信息含义</p>
- <img src="/2024/04/26/xmake-start/xmake_show.png" class="" title="xmake show"> 
-
-<h4 id="xmake-lua基础配置"><a href="#xmake-lua基础配置" class="headerlink" title="xmake.lua基础配置"></a>xmake.lua基础配置</h4><ul>
-<li><code>set_kind</code> ：设置目标类型；phony 空目标程序、binary 二进制程序、static 静态库程序、shard 动态库程序；</li>
-<li><code>add_cxflags</code> ：添加 C&#x2F;C++ 编译选项；</li>
-<li><code>add_defines</code> ：添加宏定义；</li>
-<li><code>add_includedirs</code>：添加头文件搜索目录；</li>
-<li><code>add_linkdirs</code>：添加库搜索目录；</li>
-<li><code>add_links</code>：添加链接库；</li>
-<li><code>add_syslinks</code>：添加系统链接库；</li>
-<li><code>set_languages</code> ：设置语言标准；</li>
-<li><code>add_files</code> ：添加源文件；中间用 <code>|</code> 分割表示过滤的文件；</li>
-<li><code>add_requires()</code> ：指定当前项目需要哪些包，编译时候会触发一次依赖包的安装；</li>
-<li><code>add_packages()</code> ：配置对特定 target 目标集成指定的依赖包，需要与 <code>add_requires()</code> 配合使用，二者缺一不可。</li>
+<ul>
+<li>检查每个图片的坐标系是否一致，剔除不一致的图片</li>
+<li>检查完之后，选择这几个按钮，点击标定</li>
 </ul>
-<h3 id="xrepo-常用命令"><a href="#xrepo-常用命令" class="headerlink" title="xrepo 常用命令"></a><code>xrepo</code> 常用命令</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">xrepo <span class="token function">install</span> zlib tbox							<span class="token comment"># 安装包</span>
-xrepo <span class="token function">install</span> <span class="token string">"zlib 1.2.x"</span>						<span class="token comment"># 安装指定版本包</span>
-xrepo <span class="token function">install</span> <span class="token parameter variable">-p</span> mingw <span class="token punctuation">[</span>--mingw<span class="token operator">=</span>/xxx<span class="token punctuation">]</span> zlib		<span class="token comment"># 安装指定平台包</span>
-xrepo <span class="token function">install</span> <span class="token parameter variable">-m</span> debug zlib						<span class="token comment"># 安装调试版本包</span>
-xrepo <span class="token function">install</span> <span class="token parameter variable">-k</span> shared zlib					<span class="token comment"># 安装动态库版本包</span>
-xrepo <span class="token function">install</span> <span class="token parameter variable">-f</span> <span class="token string">"vs_runtime='MD'"</span> zlib			<span class="token comment"># 安装指定配置包</span>
-xrepo <span class="token function">install</span> vcpkg::zlib						<span class="token comment"># 安装第三方包管理器的包</span>
-xrepo fetch pcre2								<span class="token comment"># 查找包的库使用信息</span>
-xrepo <span class="token builtin class-name">export</span> <span class="token parameter variable">-o</span> /tmp/output zlib				<span class="token comment"># 导出安装后的包</span>
-xrepo <span class="token function">import</span> <span class="token parameter variable">-i</span> /xxx/packagedir zlib			<span class="token comment"># 导入安装后的包</span>
-xrepo search rabbitmq							<span class="token comment"># 搜索支持的包</span>
-xrepo info zlib									<span class="token comment"># 查看包信息</span>
-xrepo remove <span class="token parameter variable">--all</span>								<span class="token comment"># 卸载所有包</span>
-xrepo remove <span class="token parameter variable">--all</span> zlib pcr*					<span class="token comment"># 卸载所有包，模式匹配</span>
+ <img src="/2025/04/27/lidar-camera-calibrate/img4.png" class="" title="标定设置">
 
-<span class="token comment"># 进入虚拟环境：在当前目录下，添加 xmake.lua 文件，定制化一些包配置，然后进入特定的包虚拟环境。</span>
-<span class="token punctuation">&#123;</span> xmake.lua 文件
-	add_requires<span class="token punctuation">(</span><span class="token string">"zlib 1.2.11"</span><span class="token punctuation">)</span>
-	add_requires<span class="token punctuation">(</span><span class="token string">"python 3.x"</span>, <span class="token string">"luajit"</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#123;</span> <span class="token function">bash</span> 命令行
-	$ xrepo <span class="token function">env</span> shell
-	<span class="token operator">></span> python <span class="token parameter variable">--version</span>
-	<span class="token operator">></span> luajit <span class="token parameter variable">--version</span>
-<span class="token punctuation">&#125;</span>
-xrepo <span class="token function">env</span> <span class="token parameter variable">--show</span> luajit							<span class="token comment"># 查看包环境信息</span>
-xrepo <span class="token function">env</span> luajit								<span class="token comment"># 加载执行包环境并运行命令</span>
-xrepo <span class="token function">env</span> <span class="token parameter variable">--add</span> /tmp/base.lua					<span class="token comment"># 管理虚拟环境，将指定的虚拟环境配置全局注册到系统中，方便快速切换</span>
-xrepo <span class="token function">env</span> <span class="token parameter variable">--list</span>								<span class="token comment"># 查看虚拟环境</span>
-xrepo <span class="token function">env</span> <span class="token parameter variable">--remove</span> base							<span class="token comment"># 删除虚拟环境</span>
-xrepo <span class="token function">env</span> <span class="token parameter variable">-b</span> base shell							<span class="token comment"># 切换全局虚拟环境</span>
-xrepo <span class="token function">env</span> -b/--bind								<span class="token comment"># 绑定指定的虚拟环境</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<ul>
+<li>剔除误差大的值，直到所有误差值均小于0.5</li>
+</ul>
+ <img src="/2025/04/27/lidar-camera-calibrate/img5.png" class="" title="误差调整">
+
+<ul>
+<li>导出内参</li>
+</ul>
+ <img src="/2025/04/27/lidar-camera-calibrate/img6.png" class="" title="结果导出">
+
+<h4 id="相机单应矩阵标定"><a href="#相机单应矩阵标定" class="headerlink" title="相机单应矩阵标定"></a>相机单应矩阵标定</h4><p>标定世界坐标系</p>
+<p>在相机画面中选择四个标定点，测得四个标定点的真实距离，如下示例：</p>
+ <img src="/2025/04/27/lidar-camera-calibrate/img7.png" class="" title="标定示例">
+
+<p>测量示例中 <code>1、2、3、4</code> 位置的像素坐标以及各个点之间的真实距离，调用 <code>cv::findHomography</code> 方法获取单应矩阵。</p>
+<pre class="line-numbers language-none"><code class="language-none">homographyMatrix &#x3D; cv::findHomography(pixelCoords, worldCoords, 0);<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>其中 <code>pixelCoords</code> 为 <code>1、2、3、4</code> 位置像素坐标：<code>worldCoords = &#123;&#123;x1, y1&#125;, &#123;x2, y2&#125;, &#123;x3, y3&#125;, &#123;x4, y4&#125;&#125;;</code> </p>
+<p><code>worldCoords</code> 为 <code>1、2、3、4</code> 位置对应的世界坐标信息，怎样生成<code>worldCoords</code> 数组？</p>
+<p>此处假设 <code>1、2、3、4</code> 点构成矩形，且矩形宽高为L、H，将坐标原点建立在位置 <code>1</code> 处，则 <code>1、2、3、4</code> 位置的世界坐标为：<code>worldCoords = &#123;&#123;0, 0&#125;, &#123;L, 0&#125;, &#123;L, H&#125;, &#123;H, 0&#125;&#125;;</code> </p>
+<p>当然坐标原点也可以选择其他位置，<code>worldCoords</code> 内的位置信息改距坐标原点的信息即可。</p>
+<p>也可以实现像素坐标转GPS坐标，不需要建立原点，只需将 <code>worldCoords</code> 中四个点的位置坐标改为对应的GPS坐标即可。</p>
+<h3 id="雷达相机联合标定"><a href="#雷达相机联合标定" class="headerlink" title="雷达相机联合标定"></a>雷达相机联合标定</h3><h4 id="LIDAR2Camera-手动标定"><a href="#LIDAR2Camera-手动标定" class="headerlink" title="LIDAR2Camera 手动标定"></a>LIDAR2Camera 手动标定</h4><p>标定工具：<a target="_blank" rel="noopener" href="https://github.com/PJLab-ADG/SensorsCalibration/tree/master/lidar2camera">https://github.com/PJLab-ADG/SensorsCalibration/tree/master/lidar2camera</a></p>
+<p>依赖库：</p>
+<ul>
+<li>Pangolin(0.6版本)：<a target="_blank" rel="noopener" href="https://github.com/stevenlovegrove/Pangolin/tree/v0.6">https://github.com/stevenlovegrove/Pangolin/tree/v0.6</a></li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># PCL(1.9.1版本)</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> remove libpcl-dev  
+<span class="token comment"># 避免版本冲突</span>
+<span class="token function">git</span> clone <span class="token parameter variable">-b</span> pcl-1.9.1 https://github.com/PointCloudLibrary/pcl.git
+<span class="token builtin class-name">cd</span> pcl
+<span class="token function">mkdir</span> build
+<span class="token builtin class-name">cd</span> build
+cmake <span class="token punctuation">..</span>
+<span class="token function">make</span> -j<span class="token variable"><span class="token variable">$(</span>nproc<span class="token variable">)</span></span>
+<span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后编译 <code>/lidar2camera/manual_calib/</code> 程序就好了。</p>
+<h4 id="autoware标定工具"><a href="#autoware标定工具" class="headerlink" title="autoware标定工具"></a>autoware标定工具</h4><p>安装标定工具</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/FENGZHANG123/autoware_camera_lidar_calibrator
+catkin_make
+<span class="token builtin class-name">source</span> devel/setup.bash
+rosrun calibration_camera_lidar calibration_toolkit<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>安装依赖库</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> ros-noetic-jsk-recognition-msgs
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> ros-noetic-jsk_footstep_msgs<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>安装nlopt</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 下载：</span>
+https://github.com/stevengj/nlopt/archive/v2.7.1.tar.gz
+cmake <span class="token punctuation">..</span> <span class="token operator">&amp;&amp;</span> <span class="token function">make</span> <span class="token operator">&amp;&amp;</span> <span class="token function">sudo</span> <span class="token function">make</span> <span class="token function">install</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>修改 calibration_camera_lidar&#x2F;CMakeLists.txt</p>
+<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">find_package(OpenCV REQUIRED)
+include_directories($&#123;OpenCV_INCLUDE_DIRS&#125;)
+include_directories( /usr/local/include)
+link_directories(/usr/local/lib)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="matlab标定"><a href="#matlab标定" class="headerlink" title="matlab标定"></a>matlab标定</h4><ul>
+<li>采集同一时刻雷达与图像的标定板数据</li>
+</ul>
+ <img src="/2025/04/27/lidar-camera-calibrate/img8.png" class="" title="标定工具">
+
+<ul>
+<li>与相机内参标定类似，导入图片与pcd点云文件，并设置棋盘格大小</li>
+</ul>
+ <img src="/2025/04/27/lidar-camera-calibrate/img9.png" class="" title="导入数据">
+
+<ul>
+<li>绘制感兴趣区域，这样可以降低雷达检测范围，可以通过 <code>Dimension Tolerance、Cluster Threshold</code> 控制标定板检测结果，然后点击 <code>Calibrate</code> 标定，将旋转、平移与重投影误差误差降低到设定范围内，导出外参即可。</li>
+</ul>
+ <img src="/2025/04/27/lidar-camera-calibrate/img10.png" class="" title="标定设置">
 
 
 
-
+<h3 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续~"></a>未完待续~</h3>
                 
             </div>
             <hr/>
@@ -550,7 +553,7 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://shao-junliang.github.io/2024/04/26/xmake-start/">http://shao-junliang.github.io/2024/04/26/xmake-start/</a>
+                    <a href="http://shao-junliang.github.io/2025/04/27/lidar-camera-calibrate/">http://shao-junliang.github.io/2025/04/27/lidar-camera-calibrate/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -588,8 +591,8 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/xmake/">
-                                    <span class="chip bg-color">xmake</span>
+                                <a href="/tags/%E6%A0%87%E5%AE%9A/">
+                                    <span class="chip bg-color">标定</span>
                                 </a>
                             
                         </div>
@@ -634,7 +637,7 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
         repo: 'Shao-junliang.github.io',
         owner: 'Shao-junliang',
         admin: "Shao-junliang",
-        id: '2024-04-26T21-09-55',
+        id: '2025-04-27T16-40-03',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -662,29 +665,30 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/04/29/prodcons/">
+                <a href="/2025/04/27/lidar-camera-calibrate/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="生产者消费者">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="雷达相机标定">
                         
-                        <span class="card-title">生产者消费者</span>
+                        <span class="card-title">雷达相机标定</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            生产者与消费者模式详解
+                            雷达相机标定笔记
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-04-29
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-04-27
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -693,15 +697,12 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/c/">
-                        <span class="chip bg-color">c++</span>
-                    </a>
-                    
-                    <a href="/tags/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85/">
-                        <span class="chip bg-color">生产者与消费者</span>
+                    <a href="/tags/%E6%A0%87%E5%AE%9A/">
+                        <span class="chip bg-color">标定</span>
                     </a>
                     
                 </div>
@@ -715,24 +716,24 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/03/25/leetcode-study-binarytree/">
+                <a href="/2025/03/03/ros-basic/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="LeetCode-二叉树">
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="ROS基础">
                         
-                        <span class="card-title">LeetCode-二叉树</span>
+                        <span class="card-title">ROS基础</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            二叉树基础与进阶
+                            ROS初级教程笔记
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-03-03
                             </span>
                         <span class="publish-author">
                             
@@ -745,12 +746,8 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">
-                        <span class="chip bg-color">二叉树</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/ROS/">
+                        <span class="chip bg-color">ROS</span>
                     </a>
                     
                 </div>
