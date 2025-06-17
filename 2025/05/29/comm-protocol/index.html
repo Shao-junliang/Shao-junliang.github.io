@@ -402,14 +402,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.6k
+                    3.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    10 分
+                    16 分
                 </div>
                 
 
@@ -685,14 +685,124 @@
 │ Preamble │ Reserved │  Message Length │   Payload    │   CRC  │
 │  (8bit)  │  (6bit)  │     (10bit)     │   (N bits)   │  24bit │
    同步码		保留位			信息长度		 数据信息	 	
-└──────────┴──────────┴─────────────────┴──────────────┴────────┘
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+└──────────┴──────────┴─────────────────┴──────────────┴────────┘<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p>相关资料：</p>
 <ul>
 <li>RTK：<a target="_blank" rel="noopener" href="https://software.rtcm-ntrip.org/">https://software.rtcm-ntrip.org/</a>  <a target="_blank" rel="noopener" href="https://github.com/libing64/learning_rtklib">https://github.com/libing64/learning_rtklib</a></li>
 <li>RTCM3.2 协议格式说明：<a target="_blank" rel="noopener" href="http://www.bynav.cn/media/upload/cms_15/AN018_RTCM3.2%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E_%E5%8C%97%E4%BA%91%E7%A7%91%E6%8A%80.pdf">http://www.bynav.cn/media/upload/cms_15/AN018_RTCM3.2%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E_%E5%8C%97%E4%BA%91%E7%A7%91%E6%8A%80.pdf</a></li>
 </ul>
+<h4 id="NMEA"><a href="#NMEA" class="headerlink" title="NMEA"></a>NMEA</h4><p><strong>NMEA（National Marine Electronics Association）</strong>定义了 GNSS 模块标准输出格式，广泛用于串口输出位置信息，纯文本格式，易于解析。</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>ASCII 文本格式，逗号分隔；</li>
+<li>标准语句以 <code>$</code> 开头，以 <code>\r\n</code> 结束；</li>
+<li>用途：用于串口读取定位结果；</li>
+<li>每秒多条消息输出（典型为1Hz或10Hz）。</li>
+</ul>
+<p><strong>数据格式</strong></p>
+<pre class="line-numbers language-txt" data-language="txt"><code class="language-txt">$&lt;语句类型>,&lt;字段1>,&lt;字段2>,...,&lt;字段N>*&lt;校验和>&lt;CR>&lt;LF>
+
+示例：
+$GPGGA,123519,4807.038,N,01131.000,E,1,08,0.95,545.4,M,46.9,M,,*47
+$GPRMC,123519,A,4807.038,N,01131.000,E,022.4,084.4,230394,003.1,W*6A
+$GPGSA,A,3,04,05,09,12,24,25,29,31,,,,1.8,1.0,1.5*33
+$GPGSV,2,1,08,01,40,083,41,02,17,045,42,03,14,273,43,04,09,137,38*76
+$GPVTG,054.7,T,034.4,M,005.5,N,010.2,K*48
+$GPGLL,4916.45,N,12311.12,W,225444,A*1D<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>核心语句</strong></p>
+<ul>
+<li>GPGGA</li>
+</ul>
+<pre class="line-numbers language-ini" data-language="ini"><code class="language-ini">$GPGGA,&lt;1>,&lt;2>,&lt;3>,&lt;4>,&lt;5>,&lt;6>,&lt;7>,&lt;8>,&lt;9>,&lt;10>,&lt;11>,&lt;12>,&lt;13>,&lt;14>*&lt;15>
+&lt;1> UTC时间，格式为hhmmss.sss。  
+&lt;2> 纬度，格式为ddmm.mmmm（前导位数不足则补0）。   
+&lt;3> 纬度半球，N或S（北纬或南纬）。   
+&lt;4> 经度，格式为dddmm.mmmm（前导位数不足则补0）。 
+&lt;5> 经度半球，E或W（东经或西经）。   
+<span class="token key attr-name">&lt;6> 定位质量指示，0</span><span class="token punctuation">=</span><span class="token value attr-value">定位无效，1=定位有效。   </span>
+&lt;7> 使用卫星数量，从00到12（前导位数不足则补0）。  
+&lt;8> 水平精确度，0.5到99.9。   
+&lt;9> 天线离海平面的高度，-9999.9到9999.9米   
+&lt;10> 高度单位，M表示单位米。   
+&lt;11> 大地椭球面相对海平面的高度（-999.9到999.9）。   
+&lt;12> 高度单位，M表示单位米。   
+&lt;13> 差分GPS数据期限（RTCM SC-104），最后设立RTCM传送的秒数量。   
+&lt;14> 差分参考基站标号，从0000到1023（前导位数不足则补0）。   
+&lt;15> 校验和。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>GPRMC</li>
+</ul>
+<pre class="line-numbers language-ini" data-language="ini"><code class="language-ini">$GPRMC,&lt;1>,&lt;2>,&lt;3>,&lt;4>,&lt;5>,&lt;6>,&lt;7>,&lt;8>,&lt;9>,&lt;10>,&lt;11>,&lt;12>*&lt;13>
+&lt;1> UTC（Coordinated Universal Time）时间，hhmmss（时分秒）格式   
+<span class="token key attr-name">&lt;2> 定位状态，A</span><span class="token punctuation">=</span><span class="token value attr-value">有效定位，V=无效定位   </span>
+&lt;3> Latitude，纬度ddmm.mmmm（度分）格式（前导位数不足则补0）   
+&lt;4> 纬度半球N（北半球）或S（南半球）   
+&lt;5> Longitude，经度dddmm.mmmm（度分）格式（前导位数不足则补0）   
+&lt;6> 经度半球E（东经）或W（西经）   
+&lt;7> 地面速率（000.0~999.9节，Knot，前导位数不足则补0）   
+&lt;8> 地面航向（000.0~359.9度，以真北为参考基准，前导位数不足则补0）   
+&lt;9> UTC日期，ddmmyy（日月年）格式   
+&lt;10> Magnetic Variation，磁偏角（000.0~180.0度，前导位数不足则补0）   
+&lt;11> Declination，磁偏角方向，E（东）或W（西）   
+<span class="token key attr-name">&lt;12> Mode Indicator，模式指示（仅NMEA0183 3.00版本输出，A</span><span class="token punctuation">=</span><span class="token value attr-value">自主定位，D=差分，E=估算，N=数据无效）   </span>
+&lt;13> 校验和。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>GPGSA</li>
+</ul>
+<pre class="line-numbers language-ini" data-language="ini"><code class="language-ini">$GPGSA,&lt;1>,&lt;2>,&lt;3>,&lt;3>,&lt;3>,&lt;3>,&lt;3>,&lt;4>,&lt;5>,&lt;6>,&lt;7>
+<span class="token key attr-name">&lt;1>模式 ：M </span><span class="token punctuation">=</span><span class="token value attr-value"> 手动， A = 自动。 </span>
+<span class="token key attr-name">&lt;2>定位型式 1 </span><span class="token punctuation">=</span><span class="token value attr-value"> 未定位， 2 = 二维定位， 3 = 三维定位。 </span>
+&lt;3>PRN 数字：01 至 32 表天空使用中的卫星编号，最多可接收12颗卫星信息。   
+&lt;4> PDOP位置精度因子（0.5~99.9）   
+&lt;5> HDOP水平精度因子（0.5~99.9）   
+&lt;6> VDOP垂直精度因子（0.5~99.9）   
+&lt;7> Checksum（检查位）<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>GPGSV</li>
+</ul>
+<pre class="line-numbers language-ini" data-language="ini"><code class="language-ini">$GPGSV, &lt;1>,&lt;2>,&lt;3>,&lt;4>,&lt;5>,&lt;6>,&lt;7>,…,&lt;4>,&lt;5>,&lt;6>,&lt;7>*&lt;8>
+&lt;1> 总的GSV语句电文数。   
+&lt;2> 当前GSV语句号。   
+&lt;3> 可视卫星总数，00至12。   
+&lt;4> 卫星编号，01至32。   
+&lt;5> 卫星仰角，00至90度。   
+&lt;6> 卫星方位角，000至359度。实际值。   
+&lt;7> 信噪比（C/No），00至99dB；无表未接收到讯号。   
+&lt;8> 校验和。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>GPVTG</li>
+</ul>
+<pre class="line-numbers language-ini" data-language="ini"><code class="language-ini">$GPVTG,&lt;1>,&lt;2>,&lt;3>,&lt;4>,&lt;5>,&lt;6>,&lt;7>,&lt;8>,&lt;9>∗&lt;10>
+&lt;1> 真北航向，000 - 359，（前导位数不足则补0） 
+<span class="token key attr-name">&lt;2> T</span><span class="token punctuation">=</span><span class="token value attr-value">真北参照系 </span>
+&lt;3> 磁北航向，000 - 359，（前导位数不足则补0） 
+<span class="token key attr-name">&lt;4> M</span><span class="token punctuation">=</span><span class="token value attr-value">磁北参照系 </span>
+&lt;5> 水平运动速度（0.00）（前导位数不足则补0） 
+<span class="token key attr-name">&lt;6> N</span><span class="token punctuation">=</span><span class="token value attr-value">节，Knots </span>
+&lt;7> 水平运动速度（0.00）（前导位数不足则补0） 
+<span class="token key attr-name">&lt;8> K</span><span class="token punctuation">=</span><span class="token value attr-value">公里/时，km/h </span>
+<span class="token key attr-name">&lt;9> 模式指示（仅 NMEA 0183 3.0 版本输出，A</span><span class="token punctuation">=</span><span class="token value attr-value">自主定位，D=差分，E=估算，N=数据无效）</span>
+&lt;10> 校验值.<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>GPGLL</li>
+</ul>
+<pre class="line-numbers language-ini" data-language="ini"><code class="language-ini">$GPGLL,&lt;1>,&lt;2>,&lt;3>,&lt;4>,&lt;5>,&lt;6>,&lt;7>*&lt;8>  
+&lt;1> 纬度ddmm.mmmm，度分格式（前导位数不足则补0） 
+&lt;2> 纬度N（北纬）或S（南纬） 
+&lt;3> 经度dddmm.mmmm，度分格式（前导位数不足则补0） 
+&lt;4> 经度E（东经）或W（西经） 
+&lt;5> UTC时间，hhmmss.sss格式 
+<span class="token key attr-name">&lt;6> 定位状态，A</span><span class="token punctuation">=</span><span class="token value attr-value">定位，V=未定位 </span>
+<span class="token key attr-name">&lt;7> 模式指示（仅 NMEA 0183 3.0 版本输出，A</span><span class="token punctuation">=</span><span class="token value attr-value">自主定位，D=差分，E=估算，N=数据无效）</span>
+&lt;8> 校验值<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 
                 
             </div>
@@ -835,30 +945,29 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2025/05/29/comm-protocol/">
+                <a href="/2025/06/09/file-transfer/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="通信协议">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Jetson文件自动上传">
                         
-                        <span class="card-title">通信协议</span>
+                        <span class="card-title">Jetson文件自动上传</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            CAN通信与差分站协议
+                            Jetson文件实时同步到Windows
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-05-29
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2025-06-09
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -867,16 +976,15 @@
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/CAN/">
-                        <span class="chip bg-color">CAN</span>
+                    <a href="/tags/inotify/">
+                        <span class="chip bg-color">inotify</span>
                     </a>
                     
-                    <a href="/tags/Ntrip/">
-                        <span class="chip bg-color">Ntrip</span>
+                    <a href="/tags/HTTP/">
+                        <span class="chip bg-color">HTTP</span>
                     </a>
                     
                 </div>
@@ -1075,7 +1183,7 @@
             
             
                 &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                        class="white-color">60.3k</span>
+                        class="white-color">64.5k</span>
             
             <br>
             <!-- 运行天数提醒. -->

@@ -1,0 +1,1577 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Jetson文件自动上传, 暴躁小何的笔记">
+    <meta name="description" content="Jetson文件实时同步到Windows">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Jetson文件自动上传 | 暴躁小何的笔记</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">暴躁小何的笔记</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">暴躁小何的笔记</div>
+        <div class="logo-desc">
+            
+            Never really desperate, only the lost of the soul.
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/Shao-junliang" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/Shao-junliang" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Jetson文件自动上传</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/inotify/">
+                                <span class="chip bg-color">inotify</span>
+                            </a>
+                        
+                            <a href="/tags/HTTP/">
+                                <span class="chip bg-color">HTTP</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2025-06-09
+                </div>
+                
+
+                
+
+                <!-- lsj 3.25 在此处添加了文章作者信息 -->
+                
+                    <div class="info-break-policy">
+                        <i class="fa fa-user fa-fw"></i>作者:&nbsp;&nbsp;
+                        LSJune
+                    </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    2.9k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>本例主要介绍如何基于 <code>inotify</code> 实现对设备文件目录的实时监控，并通过 <code>libcurl</code> 客户端库采用 <code>HTTP</code> 协议将新增文件上传至服务器。</p>
+<p>客户端主要步骤，Sender：</p>
+<ol>
+<li>递归扫描旧文件，入队；</li>
+<li>监听根目录与新建子目录，生成新文件后入队；</li>
+<li>文件上传，消费者生产者模式，构造 HTTP POST 请求，使用 <code>libcurl + curl_mime_*</code> 提交；</li>
+<li>空目录清理，定时删除不为当天的、已经空的日期目录 。</li>
+</ol>
+<p>服务端主要步骤，Reader：</p>
+<ol>
+<li>启动 HTTP 服务器，监听 <code>/upload</code> 接口；</li>
+<li>解析上传的 relpath 和 file 字段，进行路径合法性检查；</li>
+<li>创建保存目录并保存文件；</li>
+<li>返回 JSON 响应，告知客户端保存结果。</li>
+</ol>
+<h3 id="inotify"><a href="#inotify" class="headerlink" title="inotify"></a>inotify</h3><p>文件监控机制：inotify。</p>
+<p>inotify  为 Linux 内核级文件系统事件监控机制，用于监控文件系统事件。</p>
+<p>使用流程：</p>
+<ol>
+<li>调用 inotify_init() 创建一个 inotify 实例（返回一个文件描述符）。</li>
+<li>通过 inotify_add_watch() 添加需要监听的文件或目录及其事件。</li>
+<li>程序阻塞在 read() 上等待内核事件通知。</li>
+<li>事件触发时，内核会将事件写入文件描述符，应用程序读取后进行处理。</li>
+</ol>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/inotify.h></span></span>
+
+<span class="token comment">/*
+    struct inotify_event
+    &#123;
+      int wd;			    // Watch descriptor.  
+      uint32_t mask;	    // Watch mask.  
+      uint32_t cookie;	    // Cookie to synchronize two events.  
+      uint32_t len;		    // name 字段的长度。
+      char name[];			// Name.
+    &#125;;
+*/</span>
+
+<span class="token comment">// 设置监控的目标目录路径</span>
+<span class="token keyword">const</span> fs<span class="token double-colon punctuation">::</span>path WATCH_ROOT <span class="token operator">=</span> fs<span class="token double-colon punctuation">::</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token function">getenv</span><span class="token punctuation">(</span><span class="token string">"HOME"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token string">"lsj/TrafficServer_YunNan/release/alarm"</span><span class="token punctuation">;</span>
+<span class="token comment">// 定义监控事件缓冲区大小。缓冲区可接收16个事件，256为inotify_event结构体中char name[] 的大小。</span>
+<span class="token keyword">const</span> size_t EVENT_BUF_LEN <span class="token operator">=</span> <span class="token number">16</span> <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">inotify_event</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">256</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">/* ---------- inotify 监听 ---------- */</span>
+<span class="token keyword">void</span> <span class="token function">watch_dir</span><span class="token punctuation">(</span><span class="token keyword">int</span> inotify_fd<span class="token punctuation">,</span> <span class="token keyword">int</span> wd<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 创建缓冲区，buf存放从内核读出的原始事件数据</span>
+    <span class="token keyword">char</span> buf<span class="token punctuation">[</span>EVENT_BUF_LEN<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// 监听循环，read 阻塞模式，没有事件时会一直阻塞</span>
+        <span class="token keyword">int</span> len <span class="token operator">=</span> <span class="token function">read</span><span class="token punctuation">(</span>inotify_fd<span class="token punctuation">,</span> buf<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>		<span class="token comment">// 读取失败处理</span>
+        <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> len<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>	<span class="token comment">// 遍历读取到的事件</span>
+            <span class="token comment">// 把 char* 类型强转为 inotify_event* 类型，用于解析单个事件</span>
+            <span class="token keyword">auto</span><span class="token operator">*</span> event <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">inotify_event</span><span class="token operator">*</span><span class="token punctuation">)</span><span class="token operator">&amp;</span>buf<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token comment">// event->len 文件名长度。event->mask &amp; IN_CLOSE_WRITE 判断事件类型是文件写入后关闭</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token operator">-></span>len <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>event<span class="token operator">-></span>mask <span class="token operator">&amp;</span> IN_CLOSE_WRITE<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">// 构造完整路径。</span>
+                fs<span class="token double-colon punctuation">::</span>path file_path <span class="token operator">=</span> WATCH_ROOT <span class="token operator">/</span> event<span class="token operator">-></span>name<span class="token punctuation">;</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>file_path<span class="token punctuation">.</span><span class="token function">extension</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">".mp4"</span> <span class="token operator">||</span> file_path<span class="token punctuation">.</span><span class="token function">extension</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">".jpg"</span> <span class="token operator">||</span> file_path<span class="token punctuation">.</span><span class="token function">extension</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token string">".png"</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                    <span class="token function">enqueue_file</span><span class="token punctuation">(</span>file_path<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">&#125;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token comment">// 移动 i 指针到下一个事件的起始位置：inotify_event结构体size + name文件名的size。</span>
+            i <span class="token operator">+=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">inotify_event</span><span class="token punctuation">)</span> <span class="token operator">+</span> event<span class="token operator">-></span>len<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token comment">// 创建一个 inotify 实例</span>
+    <span class="token keyword">int</span> inotify_fd <span class="token operator">=</span> <span class="token function">inotify_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">// 添加需要监听的目录及其事件。IN_CLOSE_WRITE：关闭打开写的文件。</span>
+    <span class="token keyword">int</span> wd <span class="token operator">=</span> <span class="token function">inotify_add_watch</span><span class="token punctuation">(</span>inotify_fd<span class="token punctuation">,</span> WATCH_ROOT<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> IN_CLOSE_WRITE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 启动事件监听主循环。</span>
+    <span class="token function">watch_dir</span><span class="token punctuation">(</span>inotify_fd<span class="token punctuation">,</span> wd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="libcurl"><a href="#libcurl" class="headerlink" title="libcurl"></a>libcurl</h3><p>libcurl 是一个强大的跨平台网络传输库，支持 HTTP、HTTPS、FTP 等协议。其 API 分为三类接口，适用于不同场景：</p>
+<table>
+<thead>
+<tr>
+<th align="left"><strong>接口类型</strong></th>
+<th align="left"><strong>特点</strong></th>
+<th align="left"><strong>适用场景</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Easy Interface</strong></td>
+<td align="left">同步阻塞式、简单易用</td>
+<td align="left">单任务简单请求（GET&#x2F;POST 等）</td>
+</tr>
+<tr>
+<td align="left"><strong>Multi Interface</strong></td>
+<td align="left">非阻塞异步、多任务并行</td>
+<td align="left">高并发、大量同时连接</td>
+</tr>
+<tr>
+<td align="left"><strong>Share Interface</strong></td>
+<td align="left">共享数据（如 DNS 缓存、SSL 会话）</td>
+<td align="left">多线程间资源共享</td>
+</tr>
+</tbody></table>
+<p><strong>全局初始化与清理：</strong></p>
+<ul>
+<li><p><code>curl_global_init(long flags)</code>：初始化libcurl，设置全局选项（如SSL支持等），必须在其他函数之前调用一次。</p>
+</li>
+<li><p><code>curl_global_cleanup()</code>：清理libcurl使用的全局资源，在程序结束前调用。</p>
+</li>
+</ul>
+<p><strong>easy接口相关</strong></p>
+<ul>
+<li><p><code>curl_easy_init()</code>：创建一个easy句柄。</p>
+</li>
+<li><p><code>curl_easy_cleanup()</code>：清理并销毁easy句柄。</p>
+</li>
+<li><p><code>curl_easy_setopt()</code>：设置传输选项（如URL、回调函数、请求头等），配置请求的核心函数。</p>
+</li>
+<li><p><code>curl_easy_perform()</code>：执行单个传输请求（同步）。</p>
+</li>
+<li><p><code>curl_easy_getinfo()</code>：获取传输相关的信息（如响应码、传输时间等）。</p>
+</li>
+</ul>
+<p>调用流程：<code>curl_easy_init → easy_setopt → easy_perform → easy_cleanup</code></p>
+<p>创建easy句柄、设置选项、执行传输、清理句柄。</p>
+<p><strong>multi接口相关</strong></p>
+<ul>
+<li><p><code>curl_multi_init()</code>：创建一个multi句柄。</p>
+</li>
+<li><p><code>curl_multi_cleanup()</code>：清理multi句柄。</p>
+</li>
+<li><p><code>curl_multi_add_handle()</code>：将easy句柄添加到multi句柄中。</p>
+</li>
+<li><p><code>curl_multi_remove_handle()</code>：从multi句柄中移除一个easy句柄。</p>
+</li>
+<li><p><code>curl_multi_perform()</code>：执行非阻塞的文件传输，需要循环调用直到所有传输完成。</p>
+</li>
+<li><p><code>curl_multi_wait()</code>：等待一个或多个文件描述符的活动（用于多路复用I&#x2F;O）。</p>
+</li>
+<li><p><code>curl_multi_poll()</code>：类似<code>curl_multi_wait</code>，但提供了更精确的超时控制（较新版本可用）。</p>
+</li>
+<li><p><code>curl_multi_info_read()</code>：读取已完成传输的信息。</p>
+</li>
+</ul>
+<p>调用流程：<code>curl_multi_init → multi_add_handle(easy) → (poll/socket_action 循环) → multi_remove_handle → multi_cleanup</code></p>
+<p>创建多个easy句柄和一个multi句柄，将easy句柄添加到multi句柄中，然后执行事件循环，清除句柄。</p>
+<p><strong>share接口相关</strong></p>
+<ul>
+<li><p><code>curl_share_init()</code>：创建一个share句柄。</p>
+</li>
+<li><p><code>curl_share_setopt()</code>：设置共享选项（如共享什么类型的数据）。</p>
+</li>
+<li><p><code>curl_share_cleanup()</code>：清理share句柄。</p>
+</li>
+</ul>
+<p>调用流程：<code>curl_share_init → share_setopt(lockfunc…) → easy_setopt(CURLOPT_SHARE, sh)</code></p>
+<p><strong>各函数详细参数信息请参考官方API：</strong><a target="_blank" rel="noopener" href="https://curl.se/libcurl/c/allfuncs.html">https://curl.se/libcurl/c/allfuncs.html</a></p>
+<h3 id="HTTP-请求数据格式"><a href="#HTTP-请求数据格式" class="headerlink" title="HTTP 请求数据格式"></a>HTTP 请求数据格式</h3><p>下来介绍一些常见的 HTTP 请求数据格式和对应的设置方式。</p>
+<h4 id="application-x-www-form-urlencoded"><a href="#application-x-www-form-urlencoded" class="headerlink" title="application&#x2F;x-www-form-urlencoded"></a>application&#x2F;x-www-form-urlencoded</h4><p>默认表单提交格式，数据编码为键值对（如 <code>key1=value1&amp;key2=value2</code>）；数据会被 URL 编码（空格变 +，特殊字符转义）。不适合二进制数据（如文件上传）。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token function">curl_easy_setopt</span><span class="token punctuation">(</span>curl<span class="token punctuation">,</span> CURLOPT_POSTFIELDS<span class="token punctuation">,</span> <span class="token string">"name=foo&amp;age=25"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>优点：</strong>文本简短、无需边界、老旧浏览器友好</p>
+<p><strong>缺点：</strong>仅键值对；文件要 base64 拼字符串非常低效 </p>
+<h4 id="application-json"><a href="#application-json" class="headerlink" title="application&#x2F;json"></a>application&#x2F;json</h4><p>提交 JSON 格式数据（常见于 REST API）。需手动设置 Content-Type 头。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token function">curl_easy_setopt</span><span class="token punctuation">(</span>curl<span class="token punctuation">,</span> CURLOPT_POSTFIELDS<span class="token punctuation">,</span> <span class="token string">"&#123;\"name\":\"foo\",\"age\":25&#125;"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">curl_easy_setopt</span><span class="token punctuation">(</span>curl<span class="token punctuation">,</span> CURLOPT_HTTPHEADER<span class="token punctuation">,</span> <span class="token string">"Content-Type: application/json"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>特点：</strong>天然支持嵌套数组&#x2F;对象；易于跨语言反序列化；REST&#x2F;GraphQL&#x2F;微服务首选。</p>
+<h4 id="multipart-form-data"><a href="#multipart-form-data" class="headerlink" title="multipart&#x2F;form-data"></a>multipart&#x2F;form-data</h4><p>用于混合文本字段和文件上传，需通过 curl_mime API（旧版用 curl_formadd，已废弃）。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">curl_mime <span class="token operator">*</span>mime <span class="token operator">=</span> <span class="token function">curl_mime_init</span><span class="token punctuation">(</span>curl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+curl_mimepart <span class="token operator">*</span>part<span class="token punctuation">;</span>
+
+<span class="token comment">// 添加文本字段</span>
+part <span class="token operator">=</span> <span class="token function">curl_mime_addpart</span><span class="token punctuation">(</span>mime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">curl_mime_name</span><span class="token punctuation">(</span>part<span class="token punctuation">,</span> <span class="token string">"username"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token comment">// 设置字段名</span>
+<span class="token function">curl_mime_data</span><span class="token punctuation">(</span>part<span class="token punctuation">,</span> <span class="token string">"testuser"</span><span class="token punctuation">,</span> CURL_ZERO_TERMINATED<span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token comment">// 设置文本数据。</span>
+
+<span class="token comment">// 添加文件字段</span>
+part <span class="token operator">=</span> <span class="token function">curl_mime_addpart</span><span class="token punctuation">(</span>mime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">curl_mime_name</span><span class="token punctuation">(</span>part<span class="token punctuation">,</span> <span class="token string">"file"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">curl_mime_filedata</span><span class="token punctuation">(</span>part<span class="token punctuation">,</span> <span class="token string">"test.jpg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>	<span class="token comment">// 设置文件路径。</span>
+
+<span class="token comment">// 设置 MIME 数据并执行</span>
+<span class="token function">curl_easy_setopt</span><span class="token punctuation">(</span>curl<span class="token punctuation">,</span> CURLOPT_MIMEPOST<span class="token punctuation">,</span> mime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">curl_easy_perform</span><span class="token punctuation">(</span>curl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// 清理</span>
+<span class="token function">curl_mime_free</span><span class="token punctuation">(</span>mime<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="application-octet-stream"><a href="#application-octet-stream" class="headerlink" title="application&#x2F;octet-stream"></a>application&#x2F;octet-stream</h4><p>直接上传二进制数据（如文件内容）。编码方式：纯二进制流。</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp">FILE <span class="token operator">*</span>file <span class="token operator">=</span> <span class="token function">fopen</span><span class="token punctuation">(</span><span class="token string">"data.bin"</span><span class="token punctuation">,</span> <span class="token string">"rb"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">curl_easy_setopt</span><span class="token punctuation">(</span>curl<span class="token punctuation">,</span> CURLOPT_READDATA<span class="token punctuation">,</span> file<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">curl_easy_setopt</span><span class="token punctuation">(</span>curl<span class="token punctuation">,</span> CURLOPT_UPLOAD<span class="token punctuation">,</span> <span class="token number">1L</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">curl_easy_setopt</span><span class="token punctuation">(</span>curl<span class="token punctuation">,</span> CURLOPT_HTTPHEADER<span class="token punctuation">,</span> <span class="token string">"Content-Type: application/octet-stream"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>特点：</strong>不需要任何边界或编码；最节省带宽。服务器端直接按字节写文件，无需解析。</p>
+<p><strong>适合场景：</strong>OSS&#x2F;S3 <code>PUT /object</code> ；流媒体分片（DASH、HLS chunk）；大文件直传（后台从 stdin 流式读取）。</p>
+<h4 id="常用的c-http库"><a href="#常用的c-http库" class="headerlink" title="常用的c++ http库"></a>常用的c++ http库</h4><ul>
+<li><strong>libcurl：</strong>最常用、功能全面、支持 HTTP&#x2F;HTTPS、FTP 等，支持 multipart&#x2F;form-data 上传，常用作客户端。官网：<a target="_blank" rel="noopener" href="https://curl.se/libcurl/">https://curl.se/libcurl/</a></li>
+<li><strong>cpp-httplib：</strong>轻量级单头文件库，支持 HTTP&#x2F;HTTPS，易用，适合嵌入式和快速开发。官网：<a target="_blank" rel="noopener" href="https://github.com/yhirose/cpp-httplib">https://github.com/yhirose/cpp-httplib</a></li>
+<li><strong>Boost.Beast：</strong>基于 Boost.Asio，支持 HTTP 1.x&#x2F;2，现代 C++ 接口，适合高性能场景。官网：<a target="_blank" rel="noopener" href="https://www.boost.org/doc/libs/develop/libs/beast/doc/html/index.html">https://www.boost.org/doc/libs/develop/libs/beast/doc/html/index.html</a></li>
+<li><strong>Poco::Net：</strong>集成在 POCO 框架中，支持 HTTP&#x2F;HTTPS、WebSocket、REST 等。官网：<a target="_blank" rel="noopener" href="https://docs.pocoproject.org/current/Poco.Net.html">https://docs.pocoproject.org/current/Poco.Net.html</a></li>
+<li><strong>cpr：</strong>基于 libcurl 的更高级封装，接口类似 Python 的 requests，简单易用。</li>
+</ul>
+<h3 id="程序示例"><a href="#程序示例" class="headerlink" title="程序示例"></a>程序示例</h3><p>client.cpp</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;curl/curl.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;sys/inotify.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unistd.h></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;filesystem></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;thread></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;queue></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;mutex></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;condition_variable></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;unordered_map></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;regex></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+
+<span class="token keyword">namespace</span> fs <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span>filesystem<span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token double-colon punctuation">::</span>chrono<span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> fs<span class="token double-colon punctuation">::</span>path WATCH_ROOT <span class="token operator">=</span> fs<span class="token double-colon punctuation">::</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token function">getenv</span><span class="token punctuation">(</span><span class="token string">"HOME"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">/</span> <span class="token string">"path/Filse"</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> size_t EVENT_BUF_LEN <span class="token operator">=</span> <span class="token number">16</span> <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">inotify_event</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">256</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">static</span> <span class="token keyword">int</span> inotify_fd<span class="token punctuation">;</span>
+<span class="token keyword">static</span> std<span class="token double-colon punctuation">::</span>unordered_map<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">></span> wd2path<span class="token punctuation">;</span>   <span class="token comment">// wd -> path</span>
+<span class="token keyword">static</span> std<span class="token double-colon punctuation">::</span>unordered_map<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>string<span class="token punctuation">,</span> <span class="token keyword">int</span><span class="token operator">></span> path2wd<span class="token punctuation">;</span>    <span class="token comment">// path -> wd</span>
+
+<span class="token comment">/* ---------- 线程安全队列 ---------- */</span>
+std<span class="token double-colon punctuation">::</span>queue<span class="token operator">&lt;</span>fs<span class="token double-colon punctuation">::</span>path<span class="token operator">></span> q<span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>mutex mtx<span class="token punctuation">;</span>
+std<span class="token double-colon punctuation">::</span>condition_variable cv<span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">enqueue</span><span class="token punctuation">(</span><span class="token keyword">const</span> fs<span class="token double-colon punctuation">::</span>path<span class="token operator">&amp;</span> p<span class="token punctuation">)</span><span class="token punctuation">&#123;</span> std<span class="token double-colon punctuation">::</span>lock_guard <span class="token function">g</span><span class="token punctuation">(</span>mtx<span class="token punctuation">)</span><span class="token punctuation">;</span> q<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span> cv<span class="token punctuation">.</span><span class="token function">notify_one</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+
+<span class="token comment">/* ---------- 扫描历史文件 ---------- */</span>
+<span class="token keyword">void</span> <span class="token function">scan_existing</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">auto</span><span class="token operator">&amp;</span> p <span class="token operator">:</span> fs<span class="token double-colon punctuation">::</span><span class="token function">recursive_directory_iterator</span><span class="token punctuation">(</span>WATCH_ROOT<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>p<span class="token punctuation">.</span><span class="token function">is_regular_file</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token keyword">auto</span> ext <span class="token operator">=</span> p<span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">extension</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>ext <span class="token operator">==</span> <span class="token string">".mp4"</span> <span class="token operator">||</span> ext <span class="token operator">==</span> <span class="token string">".jpg"</span><span class="token punctuation">)</span>
+            <span class="token function">enqueue</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>          <span class="token comment">// 放进队列</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">/* ---------- 子目录监听 ---------- */</span>
+<span class="token keyword">void</span> <span class="token function">add_date_watch</span><span class="token punctuation">(</span><span class="token keyword">const</span> fs<span class="token double-colon punctuation">::</span>path<span class="token operator">&amp;</span> d<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">const</span> std<span class="token double-colon punctuation">::</span>string pstr <span class="token operator">=</span> d<span class="token punctuation">.</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>               <span class="token comment">// ② 提前转一次，复用</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>path2wd<span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span>pstr<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span><span class="token keyword">return</span><span class="token punctuation">;</span><span class="token punctuation">&#125;</span>
+    <span class="token keyword">int</span> wd <span class="token operator">=</span> <span class="token function">inotify_add_watch</span><span class="token punctuation">(</span>inotify_fd<span class="token punctuation">,</span> d<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> IN_CLOSE_WRITE <span class="token operator">|</span> IN_MOVED_TO <span class="token operator">|</span> IN_DELETE_SELF <span class="token operator">|</span> IN_IGNORED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>wd <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"inotify_add_watch"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    wd2path<span class="token punctuation">[</span>wd<span class="token punctuation">]</span>  <span class="token operator">=</span> pstr<span class="token punctuation">;</span> path2wd<span class="token punctuation">[</span>pstr<span class="token punctuation">]</span> <span class="token operator">=</span> wd<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">/* ---------- 初始化 ---------- */</span>
+<span class="token keyword">void</span> <span class="token function">init_watches</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    inotify_fd <span class="token operator">=</span> <span class="token function">inotify_init1</span><span class="token punctuation">(</span>IN_NONBLOCK<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> std<span class="token double-colon punctuation">::</span>array<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>string<span class="token punctuation">,</span><span class="token number">2</span><span class="token operator">></span> LEVEL1 <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"video"</span><span class="token punctuation">,</span> <span class="token string">"pic"</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">auto</span><span class="token operator">&amp;</span> sub <span class="token operator">:</span> LEVEL1<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        fs<span class="token double-colon punctuation">::</span>path dir <span class="token operator">=</span> WATCH_ROOT <span class="token operator">/</span> sub<span class="token punctuation">;</span>
+        <span class="token keyword">int</span> wd <span class="token operator">=</span> <span class="token function">inotify_add_watch</span><span class="token punctuation">(</span>inotify_fd<span class="token punctuation">,</span> dir<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> IN_CREATE <span class="token operator">|</span> IN_ISDIR <span class="token operator">|</span> IN_DELETE_SELF <span class="token operator">|</span> IN_IGNORED <span class="token operator">|</span> IN_MOVED_TO <span class="token operator">|</span> IN_CLOSE_WRITE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>wd <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>      <span class="token comment">// 出错要检查</span>
+            <span class="token function">perror</span><span class="token punctuation">(</span><span class="token string">"inotify_add_watch"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">continue</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        std<span class="token double-colon punctuation">::</span>string dstr <span class="token operator">=</span> dir<span class="token punctuation">.</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        wd2path<span class="token punctuation">[</span>wd<span class="token punctuation">]</span> <span class="token operator">=</span> dstr<span class="token punctuation">;</span> path2wd<span class="token punctuation">[</span>dstr<span class="token punctuation">]</span> <span class="token operator">=</span> wd<span class="token punctuation">;</span> 
+        <span class="token comment">// 如果该目录里已有子目录，递增挂 watch</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">auto</span><span class="token operator">&amp;</span> e <span class="token operator">:</span> fs<span class="token double-colon punctuation">::</span><span class="token function">directory_iterator</span><span class="token punctuation">(</span>dir<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">is_directory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token function">add_date_watch</span><span class="token punctuation">(</span>e<span class="token punctuation">.</span><span class="token function">path</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">/* ---------- inotify 监听 ---------- */</span>
+<span class="token keyword">void</span> <span class="token function">watch_loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    std<span class="token double-colon punctuation">::</span>array<span class="token operator">&lt;</span><span class="token keyword">char</span><span class="token punctuation">,</span><span class="token number">4096</span><span class="token operator">></span> buf<span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">int</span> len <span class="token operator">=</span> <span class="token function">read</span><span class="token punctuation">(</span>inotify_fd<span class="token punctuation">,</span> buf<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> buf<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>len <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> std<span class="token double-colon punctuation">::</span>this_thread<span class="token double-colon punctuation">::</span><span class="token function">sleep_for</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span><span class="token function">milliseconds</span><span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token keyword">continue</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span>
+        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>len<span class="token punctuation">;</span> <span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">auto</span><span class="token operator">*</span> ev <span class="token operator">=</span> <span class="token punctuation">(</span>inotify_event<span class="token operator">*</span><span class="token punctuation">)</span><span class="token punctuation">(</span>buf<span class="token punctuation">.</span><span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            fs<span class="token double-colon punctuation">::</span>path parent <span class="token operator">=</span> wd2path<span class="token punctuation">[</span>ev<span class="token operator">-></span>wd<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            fs<span class="token double-colon punctuation">::</span>path full   <span class="token operator">=</span> parent <span class="token operator">/</span> ev<span class="token operator">-></span>name<span class="token punctuation">;</span>
+            <span class="token comment">/* 目录被 rm 掉：释放 watch */</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>ev<span class="token operator">-></span>mask <span class="token operator">&amp;</span> <span class="token punctuation">(</span>IN_DELETE_SELF<span class="token operator">|</span>IN_IGNORED<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">inotify_rm_watch</span><span class="token punctuation">(</span>inotify_fd<span class="token punctuation">,</span> ev<span class="token operator">-></span>wd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">const</span> std<span class="token double-colon punctuation">::</span>string pstr <span class="token operator">=</span> parent<span class="token punctuation">.</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// ←① 转成 string</span>
+                path2wd<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation">(</span>pstr<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                wd2path<span class="token punctuation">.</span><span class="token function">erase</span><span class="token punctuation">(</span>ev<span class="token operator">-></span>wd<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token comment">/* 新目录创建监听 */</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>ev<span class="token operator">-></span>mask <span class="token operator">&amp;</span> IN_ISDIR<span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">(</span>ev<span class="token operator">-></span>mask <span class="token operator">&amp;</span> IN_CREATE<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token function">add_date_watch</span><span class="token punctuation">(</span>full<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            <span class="token comment">/* 文件写完 / rename 进入日期目录 */</span>
+            <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>ev<span class="token operator">-></span>mask <span class="token operator">&amp;</span> <span class="token punctuation">(</span>IN_CLOSE_WRITE<span class="token operator">|</span>IN_MOVED_TO<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                <span class="token keyword">auto</span> ext<span class="token operator">=</span>full<span class="token punctuation">.</span><span class="token function">extension</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>ext<span class="token operator">==</span><span class="token string">".mp4"</span><span class="token operator">||</span>ext<span class="token operator">==</span><span class="token string">".jpg"</span><span class="token operator">||</span>ext<span class="token operator">==</span><span class="token string">".png"</span><span class="token punctuation">)</span> <span class="token function">enqueue</span><span class="token punctuation">(</span>full<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+            i <span class="token operator">+=</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>inotify_event<span class="token punctuation">)</span><span class="token operator">+</span>ev<span class="token operator">-></span>len<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">/* ---------- HTTP 上传 ---------- */</span>
+<span class="token keyword">bool</span> <span class="token function">http_post</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> url<span class="token punctuation">,</span> <span class="token keyword">const</span> fs<span class="token double-colon punctuation">::</span>path<span class="token operator">&amp;</span> file<span class="token punctuation">,</span> <span class="token keyword">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> relpath<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"\n[HTTP-DEBUG] 准备上传:"</span>
+          <span class="token operator">&lt;&lt;</span> <span class="token string">"\n  file    = "</span> <span class="token operator">&lt;&lt;</span> file
+          <span class="token operator">&lt;&lt;</span> <span class="token string">"\n  relpath = "</span> <span class="token operator">&lt;&lt;</span> relpath <span class="token operator">&lt;&lt;</span> <span class="token char">'\n'</span><span class="token punctuation">;</span>
+
+    CURL<span class="token operator">*</span> curl <span class="token operator">=</span> <span class="token function">curl_easy_init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>curl<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+
+    curl_mime<span class="token operator">*</span> mime <span class="token operator">=</span> <span class="token function">curl_mime_init</span><span class="token punctuation">(</span>curl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/* ① 文件 part */</span>
+    curl_mimepart<span class="token operator">*</span> part <span class="token operator">=</span> <span class="token function">curl_mime_addpart</span><span class="token punctuation">(</span>mime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">curl_mime_name</span><span class="token punctuation">(</span>part<span class="token punctuation">,</span> <span class="token string">"file"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">curl_mime_filedata</span><span class="token punctuation">(</span>part<span class="token punctuation">,</span> file<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/* ② 相对路径 part */</span>
+    part <span class="token operator">=</span> <span class="token function">curl_mime_addpart</span><span class="token punctuation">(</span>mime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">curl_mime_name</span><span class="token punctuation">(</span>part<span class="token punctuation">,</span> <span class="token string">"relpath"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">curl_mime_data</span><span class="token punctuation">(</span>part<span class="token punctuation">,</span> relpath<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> CURL_ZERO_TERMINATED<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">curl_easy_setopt</span><span class="token punctuation">(</span>curl<span class="token punctuation">,</span> CURLOPT_MIMEPOST<span class="token punctuation">,</span> mime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">curl_easy_setopt</span><span class="token punctuation">(</span>curl<span class="token punctuation">,</span> CURLOPT_URL<span class="token punctuation">,</span> url<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">curl_easy_setopt</span><span class="token punctuation">(</span>curl<span class="token punctuation">,</span> CURLOPT_TIMEOUT<span class="token punctuation">,</span> <span class="token number">20L</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    CURLcode res <span class="token operator">=</span> <span class="token function">curl_easy_perform</span><span class="token punctuation">(</span>curl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">curl_mime_free</span><span class="token punctuation">(</span>mime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">curl_easy_cleanup</span><span class="token punctuation">(</span>curl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> res <span class="token operator">==</span> CURLE_OK<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">/* ---------- 发送线程 ---------- */</span>
+<span class="token keyword">void</span> <span class="token function">sender_thread</span><span class="token punctuation">(</span><span class="token keyword">const</span> std<span class="token double-colon punctuation">::</span>string<span class="token operator">&amp;</span> url<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        std<span class="token double-colon punctuation">::</span>unique_lock<span class="token operator">&lt;</span>std<span class="token double-colon punctuation">::</span>mutex<span class="token operator">></span> <span class="token function">ul</span><span class="token punctuation">(</span>mtx<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cv<span class="token punctuation">.</span><span class="token function">wait</span><span class="token punctuation">(</span>ul<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">&#123;</span> <span class="token keyword">return</span> <span class="token operator">!</span>q<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        fs<span class="token double-colon punctuation">::</span>path p <span class="token operator">=</span> q<span class="token punctuation">.</span><span class="token function">front</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> q<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ul<span class="token punctuation">.</span><span class="token function">unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 计算相对于WATCH_ROOT的相对路径</span>
+        std<span class="token double-colon punctuation">::</span>string rel <span class="token operator">=</span> fs<span class="token double-colon punctuation">::</span><span class="token function">relative</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> WATCH_ROOT<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">parent_path</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"[Sender] prepare → "</span> <span class="token operator">&lt;&lt;</span> rel <span class="token operator">&lt;&lt;</span> <span class="token char">'\n'</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">http_post</span><span class="token punctuation">(</span>url<span class="token punctuation">,</span> p<span class="token punctuation">,</span> rel<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                <span class="token comment">// fs::remove(p); // 上传成功可删除原文件</span>
+            <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>exception<span class="token operator">&amp;</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"remove error: "</span> <span class="token operator">&lt;&lt;</span> e<span class="token punctuation">.</span><span class="token function">what</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;&lt;</span> <span class="token char">'\n'</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">else</span> <span class="token punctuation">&#123;</span>
+            std<span class="token double-colon punctuation">::</span>cerr <span class="token operator">&lt;&lt;</span> <span class="token string">"Upload failed "</span> <span class="token operator">&lt;&lt;</span> p <span class="token operator">&lt;&lt;</span> <span class="token string">", retry in 10s\n"</span><span class="token punctuation">;</span>
+            std<span class="token double-colon punctuation">::</span>this_thread<span class="token double-colon punctuation">::</span><span class="token function">sleep_for</span><span class="token punctuation">(</span>std<span class="token double-colon punctuation">::</span>chrono<span class="token double-colon punctuation">::</span><span class="token function">seconds</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">enqueue</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// 重试</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token comment">/* ---------- 定时清洗 ---------- */</span>
+<span class="token keyword">void</span> <span class="token function">cleaner_thread</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token double-colon punctuation">::</span>chrono<span class="token punctuation">;</span>
+    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        std<span class="token double-colon punctuation">::</span>this_thread<span class="token double-colon punctuation">::</span><span class="token function">sleep_for</span><span class="token punctuation">(</span><span class="token function">hours</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 每小时跑一次</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span><span class="token operator">*</span> argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">const</span> std<span class="token double-colon punctuation">::</span>string url <span class="token operator">=</span> <span class="token string">"http://xxx.xxx.xxx.xxx:8080/upload"</span><span class="token punctuation">;</span>
+    <span class="token function">curl_global_init</span><span class="token punctuation">(</span>CURL_GLOBAL_ALL<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">init_watches</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">scan_existing</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>                <span class="token comment">// ① 先把已有文件丢进队列</span>
+
+    std<span class="token double-colon punctuation">::</span>thread <span class="token function">t</span><span class="token punctuation">(</span>sender_thread<span class="token punctuation">,</span> url<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">watch_loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    t<span class="token punctuation">.</span><span class="token function">join</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">curl_global_cleanup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span><span class="token function">thread</span><span class="token punctuation">(</span>cleaner_thread<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">detach</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>service.cpp</p>
+<pre class="line-numbers language-cpp" data-language="cpp"><code class="language-cpp"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">"httplib.h"</span> <span class="token comment">// 单头文件</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;chrono></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;filesystem></span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;fstream></span> </span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;iostream></span></span>
+
+<span class="token keyword">namespace</span> fs <span class="token operator">=</span> std<span class="token double-colon punctuation">::</span>filesystem<span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token double-colon punctuation">::</span>chrono<span class="token punctuation">;</span>
+
+fs<span class="token double-colon punctuation">::</span>path SAVE_ROOT<span class="token punctuation">&#123;</span><span class="token raw-string string">R"(D:\Files)"</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span> <span class="token comment">// Windows 示例</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">int</span> argc<span class="token punctuation">,</span> <span class="token keyword">char</span> <span class="token operator">*</span>argv<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> port <span class="token operator">=</span> <span class="token punctuation">(</span>argc <span class="token operator">>=</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token operator">?</span> std<span class="token double-colon punctuation">::</span><span class="token function">stoi</span><span class="token punctuation">(</span>argv<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token number">8080</span><span class="token punctuation">;</span>
+    httplib<span class="token double-colon punctuation">::</span>Server svr<span class="token punctuation">;</span>
+
+    svr<span class="token punctuation">.</span><span class="token function">Post</span><span class="token punctuation">(</span><span class="token string">"/upload"</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token keyword">const</span> httplib<span class="token double-colon punctuation">::</span>Request <span class="token operator">&amp;</span>req<span class="token punctuation">,</span> httplib<span class="token double-colon punctuation">::</span>Response <span class="token operator">&amp;</span>res<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token comment">// std::cout &lt;&lt; "----- params ------\n";</span>
+        <span class="token comment">// for (auto &amp;p : req.params)</span>
+        <span class="token comment">//     std::cout &lt;&lt; p.first &lt;&lt; " = " &lt;&lt; p.second &lt;&lt; '\n';</span>
+
+        <span class="token comment">// std::cout &lt;&lt; "----- files -------\n";</span>
+        <span class="token comment">// for (auto &amp;f : req.files)</span>
+        <span class="token comment">//     std::cout &lt;&lt; f.first &lt;&lt; " (size=" &lt;&lt; f.second.content.size() &lt;&lt; ")\n";</span>
+        <span class="token comment">// 获取相对路径参数</span>
+        std<span class="token double-colon punctuation">::</span>string relpath<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>req<span class="token punctuation">.</span><span class="token function">has_param</span><span class="token punctuation">(</span><span class="token string">"relpath"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            relpath <span class="token operator">=</span> req<span class="token punctuation">.</span><span class="token function">get_param_value</span><span class="token punctuation">(</span><span class="token string">"relpath"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>req<span class="token punctuation">.</span><span class="token function">has_file</span><span class="token punctuation">(</span><span class="token string">"relpath"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span> <span class="token comment">// ← 兼容当前格式</span>
+            relpath <span class="token operator">=</span> req<span class="token punctuation">.</span><span class="token function">get_file_value</span><span class="token punctuation">(</span><span class="token string">"relpath"</span><span class="token punctuation">)</span><span class="token punctuation">.</span>content<span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">// 路径安全检查：禁止上级目录遍历</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>relpath<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">".."</span><span class="token punctuation">)</span> <span class="token operator">!=</span> std<span class="token double-colon punctuation">::</span>string<span class="token double-colon punctuation">::</span>npos<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            res<span class="token punctuation">.</span>status <span class="token operator">=</span> <span class="token number">400</span><span class="token punctuation">;</span>
+            res<span class="token punctuation">.</span><span class="token function">set_content</span><span class="token punctuation">(</span><span class="token raw-string string">R"(&#123;"err":"invalid path"&#125;)"</span><span class="token punctuation">,</span> <span class="token string">"application/json"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token comment">// 取文件字段</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>req<span class="token punctuation">.</span><span class="token function">has_file</span><span class="token punctuation">(</span><span class="token string">"file"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+            res<span class="token punctuation">.</span>status <span class="token operator">=</span> <span class="token number">400</span><span class="token punctuation">;</span>
+            res<span class="token punctuation">.</span><span class="token function">set_content</span><span class="token punctuation">(</span><span class="token raw-string string">R"(&#123;"err":"no file"&#125;)"</span><span class="token punctuation">,</span> <span class="token string">"application/json"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">&#125;</span>
+        <span class="token keyword">const</span> <span class="token keyword">auto</span> <span class="token operator">&amp;</span>file <span class="token operator">=</span> req<span class="token punctuation">.</span><span class="token function">get_file_value</span><span class="token punctuation">(</span><span class="token string">"file"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        <span class="token comment">// 构建完整保存路径</span>
+        fs<span class="token double-colon punctuation">::</span>path dst_dir <span class="token operator">=</span> SAVE_ROOT <span class="token operator">/</span> relpath<span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> dst_dir <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> relpath <span class="token operator">&lt;&lt;</span> std<span class="token double-colon punctuation">::</span>endl<span class="token punctuation">;</span>
+        fs<span class="token double-colon punctuation">::</span><span class="token function">create_directories</span><span class="token punctuation">(</span>dst_dir<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        fs<span class="token double-colon punctuation">::</span>path dst <span class="token operator">=</span> dst_dir <span class="token operator">/</span> file<span class="token punctuation">.</span>filename<span class="token punctuation">;</span>
+        std<span class="token double-colon punctuation">::</span>ofstream <span class="token function">ofs</span><span class="token punctuation">(</span>dst<span class="token punctuation">,</span> std<span class="token double-colon punctuation">::</span>ios<span class="token double-colon punctuation">::</span>binary<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ofs<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>file<span class="token punctuation">.</span>content<span class="token punctuation">.</span><span class="token function">c_str</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> file<span class="token punctuation">.</span>content<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        ofs<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+        res<span class="token punctuation">.</span><span class="token function">set_content</span><span class="token punctuation">(</span><span class="token string">"&#123;\"saved\":\""</span> <span class="token operator">+</span> dst<span class="token punctuation">.</span><span class="token function">string</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"\"&#125;"</span><span class="token punctuation">,</span> <span class="token string">"application/json"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    std<span class="token double-colon punctuation">::</span>cout <span class="token operator">&lt;&lt;</span> <span class="token string">"Receiver listening on 0.0.0.0:"</span> <span class="token operator">&lt;&lt;</span> port <span class="token operator">&lt;&lt;</span> <span class="token string">"  (root="</span> <span class="token operator">&lt;&lt;</span> SAVE_ROOT <span class="token operator">&lt;&lt;</span> <span class="token string">")\n"</span><span class="token punctuation">;</span>
+    svr<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token string">"0.0.0.0"</span><span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">LSJune</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://shao-junliang.github.io/2025/06/09/file-transfer/">http://shao-junliang.github.io/2025/06/09/file-transfer/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">LSJune</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/inotify/">
+                                    <span class="chip bg-color">inotify</span>
+                                </a>
+                            
+                                <a href="/tags/HTTP/">
+                                    <span class="chip bg-color">HTTP</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '402e1ec91f1ff6375db9',
+        clientSecret: '3122e50655b57000ca790be9e0229afdbabd50a8',
+        repo: 'Shao-junliang.github.io',
+        owner: 'Shao-junliang',
+        admin: "Shao-junliang",
+        id: '2025-06-09T17-11-56',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2025/06/09/file-transfer/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="Jetson文件自动上传">
+                        
+                        <span class="card-title">Jetson文件自动上传</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
+                        
+                            Jetson文件实时同步到Windows
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-06-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            LSJune
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/inotify/">
+                        <span class="chip bg-color">inotify</span>
+                    </a>
+                    
+                    <a href="/tags/HTTP/">
+                        <span class="chip bg-color">HTTP</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2025/05/29/comm-protocol/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="通信协议">
+                        
+                        <span class="card-title">通信协议</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
+                        
+                            CAN通信与差分站协议
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2025-05-29
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            LSJune
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/CAN/">
+                        <span class="chip bg-color">CAN</span>
+                    </a>
+                    
+                    <a href="/tags/Ntrip/">
+                        <span class="chip bg-color">Ntrip</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3, h4, h5, h6, h7, h8, h9'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+<!-- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script> -->
+
+
+    <footer class="page-footer bg-color">
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            <!-- Copyright&nbsp; -->
+            &copy;
+            
+                <span id="year">2024-2025</span>
+            
+            <a href="/about" target="_blank">LSJune</a>
+            <!-- lsj 3.25 修改了网站底部的备案信息 -->
+            <!-- |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a> -->
+            
+            
+                &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                        class="white-color">64.5k</span>
+            
+            <br>
+            <!-- 运行天数提醒. -->
+            
+                <span id="sitetime"> Loading ...</span>
+                <script>
+                    var calcSiteTime = function () {
+                        var seconds = 1000;
+                        var minutes = seconds * 60;
+                        var hours = minutes * 60;
+                        var days = hours * 24;
+                        var years = days * 365;
+                        var today = new Date();
+                        var startYear = "2024";
+                        var startMonth = "3";
+                        var startDate = "21";
+                        var startHour = "18";
+                        var startMinute = "0";
+                        var startSecond = "0";
+                        var todayYear = today.getFullYear();
+                        var todayMonth = today.getMonth() + 1;
+                        var todayDate = today.getDate();
+                        var todayHour = today.getHours();
+                        var todayMinute = today.getMinutes();
+                        var todaySecond = today.getSeconds();
+                        var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                        var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                        var diff = t2 - t1;
+                        var diffYears = Math.floor(diff / years);
+                        var diffDays = Math.floor((diff / days) - diffYears * 365);
+
+                        // 区分是否有年份.
+                        var language = 'zh-CN';
+                        if (startYear === String(todayYear)) {
+                            document.getElementById("year").innerHTML = todayYear;
+                            var daysTip = 'This site has been running for ' + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                daysTip = '本站已运行 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                daysTip = '本站已運行 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = daysTip;
+                        } else {
+                            document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                            var yearsAndDaysTip = 'This site has been running for ' + diffYears + ' years and '
+                                + diffDays + ' days';
+                            if (language === 'zh-CN') {
+                                yearsAndDaysTip = '本站已运行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            } else if (language === 'zh-HK') {
+                                yearsAndDaysTip = '本站已運行 ' + diffYears + ' 年 ' + diffDays + ' 天';
+                            }
+                            document.getElementById("sitetime").innerHTML = yearsAndDaysTip;
+                        }
+                    }
+
+                    calcSiteTime();
+                </script>
+            
+            <br>
+            
+            
+                
+            
+            
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+    
+    <!-- 这一行是添加的动态标签栏 -->
+    <script type="text/javascript"> var OriginTitile = document.title, st; document.addEventListener("visibilitychange", function () { document.hidden ? (document.title = "(´Д｀)大変だ！", clearTimeout(st)) : (document.title = "（●´3｀●）やれやれだぜ", st = setTimeout(function () { document.title = OriginTitile }, 3e3)) }) </script>
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
