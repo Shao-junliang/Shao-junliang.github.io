@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="标签: Linux, 暴躁小何的笔记">
-    <meta name="description" content="暴躁小何的笔记">
+    <meta name="keywords" content="自动驾驶时间同步, 暴躁小何的笔记">
+    <meta name="description" content="自动驾驶时间同步流程整理">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>标签: Linux | 暴躁小何的笔记</title>
+    <title>自动驾驶时间同步 | 暴躁小何的笔记</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -332,492 +332,516 @@
 
 </header>
 
-    <div class="bg-cover pd-header about-cover">
-    <div class="container">
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.png')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">自动驾驶时间同步</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
     <div class="row">
-    <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
-        <div class="brand">
-            <div class="title center-align">
-                
-                    图像处理 LeetCode
-                        
-            </div>
-
-            <div class="description center-align">
-                
-                    <div class="led-container">
-                        <div class="led-screen">
-                            
-                                <span class="led-text">
-                                    书山有路勤为径，学海无涯苦作舟
-                                </span>
-                                
-                        </div>
-                    </div>
-
-                    <script src="/libs/typed/typed.js"></script>
-                    <script>
-                        var typed = new Typed("#subtitle", {
-                            strings: [ 
-                            
-                                "书山有路勤为径，学海无涯苦作舟",
-                            
-                        ],
-                            startDelay: 300,
-                            typeSpeed: 100,
-                            loop: true,
-                            backSpeed: 50,
-                            showCursor: true
-                        });
-                    </script>
-                    <!-- <span id="subtitle"></span>
-                    <script src="/libs/typed/typed.js"></script>
-                    <script>
-                        var typed = new Typed("#subtitle", {
-                            strings: [ 
-                            
-                                "书山有路勤为径，学海无涯苦作舟",
-                            
-                        ],
-                            startDelay: 300,
-                            typeSpeed: 100,
-                            loop: true,
-                            backSpeed: 50,
-                            showCursor: true
-                    });
-                    </script> -->
-                    
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    /* 保持背景图片 */
-    body {
-        background-image: url('');
-        /* 这里是背景图片路径 */
-        background-size: cover;
-        /* 使背景图片覆盖整个页面 */
-        background-position: center;
-        /* 背景图片居中 */
-        background-attachment: fixed;
-        /* 保持背景固定 */
-        margin: 0;
-        padding: 0;
-    }
-
-    .led-container {
-        position: relative;
-        /* 容器宽度，可以调整 */
-        width: 60%;
-        margin: 0 auto;
-        overflow: hidden;
-        /* 隐藏超出容器范围的部分 */
-        border-radius: 5px;
-        padding: 10px;
-    }
-
-    .led-screen {
-        display: inline-block;
-        /* 确保文本在一行内显示 */
-        white-space: nowrap;
-        padding: 10px;
-        /* LED 风格的颜色 */
-        color: #FFFFFF;
-        /* 使用等宽字体，模拟 LED 效果 */
-        font-family: "Courier New", monospace;
-        /* 根据需要调整字体大小 */
-        font-size: 24px;
-        /* 控制滚动速度 */
-        animation: scrollLED 10s linear infinite;
-    }
-
-    .led-text {
-        display: inline-block;
-        padding-right: 50px;
-        /* 增加文字之间的间隔 */
-    }
-
-    @keyframes scrollLED {
-        0% {
-            transform: translateX(100%);
-            /* 从右侧开始 */
-        }
-
-        100% {
-            transform: translateX(-100%);
-            /* 滚动到左侧 */
-        }
-    }
-</style>
-
-
-    <script>
-        // 每天切换 banner 图.  Switch banner image every day.
-        // var bannerUrl = "/medias/banner/" + new Date().getDay() + '.jpg';
-        var myArray = ['0.jpg', '1.jpg', '2.png', '3.jpg', '4.png', '5.png', '6.jpg'];
-        var bannerUrl = "/medias/banner/" + myArray[Math.abs(new Date().getDay() % myArray.length)];
-        $('.bg-cover').css('background-image', 'url(' + bannerUrl + ')');
-    </script>
-    <script>
-    
-      // 每天切换 banner 图.  Switch banner image every day.
-      // var bannerUrl = "/medias/banner/" + new Date().getDay() + '.jpg';
-         var bannerUrl = "/medias/banner/" + theme.banner.images[Math.abs(new Date().getDay() % theme.banner.images.length)];
-    
-            $('.bg-cover.about-cover').css('background-image', 'url(' + bannerUrl + ')');
-
-    </script>
-    
-    </div>
-</div>
-
-<main class="content">
-
-    
-
-<div id="tags" class="container chip-container">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
     <div class="card">
-        <div class="card-content">
-            <div class="tag-title center-align">
-                <i class="fas fa-tags"></i>&nbsp;&nbsp;文章标签
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Linux/">
+                                <span class="chip bg-color">Linux</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                </div>
             </div>
-            <div class="tag-chips">
+
+            <div class="post-info">
                 
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2026-04-23
+                </div>
                 
-                <a href="/tags/%E9%9F%B3%E8%A7%86%E9%A2%91%E5%A4%84%E7%90%86/" title="音视频处理: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="音视频处理" style="background-color: #F9EBEA;">音视频处理
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
+
                 
+
+                <!-- lsj 3.25 在此处添加了文章作者信息 -->
                 
-                <a href="/tags/c/" title="c++: 5">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="c++" style="background-color: #F5EEF8;">c++
-                        <span class="tag-length">5</span>
-                    </span>
-                </a>
+                    <div class="info-break-policy">
+                        <i class="fa fa-user fa-fw"></i>作者:&nbsp;&nbsp;
+                        LSJune
+                    </div>
                 
+
                 
-                <a href="/tags/%E6%91%84%E5%83%8F%E5%A4%B4%E5%8F%96%E6%B5%81/" title="摄像头取流: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="摄像头取流" style="background-color: #D5F5E3;">摄像头取流
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    1.8k
+                </div>
                 
+
                 
-                <a href="/tags/Linux/" title="Linux: 3">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-active "
-                            data-tagname="Linux" style="background-color: #E8F8F5;">Linux
-                        <span class="tag-length">3</span>
-                    </span>
-                </a>
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    6 分
+                </div>
                 
+
                 
-                <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" title="二叉树: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="二叉树" style="background-color: #FEF9E7;">二叉树
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="数据结构: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="数据结构" style="background-color: #F8F9F9;">数据结构
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/LLM/" title="LLM: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="LLM" style="background-color: #82E0AA;">LLM
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E6%A0%87%E5%AE%9A/" title="标定: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="标定" style="background-color: #D7BDE2;">标定
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/inotify/" title="inotify: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="inotify" style="background-color: #A3E4D7;">inotify
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/HTTP/" title="HTTP: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="HTTP" style="background-color: #85C1E9;">HTTP
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" title="多线程: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="多线程" style="background-color: #F8C471;">多线程
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85/" title="生产者与消费者: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="生产者与消费者" style="background-color: #F9E79F;">生产者与消费者
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" title="动态规划: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="动态规划" style="background-color: #F8C471;">动态规划
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E8%B7%AF%E5%BE%84/" title="路径: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="路径" style="background-color: #FFF;">路径
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/ROS/" title="ROS: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="ROS" style="background-color: #82E0AA;">ROS
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/test/" title="test: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="test" style="background-color: #F8C471;">test
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/Markdown/" title="Markdown: 2">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="Markdown" style="background-color: #F8F9F9;">Markdown
-                        <span class="tag-length">2</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" title="消息队列: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="消息队列" style="background-color: #F5EEF8;">消息队列
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/CUDA/" title="CUDA: 4">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="CUDA" style="background-color: #F9E79F;">CUDA
-                        <span class="tag-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/TensorRT/" title="TensorRT: 4">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="TensorRT" style="background-color: #F5EEF8;">TensorRT
-                        <span class="tag-length">4</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/3D-%E6%A3%80%E6%B5%8B/" title="3D 检测: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="3D 检测" style="background-color: #F8F9F9;">3D 检测
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/CAN/" title="CAN: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="CAN" style="background-color: #F9E79F;">CAN
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/Ntrip/" title="Ntrip: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="Ntrip" style="background-color: #A3E4D7;">Ntrip
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
-                
-                <a href="/tags/xmake/" title="xmake: 1">
-                    <span class="chip center-align waves-effect waves-light
-                             chip-default "
-                            data-tagname="xmake" style="background-color: #F8C471;">xmake
-                        <span class="tag-length">1</span>
-                    </span>
-                </a>
-                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
             </div>
         </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本节主要描述自动驾驶系统中的整车时间同步（授时）机制与信号流向。 </p>
+<h3 id="整车时间同步流程"><a href="#整车时间同步流程" class="headerlink" title="整车时间同步流程"></a>整车时间同步流程</h3><p>在高度集成的域控架构下，自动驾驶的授时体系整体遵循<strong>”从天到地，从主到从“</strong>的扁平化层级架构。</p>
+<h4 id="1-绝对时间获取（从天到地）"><a href="#1-绝对时间获取（从天到地）" class="headerlink" title="1. 绝对时间获取（从天到地）"></a><strong>1. 绝对时间获取（从天到地）</strong></h4><p>系统最顶层的绝对时间来自 GNSS&#x2F;RTK（卫星导航系统）。在当前主流的域控设计中，主从计算节点集成在同一块核心板上，因此主机与从机可以同时通过串口直接接收 GNSS 模块输出的信号，独立完成系统时间的绝对同步：</p>
+<ul>
+<li><strong>PPS（Pulse Per Second，秒脉冲）：</strong>一根纯硬件信号线，每秒发送一个极其精准的电脉冲。其上升沿严格代表整秒的开始，精度可达纳秒级，用于时间的“精准对齐”。</li>
+<li>NMEA数据：包含当前精确的 UTC 时间戳及定位状态。</li>
+</ul>
+<h4 id="2-传感器端时间同步（从主到从）"><a href="#2-传感器端时间同步（从主到从）" class="headerlink" title="2. 传感器端时间同步（从主到从）"></a><strong>2. 传感器端时间同步（从主到从）</strong></h4><p>域控完成自身的绝对授时后，开始向外围车载传感器统一下发时间基准。不同传感器的硬件特性决定了不同的同步策略：</p>
+<ul>
+<li><strong>LiDAR&#x2F;Radar&#x2F;交换机（自带内部时钟）：</strong>这类传感器或设备拥有独立的内部硬件时钟。它们接入车载网络后，直接通过以太网利用 PTP&#x2F;gptp（精确时间同步协议）与域控进行对时，完成时间同步。</li>
+<li><strong>GMSL 相机（硬触发机制）：</strong>GMSL 相机本身没有内部时钟，通常采用<strong>硬件触发曝光</strong>的方式。由于主从节点在同一块板子上，域控会根据已同步的精准系统时间，生成特定频率（例如 10~30Hz）的硬件脉冲。该脉冲会通过物理线缆直接统筹控制板子上级联的所有相机，确保整车相机的曝光时间在物理层面上实现微秒级的严格对齐。</li>
+</ul>
+<h3 id="PTP校时原理"><a href="#PTP校时原理" class="headerlink" title="PTP校时原理"></a>PTP校时原理</h3><p>PTP 校时原理（以主机与雷达同步为例）：</p>
+<ol>
+<li>主机 M 发送报文到雷达 L，主机 M 记录发送时间 T1，雷达 L 记录接收时间 T2；</li>
+<li>主机发送时间 T1 到雷达；</li>
+<li>雷达 L 发送报文到主机 M，雷达 L 记录发送时间 T3，主机 M 记录接收时间 T4；</li>
+<li>雷达发送时间 T3 到主机；</li>
+</ol>
+<p>时延 delay &#x3D; （T2 - T1 + T4 - T3）&#x2F; 2</p>
+<p>时间偏移 offset &#x3D; T2 - T1 - delay</p>
+<h3 id="守时模式"><a href="#守时模式" class="headerlink" title="守时模式"></a>守时模式</h3><p>当  GNSS&#x2F;RTK 进入隧道或者收不到卫星信号时？通过 <strong>“守时模式”（Holdover Mode）</strong>维持时间稳定。</p>
+<p>GNSS 信号设备（通常是组合导航系统 INS，或者域控里的 MCU），内部不仅仅有一个简单的接收天线，更核心的是内置了一个<strong>高精度的物理时钟芯片</strong>，最常见的是：</p>
+<ul>
+<li><strong>TCXO</strong>（温补晶振）：温度补偿晶体振荡器，中高端常用。</li>
+<li><strong>OCXO</strong>（恒温晶振）：把晶振放在一个小恒温箱里，精度极高，顶级方案常用。</li>
+</ul>
+<p>将 GNSS 卫星比作“国家标准时间”，本地晶振比作手上戴的“机械表”。</p>
+<ol>
+<li><strong>在露天环境下（驯服模式 &#x2F; Disciplined Mode）：</strong>GNSS 信号非常好。系统会利用卫星传来的绝对时间，不断地去“校准（Tame&#x2F;Discipline）”本地的晶振。消除晶振自身的物理误差，确保它生成的 PPS（秒脉冲）与真正的 UTC 时间分毫不差。</li>
+<li><strong>驶入隧道（守时模式 &#x2F; Holdover Mode）：</strong>瞬间失去卫星信号，GNSS 接收机无法获取绝对时间。此时，系统会立刻切断对卫星的依赖，完全依靠刚才已经被“驯服”得极其精准的本地晶振（TCXO&#x2F;OCXO），按照惯性继续自己滴答滴答地走，并继续强行向外输出 1Hz 的 PPS 脉冲和时间报文。</li>
+</ol>
+<p>“守时模式”并非永动机。只要是物理晶振，在失去外部基准校准后，随着时间的推移必然会产生累积误差，即<strong>时钟漂移（Drift）</strong>。 </p>
+<ul>
+<li>普通的 RTC 芯片：一分钟可能就会漂移几毫秒，无法用于自动驾驶。</li>
+<li>高精度的 TCXO&#x2F;OCXO：在失去 GNSS 后，通常可以保证在 <strong>几分钟到几十分钟内</strong>，时间的漂移量不超过 <strong>1 毫秒（1000 微秒）</strong>。</li>
+</ul>
+<h3 id="时间同步频率"><a href="#时间同步频率" class="headerlink" title="时间同步频率"></a>时间同步频率</h3><p><strong>车子在行驶过程中，时间同步是高频且不间断持续进行的！</strong> 绝对不是开机做一次就结束，也不是隔很长时间才做一次。 </p>
+<p>无论是算力中枢（如双 Orin 域控），还是边缘传感器（如激光雷达、相机），其底层计时的物理基石都是石<strong>英晶体振荡器（晶振）</strong>。然而，晶振在复杂的车载环境中极其脆弱：</p>
+<ul>
+<li><strong>温度漂移（温漂）</strong>：车子在行驶中，尤其是跑高算力自动驾驶算法（如 YOLOv8 与多模态 3D 融合），Orin 芯片的温度会剧烈变化（可能从 20℃ 飙升到 80℃）。温度一变，晶振的震荡频率就会发生微小的改变。</li>
+<li><strong>震动与老化</strong>：路面颠簸也会影响晶振的物理特性。</li>
+</ul>
+<p>如果系统仅依靠开机时的单次授时， 那么仅仅过去几分钟，各个设备的本地时间就会因为各自的温度和物理特性不同，产生<strong>几毫秒甚至几十毫秒的相对误差（Drift）</strong>。在 120km&#x2F;h 的车速下，这几十毫秒的误差足以让感知系统把原本在同一位置的汽车，在图像和点云里识别成两个相差一米远的“幽灵目标”。因此，<strong>时间同步必须是一个持续对抗物理漂移的动态过程</strong>。</p>
+<p>在车子启动并正常行驶后，整个系统的<strong>时间同步</strong>是以极高的频率在后台静默运行的： </p>
+<ul>
+<li><p><strong>顶层基准（1Hz）：GNSS -&gt; 域控主时钟。</strong> </p>
+<p>接收机雷打不动地每秒向域控发送一个极度精准的 PPS 硬件脉冲。域控底层的守时守护进程（如 chrony）会以 1Hz 的频率，利用该脉冲持续微调（Discipline）本地晶振，死死锚定绝对时间基准。</p>
+</li>
+<li><p><strong>中层网络（8Hz~128Hz）：主 Orin -&gt; 交换机、Lidar&#x2F;Radar。</strong> </p>
+<p>在车内以太网中，PTP 守护进程（如 ptp4l）正进行着疯狂的交互。主 Orin 通常会以每秒 8 次甚至上百次的超高频率广播 Sync 报文。激光雷达和从机在收到报文后，会每秒数次地计算网络延迟与时间偏移，丝滑地拨动自身的系统时钟，一刻也不敢放松对主时钟的“追踪”。</p>
+</li>
+<li><p><strong>底层触发（30Hz+）：CPLD -&gt; 相机快门。</strong> </p>
+<p>负责硬触发的芯片一旦启动，便会严格按照设定的帧率（例如 30fps），每秒向所有相机的解串器连续打出 30 个物理方波信号，强迫它们同步曝光。只要车辆不熄火，这道脉冲流就永不停歇。</p>
+</li>
+</ul>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">LSJune</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://shao-junliang.github.io/2026/04/23/auto-drive-time-sync/">http://shao-junliang.github.io/2026/04/23/auto-drive-time-sync/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">LSJune</a>
+                    !
+                </span>
+            </div>
+        
     </div>
-</div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Linux/">
+                                    <span class="chip bg-color">Linux</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
 
     
 
-    <article id="articles" class="container articles">
-        <div class="row tags-posts">
+</div>
+
+                </div>
+            </div>
             
-            
-            <div class="article tag-post col s12 m6 l4" data-tags="Linux" data-aos="fade-up">
-                <div class="card">
-                    <a href="/2026/04/23/auto-drive-time-sync/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/5.png" class="responsive-img" alt="自动驾驶时间同步">
-                            
-                            <span class="card-title">自动驾驶时间同步</span>
-                        </div>
-                    </a>
-                    <div class="card-content article-content">
-                        <!-- lsj 3.26 将摘要部分设置为固定尺寸 -->
-                        <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
-                            
-                                自动驾驶时间同步流程整理
-                            
-                        </div>
-                        <div class="publish-info">
+        </div>
+    </div>
+
+    
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
+
+<div class="card gitalk-card" data-aos="fade-up">
+    <div class="comment_headling" style="font-size: 20px; font-weight: 700; position: relative; padding-left: 20px; top: 15px; padding-bottom: 5px;">
+        <i class="fas fa-comments fa-fw" aria-hidden="true"></i>
+        <span>评论</span>
+    </div>
+    <div id="gitalk-container" class="card-content"></div>
+</div>
+
+<script src="/libs/gitalk/gitalk.min.js"></script>
+<script>
+    let gitalk = new Gitalk({
+        clientID: '402e1ec91f1ff6375db9',
+        clientSecret: '3122e50655b57000ca790be9e0229afdbabd50a8',
+        repo: 'Shao-junliang.github.io',
+        owner: 'Shao-junliang',
+        admin: "Shao-junliang",
+        id: '2026-04-23T15-19-53',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
+
+    gitalk.render('gitalk-container');
+</script>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2026/04/23/auto-drive-time-sync/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/5.png" class="responsive-img" alt="自动驾驶时间同步">
+                        
+                        <span class="card-title">自动驾驶时间同步</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
+                        
+                            自动驾驶时间同步流程整理
+                        
+                    </div>
+                    <div class="publish-info">
                             <span class="publish-date">
                                 <i class="far fa-clock fa-fw icon-date"></i>2026-04-23
                             </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                LSJune
-                                
-                            </span>
-                        </div>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            LSJune
+                            
+                        </span>
                     </div>
                 </div>
-            </div>
-            
-            
-            <div class="article tag-post col s12 m6 l4" data-tags="Linux, LLM" data-aos="fade-up">
-                <div class="card">
-                    <a href="/2026/04/07/llm-basic/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="大模型基础">
-                            
-                            <span class="card-title">大模型基础</span>
-                        </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
                     </a>
-                    <div class="card-content article-content">
-                        <!-- lsj 3.26 将摘要部分设置为固定尺寸 -->
-                        <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
-                            
-                                大模型基本流程了解
-                            
-                        </div>
-                        <div class="publish-info">
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2026/04/07/llm-basic/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="大模型基础">
+                        
+                        <span class="card-title">大模型基础</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
+                        
+                            大模型基本流程了解
+                        
+                    </div>
+                    <div class="publish-info">
                             <span class="publish-date">
                                 <i class="far fa-clock fa-fw icon-date"></i>2026-04-07
                             </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                LSJune
-                                
-                            </span>
-                        </div>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            LSJune
+                            
+                        </span>
                     </div>
                 </div>
-            </div>
-            
-            
-            <div class="article tag-post col s12 m6 l4" data-tags="Linux" data-aos="fade-up">
-                <div class="card">
-                    <a href="/2025/07/30/auto-startup/">
-                        <div class="card-image tag-image">
-                            
-                            
-                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="服务开机自启设置">
-                            
-                            <span class="card-title">服务开机自启设置</span>
-                        </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
                     </a>
-                    <div class="card-content article-content">
-                        <!-- lsj 3.26 将摘要部分设置为固定尺寸 -->
-                        <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
-                            
-                                服务开机自启动
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2025-07-30
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                LSJune
-                                
-                            </span>
-                        </div>
-                    </div>
+                    
+                    <a href="/tags/LLM/">
+                        <span class="chip bg-color">LLM</span>
+                    </a>
+                    
                 </div>
+                
             </div>
-            
         </div>
-    </article>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h1, h2, h3, h4, h5, h6, h7, h8, h9'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
 </main>
 
 
+<script src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+    MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    });
+</script>
+
+
+<!-- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=default"></script> -->
 
 
     <footer class="page-footer bg-color">
