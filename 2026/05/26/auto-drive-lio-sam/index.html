@@ -4,8 +4,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="xmake入门, 暴躁小何的笔记">
-    <meta name="description" content="xmake常用命令介绍">
+    <meta name="keywords" content="自动驾驶建图, 暴躁小何的笔记">
+    <meta name="description" content="自动驾驶lio-sam建图流程整理">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>xmake入门 | 暴躁小何的笔记</title>
+    <title>自动驾驶建图 | 暴躁小何的笔记</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     
 
@@ -336,12 +336,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.png')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">xmake入门</h1>
+                    <h1 class="description center-align post-title">自动驾驶建图</h1>
                 </div>
             </div>
         </div>
@@ -365,8 +365,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/xmake/">
-                                <span class="chip bg-color">xmake</span>
+                            <a href="/tags/map/">
+                                <span class="chip bg-color">map</span>
                             </a>
                         
                     </div>
@@ -381,7 +381,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2024-04-26
+                    2026-05-26
                 </div>
                 
 
@@ -398,7 +398,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1k
+                    1.3k
                 </div>
                 
 
@@ -428,102 +428,69 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="xmake-常用命令"><a href="#xmake-常用命令" class="headerlink" title="xmake 常用命令"></a><code>xmake</code> 常用命令</h3><h4 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h4><pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">xmake		&#x2F;&#x2F; 编译程序
-xmake run	&#x2F;&#x2F; 运行程序    
-xmake install -y	&#x2F;&#x2F; 将当前编译好的程序安装到系统环境，默认位置&#x2F;user&#x2F;local下
-xmake uninstall -y	&#x2F;&#x2F; 卸载安装程序；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本节主要描述基于lio-sam实现自动驾驶3D建图与高精地图创建。 </p>
+<h3 id="环境配置-Ros2"><a href="#环境配置-Ros2" class="headerlink" title="环境配置(Ros2)"></a>环境配置(Ros2)</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 依赖</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> ros-<span class="token operator">&lt;</span>ros2-version<span class="token operator">></span>-perception-pcl <span class="token punctuation">\</span>
+  	   ros-<span class="token operator">&lt;</span>ros2-version<span class="token operator">></span>-pcl-msgs <span class="token punctuation">\</span>
+  	   ros-<span class="token operator">&lt;</span>ros2-version<span class="token operator">></span>-vision-opencv <span class="token punctuation">\</span>
+  	   ros-<span class="token operator">&lt;</span>ros2-version<span class="token operator">></span>-xacro
+<span class="token comment"># Add GTSAM-PPA, 如果apt安装的gtsam有问题，可以下载对应版本（readme中指定）的源码编译安装</span>
+<span class="token function">sudo</span> add-apt-repository ppa:borglab/gtsam-release-4.1
+<span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> libgtsam-dev libgtsam-unstable-dev
 
-<h4 id="基本命令介绍"><a href="#基本命令介绍" class="headerlink" title="基本命令介绍"></a>基本命令介绍</h4><p><code>xmake --help</code></p>
- <img src="/2024/04/26/xmake-start/xmake_help.png" class="" title="xmake help"> 
+<span class="token comment"># lio_sam</span>
+<span class="token builtin class-name">cd</span> ~/ros2_ws/src
+<span class="token function">git</span> clone https://github.com/TixiaoShan/LIO-SAM.git
+<span class="token builtin class-name">cd</span> LIO-SAM
+<span class="token function">git</span> checkout ros2
+<span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>
+colcon build<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-<p>xmake命令行格式为：</p>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">xmake [task] [options] [target]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p><code>[]</code> 表示可选输入，task为子命令任务名，options为参数选项，target指的是当前命令针对那些目标程序；</p>
-<p>常用子命令：</p>
-<ul>
-<li><code>build</code>：程序构建；</li>
-<li><code>clean</code>：删除编译过程中的所有二进制文件和临时文件；</li>
-<li><code>config</code>：配置编译需要的参数，如平台、架构等，缩写用 <code>f</code> 表示；</li>
-<li><code>global</code>：配置xmake的全局编译参数；</li>
-<li><code>install</code>：安装编译后的目标程序；</li>
-<li><code>package</code>：打包编译生成的库与头文件；</li>
-<li><code>require</code>：手动拉取第三方依赖库；</li>
-<li><code>run</code>：运行目标程序；</li>
-<li><code>uninstall</code>：卸载目标程序；</li>
-<li><code>update</code>：更新xmake；</li>
+<h3 id="数据发布"><a href="#数据发布" class="headerlink" title="数据发布"></a>数据发布</h3><h4 id="IMU"><a href="#IMU" class="headerlink" title="IMU"></a>IMU</h4><p>通过串口或者CAN获取imu数据，完成ros话题发布；</p>
+<p>imu 标定内参：录制静止imu数据bag，2小时以上，通过 <a target="_blank" rel="noopener" href="https://github.com/CruxDevStuff/allan_ros2">allan_ros2</a> 完成内参标定；</p>
+<p>lidar2imu 外参标定：<a target="_blank" rel="noopener" href="https://github.com/APRIL-ZJU/lidar_IMU_calib">lidar_IMU_calib</a>、<a href="">lidar2imu</a></p>
+<h4 id="Point-Cloud"><a href="#Point-Cloud" class="headerlink" title="Point Cloud"></a>Point Cloud</h4><p>通过雷达驱动获取点云数据，转换为 Velodyne 格式发布；</p>
+<h4 id="GPS"><a href="#GPS" class="headerlink" title="GPS"></a>GPS</h4><p>通过串口或者CAN获取差分后的 GPS 数据，每次建图时要先获取起始点的 GPS 信息，因为自动驾驶用的 ENU（ 局部坐标系 ） 偏移量，后续建图时的 GPS 是基于起始点的偏移量，所以要固定起始坐标；所以每次建图时应该更新起始点的 GPS 坐标；</p>
+<h3 id="建图"><a href="#建图" class="headerlink" title="建图"></a>建图</h3><p>根据自己的程序修改 config.yaml 配置文件参数，启动 run.launch.py 文件，实现建图；</p>
+<p>若场景过于空旷，报警告 <code>Leaf size is too small... Integer indices would overflow.</code> 时，修改配置文件中的 <code>lidarMaxRange: 70.0</code> 参数，强制丢弃所有超过 70 米的点！ 具体多少米根据雷达决定；</p>
+<p>如果没有接入 GPS，报警告 <code>Large velocity, reset IMU-preintegration!</code> 这个一般是标定的问题，需要确定精准标定，或者接入 GPS；其实最好还是接入GPS，否则长时间建图+IMU标定不准确，会导致Z轴偏移（降低或升高）；</p>
+<h3 id="建图后处理"><a href="#建图后处理" class="headerlink" title="建图后处理"></a>建图后处理</h3><h4 id="清理“幽灵”与去噪"><a href="#清理“幽灵”与去噪" class="headerlink" title="清理“幽灵”与去噪"></a>清理“幽灵”与去噪</h4><ul>
+<li>用 CloudCompare 打开 PCD 文件，使用“剪刀”工具，把明显的噪点、路人、行驶的车辆手工框选并删除（比如在建图时，旁边刚好有一辆公交车开过去，或者有行人走过，它们的点云也会被记录进地图里，形成一道道长长的“残影”，称为 Ghosting）。</li>
+<li>使用 SOR（统计离群点移除）算法，把悬浮在空中的离散噪点（比如雨雪引起的噪点）过滤掉。</li>
 </ul>
-<p>build子命令：</p>
-<ul>
-<li><code>-v/--verbose</code>：查看详细完整的编译命令。</li>
-<li><code>-r/--rebuild</code>：强制重新编译所有代码。</li>
-<li><code>-j/--jobs</code>：指定多任务编译的并行任务数。</li>
-<li><code>-w/--warning</code>：编译过程中显示编译警告信息。</li>
+<h4 id="地面点裁剪"><a href="#地面点裁剪" class="headerlink" title="地面点裁剪"></a>地面点裁剪</h4><ul>
+<li>对于 NDT 或 ICP 这类基于几何形状匹配的重定位算法来说，平坦的地面点属于“无效特征”（它无法提供横向和纵向的约束，到处都是平的）。保留过多地面点反而会导致 Z 轴（高度）漂移，且白白浪费算力。使用直通滤波器（PassThrough Filter）。以当前测量的 sensor_kit 为原点，将 Z 轴坐标低于某个阈值（例如低于路面 0.2 米）的点云全部切除，只保留树干、墙壁、路灯杆、建筑物立面等具有高度特征的点云。具体操作程序：</li>
 </ul>
-<pre class="line-numbers language-c++" data-language="c++"><code class="language-c++">xmake -rv			&#x2F;&#x2F; 查看详细编译选项
-xmake f -m debug	&#x2F;&#x2F; 切换到debug模式、也可以切换release、releasedbg模式
-xmake f -o &#x2F;out		&#x2F;&#x2F; 切换编译输出目录
-xmake f -v			&#x2F;&#x2F; 查看当前的配置信息
-&#x2F;&#x2F; --cflags 仅仅添加 C 编译选项，--cxxflags 为仅仅添加 C++ 编译选项，--cxflags 同时添加 C&#x2F;C++ 编译选项。
-xmake f --cxflags&#x3D;&quot;-DTEST&quot;	&#x2F;&#x2F; 仅仅添加C编译选项
-&#x2F;&#x2F; 添加链接库和搜索路径
-xmake f --ldflags&#x3D;&quot;-L&#x2F;tmp -lpthread&quot;		&#x2F;&#x2F; 表示新增 &#x2F;tmp 的库搜索目录，并添加额外的 pthread 链接库
-xmake f --links&#x3D;&quot;pthread&quot; --linkdirs&#x3D;&quot;&#x2F;tmp&quot; &#x2F;&#x2F; 与上面一行效果一样
-xmake f --toolchain&#x3D;clang	 &#x2F;&#x2F; 切换到 clang 编译器，前提是安装了clang 
-xmake f -c		&#x2F;&#x2F; 重置所有配置     
-xmake update -f	&#x2F;&#x2F; xmake更新到最新版本<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">import</span> open3d <span class="token keyword">as</span> o3d
+<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
 
-<p><code>xmake show</code> 显示的信息含义</p>
- <img src="/2024/04/26/xmake-start/xmake_show.png" class="" title="xmake show"> 
+<span class="token comment"># 1. 加载第一步清理好的点云</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"正在加载点云..."</span><span class="token punctuation">)</span>
+pcd <span class="token operator">=</span> o3d<span class="token punctuation">.</span>io<span class="token punctuation">.</span>read_point_cloud<span class="token punctuation">(</span><span class="token string">"cleaned_map.pcd"</span><span class="token punctuation">)</span>
 
-<h4 id="xmake-lua基础配置"><a href="#xmake-lua基础配置" class="headerlink" title="xmake.lua基础配置"></a>xmake.lua基础配置</h4><ul>
-<li><code>set_kind</code> ：设置目标类型；phony 空目标程序、binary 二进制程序、static 静态库程序、shard 动态库程序；</li>
-<li><code>add_cxflags</code> ：添加 C&#x2F;C++ 编译选项；</li>
-<li><code>add_defines</code> ：添加宏定义；</li>
-<li><code>add_includedirs</code>：添加头文件搜索目录；</li>
-<li><code>add_linkdirs</code>：添加库搜索目录；</li>
-<li><code>add_links</code>：添加链接库；</li>
-<li><code>add_syslinks</code>：添加系统链接库；</li>
-<li><code>set_languages</code> ：设置语言标准；</li>
-<li><code>add_files</code> ：添加源文件；中间用 <code>|</code> 分割表示过滤的文件；</li>
-<li><code>add_requires()</code> ：指定当前项目需要哪些包，编译时候会触发一次依赖包的安装；</li>
-<li><code>add_packages()</code> ：配置对特定 target 目标集成指定的依赖包，需要与 <code>add_requires()</code> 配合使用，二者缺一不可。</li>
-</ul>
-<h3 id="xrepo-常用命令"><a href="#xrepo-常用命令" class="headerlink" title="xrepo 常用命令"></a><code>xrepo</code> 常用命令</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">xrepo <span class="token function">install</span> zlib tbox							<span class="token comment"># 安装包</span>
-xrepo <span class="token function">install</span> <span class="token string">"zlib 1.2.x"</span>						<span class="token comment"># 安装指定版本包</span>
-xrepo <span class="token function">install</span> <span class="token parameter variable">-p</span> mingw <span class="token punctuation">[</span>--mingw<span class="token operator">=</span>/xxx<span class="token punctuation">]</span> zlib		<span class="token comment"># 安装指定平台包</span>
-xrepo <span class="token function">install</span> <span class="token parameter variable">-m</span> debug zlib						<span class="token comment"># 安装调试版本包</span>
-xrepo <span class="token function">install</span> <span class="token parameter variable">-k</span> shared zlib					<span class="token comment"># 安装动态库版本包</span>
-xrepo <span class="token function">install</span> <span class="token parameter variable">-f</span> <span class="token string">"vs_runtime='MD'"</span> zlib			<span class="token comment"># 安装指定配置包</span>
-xrepo <span class="token function">install</span> vcpkg::zlib						<span class="token comment"># 安装第三方包管理器的包</span>
-xrepo fetch pcre2								<span class="token comment"># 查找包的库使用信息</span>
-xrepo <span class="token builtin class-name">export</span> <span class="token parameter variable">-o</span> /tmp/output zlib				<span class="token comment"># 导出安装后的包</span>
-xrepo <span class="token function">import</span> <span class="token parameter variable">-i</span> /xxx/packagedir zlib			<span class="token comment"># 导入安装后的包</span>
-xrepo search rabbitmq							<span class="token comment"># 搜索支持的包</span>
-xrepo info zlib									<span class="token comment"># 查看包信息</span>
-xrepo remove <span class="token parameter variable">--all</span>								<span class="token comment"># 卸载所有包</span>
-xrepo remove <span class="token parameter variable">--all</span> zlib pcr*					<span class="token comment"># 卸载所有包，模式匹配</span>
+<span class="token comment"># 2. 直通滤波 (裁剪地面)</span>
+<span class="token comment"># 假设雷达高度是 0.95m，地面大概在 Z = -0.95 的位置。</span>
+<span class="token comment"># 我们将 Z 轴小于 -0.5 米的点全部切除（保留高于地面 0.45 米以上的特征）</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"正在执行 Z 轴直通滤波..."</span><span class="token punctuation">)</span>
+points <span class="token operator">=</span> np<span class="token punctuation">.</span>asarray<span class="token punctuation">(</span>pcd<span class="token punctuation">.</span>points<span class="token punctuation">)</span>
+<span class="token comment"># 筛选条件：保留 Z > -0.5 的点</span>
+mask <span class="token operator">=</span> points<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">></span> <span class="token operator">-</span><span class="token number">0.5</span> 
+filtered_pcd <span class="token operator">=</span> pcd<span class="token punctuation">.</span>select_by_index<span class="token punctuation">(</span>np<span class="token punctuation">.</span>where<span class="token punctuation">(</span>mask<span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
 
-<span class="token comment"># 进入虚拟环境：在当前目录下，添加 xmake.lua 文件，定制化一些包配置，然后进入特定的包虚拟环境。</span>
-<span class="token punctuation">&#123;</span> xmake.lua 文件
-	add_requires<span class="token punctuation">(</span><span class="token string">"zlib 1.2.11"</span><span class="token punctuation">)</span>
-	add_requires<span class="token punctuation">(</span><span class="token string">"python 3.x"</span>, <span class="token string">"luajit"</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#123;</span> <span class="token function">bash</span> 命令行
-	$ xrepo <span class="token function">env</span> shell
-	<span class="token operator">></span> python <span class="token parameter variable">--version</span>
-	<span class="token operator">></span> luajit <span class="token parameter variable">--version</span>
-<span class="token punctuation">&#125;</span>
-xrepo <span class="token function">env</span> <span class="token parameter variable">--show</span> luajit							<span class="token comment"># 查看包环境信息</span>
-xrepo <span class="token function">env</span> luajit								<span class="token comment"># 加载执行包环境并运行命令</span>
-xrepo <span class="token function">env</span> <span class="token parameter variable">--add</span> /tmp/base.lua					<span class="token comment"># 管理虚拟环境，将指定的虚拟环境配置全局注册到系统中，方便快速切换</span>
-xrepo <span class="token function">env</span> <span class="token parameter variable">--list</span>								<span class="token comment"># 查看虚拟环境</span>
-xrepo <span class="token function">env</span> <span class="token parameter variable">--remove</span> base							<span class="token comment"># 删除虚拟环境</span>
-xrepo <span class="token function">env</span> <span class="token parameter variable">-b</span> base shell							<span class="token comment"># 切换全局虚拟环境</span>
-xrepo <span class="token function">env</span> -b/--bind								<span class="token comment"># 绑定指定的虚拟环境</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token comment"># 3. 体素降采样 (0.4米分辨率)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"正在执行体素降采样..."</span><span class="token punctuation">)</span>
+downsampled_pcd <span class="token operator">=</span> filtered_pcd<span class="token punctuation">.</span>voxel_down_sample<span class="token punctuation">(</span>voxel_size<span class="token operator">=</span><span class="token number">0.4</span><span class="token punctuation">)</span>
 
+<span class="token comment"># 4. 保存最终结果</span>
+o3d<span class="token punctuation">.</span>io<span class="token punctuation">.</span>write_point_cloud<span class="token punctuation">(</span><span class="token string">"ready_for_autoware_map.pcd"</span><span class="token punctuation">,</span> downsampled_pcd<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"处理完成！"</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
-
+<h4 id="二次降采样-Downsampling"><a href="#二次降采样-Downsampling" class="headerlink" title="二次降采样(Downsampling)"></a>二次降采样(Downsampling)</h4><p>虽然在保存地图时可能设置了 resolution: 0.2，但对于一个覆盖几公里的园区来说，整个地图的体积依然可能高达数百兆甚至几个 G。</p>
+<p>为了确保域控在加载地图时不会因为内存溢出（OOM）而崩溃。通常还需要继续减小文件体积。具体做法：</p>
+<p>使用 PCL 库的体素滤波器（Voxel Grid Filter）将地图进一步降采样到 0.4m 或 0.5m 分辨率。这个密度对于 Autoware 的定位通常足够了。</p>
+<h4 id="地图分块"><a href="#地图分块" class="headerlink" title="地图分块"></a>地图分块</h4><p>autoware 采用“动态加载（Dynamic Map Loading）”机制——车辆开到哪里，只加载车辆周围（比如半径 100 米内）的地图块。具体做法：</p>
+<p>需要使用脚本（Autoware 官方提供了一些 <a target="_blank" rel="noopener" href="https://autowarefoundation.github.io/autoware_tools/main/map/autoware_pointcloud_divider/">PCL 工具</a>，或者网上开源的 <a target="_blank" rel="noopener" href="https://github.com/MapIV/pointcloud_divider">pointcloud_divider</a> 脚本），将完整的大地图，切分成一个个例如 50m x 50m 尺寸的小正方形网格地图块。 </p>
+<h4 id="绘制矢量高精地图"><a href="#绘制矢量高精地图" class="headerlink" title="绘制矢量高精地图"></a>绘制矢量高精地图</h4><p>将清理好的 3D 点云地图导入到矢量地图编辑工具中（如 Tier IV 的 <a target="_blank" rel="noopener" href="https://tools.tier4.jp/vector_map_builder_ll2/">Vector Map Builder</a> Web 端工具），在点云上“描图”。画出车道中心线、边界线、停止线，最后导出一个 .osm 格式的 Lanelet2 地图文件。Autoware 只有同时吃进 .pcd 和 .osm，才能真正跑起来。</p>
 
                 
             </div>
@@ -550,7 +517,7 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://shao-junliang.github.io/2024/04/26/xmake-start/">http://shao-junliang.github.io/2024/04/26/xmake-start/</a>
+                    <a href="http://shao-junliang.github.io/2026/05/26/auto-drive-lio-sam/">http://shao-junliang.github.io/2026/05/26/auto-drive-lio-sam/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -588,8 +555,8 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/xmake/">
-                                    <span class="chip bg-color">xmake</span>
+                                <a href="/tags/map/">
+                                    <span class="chip bg-color">map</span>
                                 </a>
                             
                         </div>
@@ -634,7 +601,7 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
         repo: 'Shao-junliang.github.io',
         owner: 'Shao-junliang',
         admin: "Shao-junliang",
-        id: '2024-04-26T21-09-55',
+        id: '2026-05-26T17-23-12',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -662,29 +629,30 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2024/04/29/prodcons/">
+                <a href="/2026/05/26/auto-drive-lio-sam/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="生产者消费者">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="自动驾驶建图">
                         
-                        <span class="card-title">生产者消费者</span>
+                        <span class="card-title">自动驾驶建图</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            生产者与消费者模式详解
+                            自动驾驶lio-sam建图流程整理
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-04-29
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2026-05-26
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -693,15 +661,12 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/c/">
-                        <span class="chip bg-color">c++</span>
-                    </a>
-                    
-                    <a href="/tags/%E7%94%9F%E4%BA%A7%E8%80%85%E4%B8%8E%E6%B6%88%E8%B4%B9%E8%80%85/">
-                        <span class="chip bg-color">生产者与消费者</span>
+                    <a href="/tags/map/">
+                        <span class="chip bg-color">map</span>
                     </a>
                     
                 </div>
@@ -715,24 +680,24 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2024/03/25/leetcode-study-binarytree/">
+                <a href="/2026/04/23/auto-drive-time-sync/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="LeetCode-二叉树">
+                        <img src="/medias/featureimages/5.png" class="responsive-img" alt="自动驾驶时间同步">
                         
-                        <span class="card-title">LeetCode-二叉树</span>
+                        <span class="card-title">自动驾驶时间同步</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text" style="height: 3em; overflow: hidden;">
                         
-                            二叉树基础与进阶
+                            自动驾驶时间同步流程整理
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2026-04-23
                             </span>
                         <span class="publish-author">
                             
@@ -745,12 +710,8 @@ xrepo <span class="token function">env</span> -b/--bind								<span class="toke
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/">
-                        <span class="chip bg-color">二叉树</span>
-                    </a>
-                    
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
                     </a>
                     
                 </div>
